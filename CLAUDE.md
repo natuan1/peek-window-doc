@@ -66,21 +66,67 @@ This follows Andrej Karpathy's **LLM Wiki** pattern: documentation is not a side
 
 ## Development Workflow
 
+### Feature Implementation Flow
+
 1. **Feature specification**: Issues in the `docs` repo describe what needs to be built
-2. **Implementation**: Code in the `app` repo implements the feature
-3. **Documentation sync**: After the feature is done, `docs/CONTEXT.md` and/or ADRs are updated
-4. **Review**: Verify that documentation accurately reflects the implementation
-5. **Mark complete**: Issue is closed only after docs are updated
+2. **Implement**: Use `/implement` skill to code the feature in the `app` repo
+   ```
+   /implement [spec/ticket]
+   ```
+3. **Update Documentation**: After code is done, automatically sync docs using `/update-doc` skill
+   ```
+   /update-doc
+   ```
+   This skill will:
+   - Read code changes from git diff
+   - Update `docs/CONTEXT.md` to reflect new state
+   - Create/update ADRs (Architecture Decision Records) if needed
+   - Record lessons learned if results surprised expectations
+   - Commit and push to `peek-window-doc` repo on GitHub
+
+4. **Code Review**: Use `/code-review` to verify implementation matches spec
+   ```
+   /code-review
+   ```
+5. **Mark complete**: Issue is closed only after:
+   - Code is implemented ✓
+   - Documentation is updated ✓
+   - Code review passes ✓
+
+### The Discipline
+
+**After completing any feature, you MUST run `/update-doc` before considering it done.**
+
+The documentation must always reflect the true state of the application. If docs and code diverge, the feature is incomplete.
 
 ## Project Status
 
-This is the initial setup. The two repositories (`app/` and `docs/`) exist locally. To fully initialize:
+✅ **GitHub Repos Created:**
+- **peek-window**: https://github.com/natuan1/peek-window — Source code
+- **peek-window-doc**: https://github.com/natuan1/peek-window-doc — Documentation & issues
 
-1. Create two GitHub repositories: `<username>/app` and `<username>/docs`
-2. Push `app/` to `<username>/app`
-3. Push `docs/` to `<username>/docs`
-4. Create the Vietnamese triage labels in both repos (defined in `docs/agents/triage-labels.md`)
-5. Update `docs/agents/issue-tracker.md` with the actual GitHub repository URLs
+✅ **Initial Setup Complete:**
+- Both repos initialized locally and pushed to GitHub
+- `update-doc` skill created and configured
+
+### Next Steps
+
+1. **Create Vietnamese Triage Labels** in both GitHub repos (defined in `docs/agents/triage-labels.md`):
+   - `cần-phân-loại` (needs-triage)
+   - `cần-thông-tin` (needs-info)
+   - `sẵn-sàng-cho-agent` (ready-for-agent)
+   - `sẵn-sàng-cho-người` (ready-for-human)
+   - `không-sửa` (wontfix)
+
+2. **Write CONTEXT.md** in `peek-window-doc` repo:
+   ```bash
+   # Your project overview, business logic, architecture, decisions
+   ```
+
+3. **Start Using the Workflow**:
+   ```
+   /implement [spec] → /update-doc → /code-review
+   ```
 
 ## Folder Structure
 
