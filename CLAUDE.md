@@ -152,9 +152,22 @@ The documentation must always reflect the true state of the application. If docs
 
 ## Related Files
 
+### Configuration
 - `docs/agents/issue-tracker.md` — Issue tracking configuration
 - `docs/agents/triage-labels.md` — Triage label vocabulary (Vietnamese)
 - `docs/agents/domain.md` — Domain documentation layout and rules
-- `docs/CONTEXT.md` — Main context (to be written)
-- `docs/lessons-learned.md` — Captured lessons when results surprise expectations
-- `docs/adr/` — Architecture decisions (to be written)
+
+### Documentation
+- `docs/README.md` — Entry point
+- **`docs/INDEX.md`** — Master index (IMPORTANT - navigate via this!)
+- `docs/CONTEXT.md` — Main project context (single source of truth)
+- `docs/DOC-STRUCTURE.md` — Documentation structure & organization
+- `docs/WORKFLOW.md` — Development workflow
+
+### Documentation Tree
+- `docs/concepts/` — Domain concepts & terminology
+- `docs/architecture/` — Technical architecture & design
+- `docs/features/` — Feature documentation (one folder per feature)
+- `docs/adr/` — Architecture Decision Records
+- `docs/guides/` — How-to guides & practical documentation
+- `docs/lessons-learned.md` — Captured lessons from surprises
