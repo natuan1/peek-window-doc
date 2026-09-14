@@ -14,7 +14,7 @@ Architecture Decision Records (ADRs) document significant decisions and their ra
 
 | ADR | Title | Status | Date |
 |-----|-------|--------|------|
-| *(To be added)* | | | |
+| [0001](0001-brand-khac-service-mdns.md) | Thương hiệu ≠ tên service mDNS (Snappy giữ `_peek._tcp`) | Accepted | 2026-09-13 |
 
 ---
 

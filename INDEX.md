@@ -63,7 +63,7 @@ Feature-by-feature breakdown.
 ### ⚖️ **Architecture Decision Records** (Decisions)
 Why we made important decisions.
 
-- [0001-authentication-strategy.md](adr/0001-authentication-strategy.md) *(Example ADR)*
+- [0001-brand-khac-service-mdns.md](adr/0001-brand-khac-service-mdns.md) — Thương hiệu ≠ tên service mDNS (Snappy giữ `_peek._tcp`)
   - *(More ADRs will be added)*
 
 **Format:** `NNNN-kebab-case-title.md`  

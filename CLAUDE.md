@@ -4,17 +4,18 @@ Configuration and conventions for AI agent work on this project.
 
 ## Overview
 
-This is a two-repository project:
-- **`app/`**: Application source code
-- **`docs/`**: Documentation, requirements, and issue tracking
+This workspace is the **planning & documentation workspace** for Snappy (Windows desktop app). The application source code does **not** live here — per the decision of 2026-09-13, Snappy's Windows code lives in the `peekvn` monorepo at `D:\code\peekvn\apps\windows\` (https://github.com/natuan1/peekvn), sharing schemas, the interop suite, and the Rust protocol oracle with iOS/Android.
 
-The `docs` repository serves as the **single source of truth** for business logic, technical decisions, and project state. Implementation in `app/` must always align with `docs/`.
+- **`docs/`**: Documentation, requirements, and issue tracking — itself a git repo, synced to `github.com/natuan1/peek-window-doc`. Serves as the **single source of truth** for business logic, technical decisions, and project state.
+- **`app/`**: Placeholder only. Do not put source code here.
+
+Implementation in `peekvn\apps\windows\` must always align with `docs/`.
 
 ## Agent Skills
 
 ### Issue Tracker
 
-Issues are tracked in **GitHub Issues** across two repositories: `app` (implementation) and `docs` (specifications and decisions). See `docs/agents/issue-tracker.md`.
+Issues are tracked in **GitHub Issues**: `natuan1/peek-window-doc` (specifications and decisions, source of truth), `natuan1/peek-window` (workspace-level tracking), and `natuan1/peekvn` (implementation code and day-to-day implementation issues). See `docs/agents/issue-tracker.md`.
 
 ### Triage Labels
 
@@ -69,7 +70,7 @@ This follows Andrej Karpathy's **LLM Wiki** pattern: documentation is not a side
 ### Feature Implementation Flow
 
 1. **Feature specification**: Issues in the `docs` repo describe what needs to be built
-2. **Implement**: Use `/implement` skill to code the feature in the `app` repo
+2. **Implement**: Use `/implement` skill to code the feature in `peekvn\apps\windows\` (monorepo `peekvn`)
    ```
    /implement [spec/ticket]
    ```
@@ -101,41 +102,25 @@ The documentation must always reflect the true state of the application. If docs
 
 ## Project Status
 
-✅ **GitHub Repos Created:**
-- **peek-window**: https://github.com/natuan1/peek-window — Source code
-- **peek-window-doc**: https://github.com/natuan1/peek-window-doc — Documentation & issues
+✅ **Setup Complete:**
+- **peek-window**: https://github.com/natuan1/peek-window — workspace repo
+- **peek-window-doc**: https://github.com/natuan1/peek-window-doc — documentation & issues (`docs/` here is its local clone)
+- `docs/CONTEXT.md` written — domain language + verified decisions (2026-09-13)
+- Vietnamese triage labels created (2026-09-14), vocabulary aligned with the `peekvn` repo
+- [ADR-0001](docs/adr/0001-brand-khac-service-mdns.md) — brand ≠ mDNS service name (2026-09-14)
 
-✅ **Initial Setup Complete:**
-- Both repos initialized locally and pushed to GitHub
-- `update-doc` skill created and configured
+### Next Steps (order matters)
 
-### Next Steps
-
-1. **Create Vietnamese Triage Labels** in both GitHub repos (defined in `docs/agents/triage-labels.md`):
-   - `cần-phân-loại` (needs-triage)
-   - `cần-thông-tin` (needs-info)
-   - `sẵn-sàng-cho-agent` (ready-for-agent)
-   - `sẵn-sàng-cho-người` (ready-for-human)
-   - `không-sửa` (wontfix)
-
-2. **Write CONTEXT.md** in `peek-window-doc` repo:
-   ```bash
-   # Your project overview, business logic, architecture, decisions
-   ```
-
-3. **Start Using the Workflow**:
-   ```
-   /implement [spec] → /update-doc → /code-review
-   ```
+1. **Spike Native AOT + Win32/Windows.UI.Composition** — gate: installer <15MB, RAM <25MB (red line 30MB). Gates the whole UI stack decision.
+2. **Spike resumable upload (`104` over HTTP/1.1, real iPhone)** — only advertise `resumableUpload` if the spike passes; otherwise single-shot fallback.
+3. **`/to-spec` → `/to-tickets`** from the detailed plan. ⚠️ Plan §2.3 still says "Kestrel server" — superseded by the 2026-09-13 decision (self-written HTTP/1.1-only server, long-poll `?wait=`, no WebSocket); fix when spec-ing.
 
 ## Folder Structure
 
 ```
 .
-├── app/                          # Application source code
-│   ├── src/
-│   ├── tests/
-│   └── [implementation files]
+├── app/                          # Placeholder — NO source code here.
+│                                 # Snappy Windows code lives in peekvn\apps\windows\
 │
 ├── docs/                         # Documentation (source of truth)
 │   ├── CONTEXT.md               # Main context document
