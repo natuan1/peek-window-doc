@@ -109,7 +109,7 @@ _Avoid_: telemetry, tracking
 
 - **Server Windows: HTTP/1.1-only tự viết trên TcpListener + SslStream** — không Kestrel, không WebSocket (dùng long-poll `?wait=` như cả hệ sinh thái); không client nào cần h2; mô hình đã được Android chứng minh sống thật. (chốt 2026-09-13)
 - **Resumable upload phone→PC: spike-gated** — spike tự gửi `104` qua HTTP/1.1 đo CFNetwork; thất bại thì không vỡ gì (tự rơi về single-shot, đúng hành vi đo được trên iPhone thật); **chưa spike thành công thì không advertise** `resumableUpload`. (chốt 2026-09-13)
-- **UI stack: C# Native AOT + Win32 + Windows.UI.Composition/Direct2D (CsWinRT)** — WPF không AOT được; WinUI 3 phá rào dung lượng (runtime 116MB); Kestrel bỏ; spike AOT bắt buộc trước khi cam kết. KPI bộ cài quay về **<15MB**; RAM mục tiêu <25MB, red line 30MB. (chốt 2026-09-13)
+- **UI stack: C# Native AOT + Win32 + Windows.UI.Composition/Direct2D (CsWinRT)** — WPF không AOT được; WinUI 3 phá rào dung lượng (runtime 116MB); Kestrel bỏ. KPI bộ cài quay về **<15MB**; RAM mục tiêu <25MB, red line 30MB. (chốt 2026-09-13) **Spike PASS 2026-09-14**: exe 3.05MB, working set 14.62MB (private 4.65MB), Composition sống dưới AOT — xem [ADR-0002](adr/0002-ui-stack-aot-spike-pass.md).
 - **Floor hệ điều hành: Windows 10 1809** (gồm LTSC 2019); test trên Win10 21H2/22H2 + LTSC 2019 + Win11. (chốt 2026-09-13)
 - **Thương hiệu thống nhất "Snappy"**, mobile đổi label; service mDNS giữ `_peek._tcp` — xem [ADR-0001](adr/0001-brand-khac-service-mdns.md). (chốt 2026-09-13)
 - **Windows app code nằm trong monorepo `peekvn\apps\windows\`** — dùng chung schemas, interop suite, Rust oracle; `peek-window` là workspace kế hoạch/tài liệu. (chốt 2026-09-13)
