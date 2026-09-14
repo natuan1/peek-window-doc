@@ -64,6 +64,7 @@ Feature-by-feature breakdown.
 Why we made important decisions.
 
 - [0001-brand-khac-service-mdns.md](adr/0001-brand-khac-service-mdns.md) — Thương hiệu ≠ tên service mDNS (Snappy giữ `_peek._tcp`)
+- [0002-ui-stack-aot-spike-pass.md](adr/0002-ui-stack-aot-spike-pass.md) — Xác nhận UI stack qua spike `aot-footprint` (3.05MB / 14.62MB)
   - *(More ADRs will be added)*
 
 **Format:** `NNNN-kebab-case-title.md`  
