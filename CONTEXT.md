@@ -118,10 +118,14 @@ _Avoid_: telemetry, tracking
 
 ## Thực trạng app Windows (2026-09-15)
 
-Nền móng đã chạy được — [Ticket 01](https://github.com/natuan1/peek-window-doc/issues/2), nhánh `ticket/01-skeleton-aot` của `peekvn`. Chi tiết: [Nền móng app Windows](features/nen-mong-app-windows/overview.md).
+Nền móng đã chạy được và **đã merge vào `main`** của `peekvn` — [Ticket 01](https://github.com/natuan1/peek-window-doc/issues/2). Chi tiết: [Nền móng app Windows](features/nen-mong-app-windows/overview.md).
 
 - **Bốn project** trong `peekvn/apps/windows/`: `Snappy.Shared` (DTO, đường dẫn), `Snappy.Interop` (biên Win32 duy nhất), `Snappy.Protocol` (ULTP — còn rỗng, do Ticket 04/05 đắp vào), `Snappy.Core` (project duy nhất sinh exe) — xem [ADR-0004](adr/0004-cau-truc-app-windows-bon-project.md).
 - **Chạy được**: app chạy nền, icon khay hệ thống, bảng trạng thái nhỏ, menu Thoát dọn sạch tiến trình, chỉ một bản chạy mỗi người dùng.
-- **Số đo thật** (publish Native AOT, máy dev): exe **1,69MB**, working set lúc nghỉ **12,51MB**, thư mục publish chỉ có `Snappy.exe` + symbol native. Cả ba đều dưới KPI và đều có hàng rào CI.
+- **Số đo thật** (publish Native AOT, máy dev Windows 11): exe **1,69MB**, working set lúc nghỉ **12,51MB** (mở bảng trạng thái: 17,23MB), thư mục publish chỉ có `Snappy.exe` + symbol native.
 - **Chưa có**: mDNS, server ULTP, Mí, Shelf, ghép đôi, bản quyền, bộ cài Velopack — theo đúng thứ tự ticket.
-- **Chưa nghiệm thu được**: chạy trên Windows 10 1809 sạch (không có máy); CI xanh (tài khoản GitHub Actions đang bị chặn vì thanh toán — mọi job, kể cả Rust/Swift có sẵn, đều không khởi động được từ 2026-09-15).
+
+### Hai quyết định tạm thời (2026-09-15)
+
+- **CI tắt chạy tự động.** Tài khoản GitHub Actions bị chặn vì lý do thanh toán; mọi job, kể cả Rust/Swift có sẵn, đều không khởi động được. `ci.yml` chuyển sang `workflow_dispatch` — để `on: push` thì mỗi commit đẻ một run đỏ không mang tin gì, mà một hàng rào luôn đỏ là hàng rào không ai đọc nữa. **Hệ quả: hàng rào duy nhất lúc này là máy dev**; bảng lệnh chạy tay ở `peekvn/AGENTS.md` §1 thành bắt buộc tuyệt đối. Khôi phục = bỏ chú thích hai khối trong `ci.yml`, job còn nguyên.
+- **Ưu tiên Windows 11; nghiệm thu Windows 10 1809 treo lại.** Chưa có máy 1809 sạch, nên tiêu chí "chạy được trên 1809" để treo, không đánh dấu xanh và cũng không coi là nợ chặn đường. **Floor sản phẩm không đổi** — vẫn là Windows 10 1809, và `SupportedOSPlatformVersion` vẫn ghim 10.0.17763.0: cái ghim đó gần như miễn phí lúc này và là thứ duy nhất chặn API mới hơn lặng lẽ bò vào mã. Gỡ ra thì tới ngày có máy, "thêm hỗ trợ lại" không còn là thêm một phép thử mà là gỡ hàng chục lời gọi.

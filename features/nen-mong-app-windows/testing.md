@@ -32,13 +32,20 @@ Job `windows` trong `.github/workflows/ci.yml` (`windows-latest`):
 4. Đếm file trong thư mục publish + đo kích thước exe.
 5. **Chạy thử exe** rồi đo working set. Bước này có vì bản đầu tiên của ticket publish sạch rồi chết ngay lúc khởi động (mã 1400) — không có nó thì lỗi đó đi thẳng tới người dùng.
 
-> ⛔ **CI chưa xanh lần nào.** Từ 2026-09-15 tài khoản GitHub Actions không khởi động được job nào vì lý do thanh toán — cả job Rust/Swift có sẵn cũng đỏ. Hàng rào đã viết nhưng **chưa được chứng minh là chạy được**.
+> ⛔ **CI đã tắt chạy tự động (2026-09-15).** Tài khoản GitHub Actions bị chặn vì lý do thanh toán — mọi job, kể cả Rust/Swift có sẵn, đều không khởi động được. `ci.yml` chuyển sang `workflow_dispatch`: để `on: push` thì mỗi commit đẻ ra một run đỏ không mang tin gì, và một hàng rào luôn đỏ là hàng rào không ai đọc nữa.
+>
+> **Hàng rào duy nhất lúc này là máy dev.** Trước khi đóng bất kỳ issue Windows nào, bắt buộc chạy tay `dotnet test apps/windows/Snappy.slnx` **và** `apps\windows\publish.cmd` — test xanh không chứng minh publish AOT xanh.
+>
+> Khôi phục: bỏ chú thích hai khối `push`/`pull_request` ở đầu `ci.yml`. Job còn nguyên, không phải dựng lại. Job `windows` vì vậy **chưa được chứng minh là chạy được trên runner**.
 
-## Còn phải kiểm bằng tay
+## Còn phải kiểm bằng tay (trên Windows 11)
 
-CI không thay được, vì runner không có Explorer, chỉ một mức DPI, và là Windows Server chứ không phải 1809:
+1. **Icon khay** — nhìn thấy và bấm được. Windows 11 mặc định giấu icon mới vào phần tràn sau dấu `^`; xem [bài học 2026-09-15](../../lessons-learned.md).
+2. **DPI** — đưa con trỏ sang màn hình có mức scale khác rồi bấm icon khay; bảng phải hiện sắc nét ở đúng tỉ lệ màn hình đó. (Không phải "kéo cửa sổ giữa hai màn hình" như tiêu chí gốc viết — bảng không có thanh tiêu đề để kéo.)
+3. **Explorer restart** — kết thúc `explorer.exe` từ Task Manager rồi chạy lại; icon Snappy phải tự quay lại khay.
 
-1. **Windows 10 1809 sạch** — chạy exe trên máy chưa cài .NET runtime.
-2. **Icon khay** — nhìn thấy và bấm được. Windows 11 mặc định giấu icon mới vào phần tràn sau dấu `^`; xem [bài học 2026-09-15](../../lessons-learned.md).
-3. **DPI** — đưa con trỏ sang màn hình có mức scale khác rồi bấm icon khay; bảng phải hiện sắc nét ở đúng tỉ lệ màn hình đó. (Không phải "kéo cửa sổ giữa hai màn hình" như tiêu chí gốc viết — bảng không có thanh tiêu đề để kéo.)
-4. **Explorer restart** — kết thúc `explorer.exe` từ Task Manager rồi chạy lại; icon Snappy phải tự quay lại khay.
+Nhánh xử lý `TaskbarCreated` **đã kiểm** bằng cách gửi thẳng thông điệp tới cửa sổ app (không kill Explorer): app sống, ghi nhật ký "Explorer khởi động lại — thêm lại icon khay", bảng trạng thái vẫn mở được, thoát sạch. Phần chưa kiểm là Explorer thật có phát thông điệp đó đúng lúc không.
+
+## Treo tới khi có máy
+
+**Windows 10 1809 sạch** — chạy exe trên máy chưa cài .NET runtime. Quyết định 2026-09-15: ưu tiên Windows 11 trước; floor sản phẩm không đổi và `SupportedOSPlatformVersion` vẫn ghim 10.0.17763.0, nên khi có máy thì đây là *thêm một phép thử*, không phải thêm một đợt sửa mã.
