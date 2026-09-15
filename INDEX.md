@@ -65,7 +65,7 @@ Why we made important decisions.
 
 - [0001-brand-khac-service-mdns.md](adr/0001-brand-khac-service-mdns.md) — Thương hiệu ≠ tên service mDNS (Snappy giữ `_peek._tcp`)
 - [0002-ui-stack-aot-spike-pass.md](adr/0002-ui-stack-aot-spike-pass.md) — Xác nhận UI stack qua spike `aot-footprint` (3.05MB / 14.62MB)
-  - *(More ADRs will be added)*
+- [0003-resumable-upload-104-h1-pass.md](adr/0003-resumable-upload-104-h1-pass.md) — Resumable upload trên h1 — spike `104` PASS, advertise `resumableUpload` (2026-09-15)
 
 **Format:** `NNNN-kebab-case-title.md`  
 **Content:** Context → Decision → Consequences
