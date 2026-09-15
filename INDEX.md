@@ -46,8 +46,8 @@ How the system is built — the technical decisions.
 Feature-by-feature breakdown.
 
 - [Features Index](features/INDEX.md)
-  - *(Features will be added as they're implemented)*
-  - Example structure per feature:
+  - [Nền móng app Windows](features/nen-mong-app-windows/overview.md) — app chạy nền, icon khay, bảng trạng thái, publish Native AOT ra một exe (✅ 2026-09-15)
+  - Cấu trúc mỗi feature:
     - Overview (scope, user stories)
     - Workflow (step-by-step)
     - Implementation (code, components)
@@ -66,6 +66,7 @@ Why we made important decisions.
 - [0001-brand-khac-service-mdns.md](adr/0001-brand-khac-service-mdns.md) — Thương hiệu ≠ tên service mDNS (Snappy giữ `_peek._tcp`)
 - [0002-ui-stack-aot-spike-pass.md](adr/0002-ui-stack-aot-spike-pass.md) — Xác nhận UI stack qua spike `aot-footprint` (3.05MB / 14.62MB)
 - [0003-resumable-upload-104-h1-pass.md](adr/0003-resumable-upload-104-h1-pass.md) — Resumable upload trên h1 — spike `104` PASS, advertise `resumableUpload` (2026-09-15)
+- [0004-cau-truc-app-windows-bon-project.md](adr/0004-cau-truc-app-windows-bon-project.md) — Cấu trúc app Windows: bốn project, `Snappy.Interop` là biên Win32 duy nhất (2026-09-15)
 
 **Format:** `NNNN-kebab-case-title.md`  
 **Content:** Context → Decision → Consequences
@@ -80,10 +81,8 @@ Why we made important decisions.
 ### 📖 **Guides** (How-To)
 Practical guides for working with the project.
 
-- [Contributing](guides/contributing.md) — How to contribute
-- [Running Locally](guides/running-locally.md) — Setup & run
-- [Testing](guides/testing.md) — How to test
-- [Debugging](guides/debugging.md) — Common issues & solutions
+- [Guides Index](guides/INDEX.md)
+  - *(Chưa có guide nào. Cách dựng và chạy app Windows đang nằm ở [README của module](https://github.com/natuan1/peekvn/blob/main/apps/windows/README.md).)*
 
 **💡 Use this when:**
 - Setting up local development
@@ -157,14 +156,11 @@ See [WORKFLOW.md](WORKFLOW.md) for details.
 - **Understand why a decision was made**
   → [ADR/](adr/)
 
-- **Set up & run locally**
-  → [Guides/running-locally.md](guides/running-locally.md)
+- **Dựng & chạy app Windows**
+  → [peekvn/apps/windows/README.md](https://github.com/natuan1/peekvn/blob/main/apps/windows/README.md)
 
-- **Fix an issue**
-  → [Guides/debugging.md](guides/debugging.md)
-
-- **Contribute**
-  → [Guides/contributing.md](guides/contributing.md)
+- **Hiểu trạng thái hiện tại của app Windows**
+  → [CONTEXT.md § Thực trạng app Windows](CONTEXT.md)
 
 ---
 
@@ -172,12 +168,12 @@ See [WORKFLOW.md](WORKFLOW.md) for details.
 
 | Category | Status | Last Updated |
 |----------|--------|--------------|
-| CONTEXT.md | ✅ Exists | See git log |
-| Concepts | ⏳ To be created | - |
-| Architecture | ⏳ To be created | - |
-| Features | ⏳ To be created | - |
-| ADRs | ⏳ To be created | - |
-| Guides | ⏳ To be created | - |
+| CONTEXT.md | ✅ Có, kèm mục "Thực trạng app Windows" | 2026-09-15 |
+| Concepts | ⏳ Chưa có (thuật ngữ đang nằm gọn trong CONTEXT.md) | - |
+| Architecture | ⏳ Chưa có (quyết định kỹ thuật đang ghi ở ADR) | - |
+| Features | ✅ 1 feature — Nền móng app Windows | 2026-09-15 |
+| ADRs | ✅ 4 ADR | 2026-09-15 |
+| Guides | ⏳ Chưa có | - |
 
 **Note:** Most sections will be populated as features are implemented via `/implement` + `/update-doc` workflow.
 

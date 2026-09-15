@@ -64,8 +64,8 @@ _Avoid_: cầu nối text và link (cũ), text bridge
 ### Truyền file
 
 **ULTP**:
-Universal Local Transfer Protocol — giao thức truyền file local đa nền tảng (mDNS + HTTPS/TLS + REST + WebSocket). Mọi nền tảng cùng nói một giao thức; TRS v1 đã đóng băng, nguồn chuẩn hiện hành là `protocol/SPEC.md`.
-_Avoid_: "iOS protocol", "Windows protocol"
+Universal Local Transfer Protocol — giao thức truyền file local đa nền tảng (mDNS + HTTPS/TLS + REST, tín hiệu sự kiện bằng long-poll `?wait=`). Mọi nền tảng cùng nói một giao thức; TRS v1 đã đóng băng, nguồn chuẩn hiện hành là `protocol/SPEC.md`.
+_Avoid_: "iOS protocol", "Windows protocol", WebSocket (đã loại bằng quyết định 2026-09-13 — xem mục quyết định kỹ thuật bên dưới)
 
 **Ghép đôi**:
 Quy trình thiết lập quan hệ tin cậy giữa hai thiết bị, xác minh bằng mã SAS.
@@ -115,3 +115,13 @@ _Avoid_: telemetry, tracking
 - **Windows app code nằm trong monorepo `peekvn\apps\windows\`** — dùng chung schemas, interop suite, Rust oracle; `peek-window` là workspace kế hoạch/tài liệu. (chốt 2026-09-13)
 - **Trạng thái Mí 1 "Gợi ý" GIỮ NGUYÊN** — không cần phương án dự phòng trong kế hoạch. Cơ chế khả thi không cần mouse hook: `SetWinEventHook` out-of-context nghe cửa sổ drag-image (`SysDragImage`) làm tín hiệu chính; xác nhận "đang kéo FILE" bằng một lần `OleGetClipboard` + `CFSTR_INDRAGLOOP` + `CF_HDROP`/`FileGroupDescriptorW`; polling 2 tầng làm fallback; strip mỏng luôn là drop target thật (magnet strip, không click-through, `WS_EX_NOACTIVATE`). Prior art đã ship: yeet, DropCast, Bytover, ShelfLife.
 - **Phạm vi mobile đi cùng Windows 1.0**: đổi thương hiệu + store-readiness (Apple trả phí $99/năm, App Group, dọn applicationId) + auto-accept toggle; text/url mobile để 1.1. (chốt 2026-09-13)
+
+## Thực trạng app Windows (2026-09-15)
+
+Nền móng đã chạy được — [Ticket 01](https://github.com/natuan1/peek-window-doc/issues/2), nhánh `ticket/01-skeleton-aot` của `peekvn`. Chi tiết: [Nền móng app Windows](features/nen-mong-app-windows/overview.md).
+
+- **Bốn project** trong `peekvn/apps/windows/`: `Snappy.Shared` (DTO, đường dẫn), `Snappy.Interop` (biên Win32 duy nhất), `Snappy.Protocol` (ULTP — còn rỗng, do Ticket 04/05 đắp vào), `Snappy.Core` (project duy nhất sinh exe) — xem [ADR-0004](adr/0004-cau-truc-app-windows-bon-project.md).
+- **Chạy được**: app chạy nền, icon khay hệ thống, bảng trạng thái nhỏ, menu Thoát dọn sạch tiến trình, chỉ một bản chạy mỗi người dùng.
+- **Số đo thật** (publish Native AOT, máy dev): exe **1,69MB**, working set lúc nghỉ **12,51MB**, thư mục publish chỉ có `Snappy.exe` + symbol native. Cả ba đều dưới KPI và đều có hàng rào CI.
+- **Chưa có**: mDNS, server ULTP, Mí, Shelf, ghép đôi, bản quyền, bộ cài Velopack — theo đúng thứ tự ticket.
+- **Chưa nghiệm thu được**: chạy trên Windows 10 1809 sạch (không có máy); CI xanh (tài khoản GitHub Actions đang bị chặn vì thanh toán — mọi job, kể cả Rust/Swift có sẵn, đều không khởi động được từ 2026-09-15).

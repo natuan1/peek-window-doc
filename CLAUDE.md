@@ -107,13 +107,15 @@ The documentation must always reflect the true state of the application. If docs
 - **peek-window-doc**: https://github.com/natuan1/peek-window-doc — documentation & issues (`docs/` here is its local clone)
 - `docs/CONTEXT.md` written — domain language + verified decisions (2026-09-13)
 - Vietnamese triage labels created (2026-09-14), vocabulary aligned with the `peekvn` repo
-- [ADR-0001](docs/adr/0001-brand-khac-service-mdns.md) — brand ≠ mDNS service name (2026-09-14)
+- [ADR-0001](adr/0001-brand-khac-service-mdns.md) — brand ≠ mDNS service name (2026-09-14)
 
 ### Next Steps (order matters)
 
-1. ~~Spike Native AOT + Win32/Composition~~ ✅ **PASS 2026-09-14** — exe 3.05MB, working set 14.62MB, Composition OK under AOT ([ADR-0002](docs/adr/0002-ui-stack-aot-spike-pass.md); primary source: `peekvn` branch `prototype/aot-footprint`).
-2. ~~Spike resumable upload (`104` over HTTP/1.1, real iPhone)~~ ✅ **PASS 2026-09-15** — CFNetwork xử lý nổi `104` giữa luồng h1 đến 50MB, 6/6 lượt `201`; advertise `resumableUpload: ["httpbis-interop-6"]`, server chỉ gửi `104` trên TLS ([ADR-0003](docs/adr/0003-resumable-upload-104-h1-pass.md); primary source: `peekvn` branch `prototype/104-over-h1`).
-3. ~~`/to-spec` → `/to-tickets` từ bản kế hoạch chi tiết~~ ✅ **Xong 2026-09-15** — [Spec #1](https://github.com/natuan1/peek-window-doc/issues/1) (đã sửa 5 điểm kế hoạch lệch sự thật: Kestrel→h1-only, `_ultp._tcp`→`_peek._tcp`, draft-12→interop-6, 3 thiết bị→5 Slot, WPF/WinUI 3→Win32+Composition) + **18 ticket tracer-bullet** [#2–#19](https://github.com/natuan1/peek-window-doc/issues/2), label `sẵn-sàng-cho-agent`. Kế tiếp: **implement theo frontier** — bắt đầu Ticket 01 (#2), sau đó 03/04/05/10/11 chạy song song.
+1. ~~Spike Native AOT + Win32/Composition~~ ✅ **PASS 2026-09-14** — exe 3.05MB, working set 14.62MB, Composition OK under AOT ([ADR-0002](adr/0002-ui-stack-aot-spike-pass.md); primary source: `peekvn` branch `prototype/aot-footprint`).
+2. ~~Spike resumable upload (`104` over HTTP/1.1, real iPhone)~~ ✅ **PASS 2026-09-15** — CFNetwork xử lý nổi `104` giữa luồng h1 đến 50MB, 6/6 lượt `201`; advertise `resumableUpload: ["httpbis-interop-6"]`, server chỉ gửi `104` trên TLS ([ADR-0003](adr/0003-resumable-upload-104-h1-pass.md); primary source: `peekvn` branch `prototype/104-over-h1`).
+3. ~~`/to-spec` → `/to-tickets` từ bản kế hoạch chi tiết~~ ✅ **Xong 2026-09-15** — [Spec #1](https://github.com/natuan1/peek-window-doc/issues/1) (đã sửa 5 điểm kế hoạch lệch sự thật: Kestrel→h1-only, `_ultp._tcp`→`_peek._tcp`, draft-12→interop-6, 3 thiết bị→5 Slot, WPF/WinUI 3→Win32+Composition) + **18 ticket tracer-bullet** [#2–#19](https://github.com/natuan1/peek-window-doc/issues/2), label `sẵn-sàng-cho-agent`.
+4. ~~Ticket 01 — skeleton Native AOT~~ ✅ **Implement xong 2026-09-15** — 4 project, tray + bảng trạng thái + Per-Monitor V2, exe 1,69MB, working set 12,51MB, 37 test xanh. Nhánh `ticket/01-skeleton-aot` của `peekvn`; tài liệu: [ADR-0004](adr/0004-cau-truc-app-windows-bon-project.md) + [feature](features/nen-mong-app-windows/overview.md). **Hai việc còn treo, không do mã**: (a) CI chưa xanh lần nào — tài khoản GitHub Actions bị chặn vì thanh toán, mọi job kể cả Rust/Swift đều không khởi động được; (b) chưa có máy Windows 10 1809 sạch để nghiệm thu.
+5. Kế tiếp: **implement theo frontier** — Ticket 03 (#4, mở seam interop) và 04/05 (#5/#6, mDNS + server h1) chạy song song trên nền Ticket 01.
 
 ## Folder Structure
 

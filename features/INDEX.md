@@ -9,7 +9,7 @@ This folder contains documentation for each feature — user stories, workflows,
 
 | Feature | Description | Status |
 |---------|-------------|--------|
-| *(To be added)* | | |
+| [Nền móng app Windows](nen-mong-app-windows/overview.md) | App chạy nền, icon khay, bảng trạng thái, thoát sạch; publish Native AOT ra một exe | ✅ Implement xong 2026-09-15 ([#2](https://github.com/natuan1/peek-window-doc/issues/2)) |
 
 ---
 
