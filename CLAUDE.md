@@ -113,7 +113,7 @@ The documentation must always reflect the true state of the application. If docs
 
 1. ~~Spike Native AOT + Win32/Composition~~ ✅ **PASS 2026-09-14** — exe 3.05MB, working set 14.62MB, Composition OK under AOT ([ADR-0002](docs/adr/0002-ui-stack-aot-spike-pass.md); primary source: `peekvn` branch `prototype/aot-footprint`).
 2. ~~Spike resumable upload (`104` over HTTP/1.1, real iPhone)~~ ✅ **PASS 2026-09-15** — CFNetwork xử lý nổi `104` giữa luồng h1 đến 50MB, 6/6 lượt `201`; advertise `resumableUpload: ["httpbis-interop-6"]`, server chỉ gửi `104` trên TLS ([ADR-0003](docs/adr/0003-resumable-upload-104-h1-pass.md); primary source: `peekvn` branch `prototype/104-over-h1`).
-3. **`/to-spec` → `/to-tickets`** from the detailed plan. ⚠️ Plan §2.3 still says "Kestrel server" — superseded by the 2026-09-13 decision (self-written HTTP/1.1-only server, long-poll `?wait=`, no WebSocket); fix when spec-ing.
+3. ~~`/to-spec` → `/to-tickets` từ bản kế hoạch chi tiết~~ ✅ **Xong 2026-09-15** — [Spec #1](https://github.com/natuan1/peek-window-doc/issues/1) (đã sửa 5 điểm kế hoạch lệch sự thật: Kestrel→h1-only, `_ultp._tcp`→`_peek._tcp`, draft-12→interop-6, 3 thiết bị→5 Slot, WPF/WinUI 3→Win32+Composition) + **18 ticket tracer-bullet** [#2–#19](https://github.com/natuan1/peek-window-doc/issues/2), label `sẵn-sàng-cho-agent`. Kế tiếp: **implement theo frontier** — bắt đầu Ticket 01 (#2), sau đó 03/04/05/10/11 chạy song song.
 
 ## Folder Structure
 
