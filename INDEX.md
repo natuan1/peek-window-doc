@@ -67,6 +67,7 @@ Why we made important decisions.
 - [0002-ui-stack-aot-spike-pass.md](adr/0002-ui-stack-aot-spike-pass.md) — Xác nhận UI stack qua spike `aot-footprint` (3.05MB / 14.62MB)
 - [0003-resumable-upload-104-h1-pass.md](adr/0003-resumable-upload-104-h1-pass.md) — Resumable upload trên h1 — spike `104` PASS, advertise `resumableUpload` (2026-09-15)
 - [0004-cau-truc-app-windows-bon-project.md](adr/0004-cau-truc-app-windows-bon-project.md) — Cấu trúc app Windows: bốn project, `Snappy.Interop` là biên Win32 duy nhất (2026-09-15)
+- [0005-ci-cd-desktop-qua-jenkins-noi-bo.md](adr/0005-ci-cd-desktop-qua-jenkins-noi-bo.md) — CI/CD app desktop qua Jenkins nội bộ: runner đám mây không có phiên đồ hoạ để chạy thử app khay (2026-09-16)
 
 **Format:** `NNNN-kebab-case-title.md`  
 **Content:** Context → Decision → Consequences
@@ -172,7 +173,7 @@ See [WORKFLOW.md](WORKFLOW.md) for details.
 | Concepts | ⏳ Chưa có (thuật ngữ đang nằm gọn trong CONTEXT.md) | - |
 | Architecture | ⏳ Chưa có (quyết định kỹ thuật đang ghi ở ADR) | - |
 | Features | ✅ 1 feature — Nền móng app Windows | 2026-09-15 |
-| ADRs | ✅ 4 ADR | 2026-09-15 |
+| ADRs | ✅ 5 ADR | 2026-09-16 |
 | Guides | ⏳ Chưa có | - |
 
 **Note:** Most sections will be populated as features are implemented via `/implement` + `/update-doc` workflow.

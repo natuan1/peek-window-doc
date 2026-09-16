@@ -18,6 +18,7 @@ Architecture Decision Records (ADRs) document significant decisions and their ra
 | [0002](0002-ui-stack-aot-spike-pass.md) | Xác nhận UI stack qua spike `aot-footprint` (3.05MB / 14.62MB) | Accepted | 2026-09-14 |
 | [0003](0003-resumable-upload-104-h1-pass.md) | Resumable upload trên h1 — spike `104` PASS, advertise `resumableUpload` | Accepted | 2026-09-15 |
 | [0004](0004-cau-truc-app-windows-bon-project.md) | Cấu trúc app Windows — bốn project, `Snappy.Interop` là biên Win32 duy nhất | Accepted | 2026-09-15 |
+| [0005](0005-ci-cd-desktop-qua-jenkins-noi-bo.md) | CI/CD app desktop qua Jenkins nội bộ, không phải GitHub Actions | Accepted | 2026-09-16 |
 
 ---
 

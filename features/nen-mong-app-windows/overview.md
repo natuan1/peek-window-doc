@@ -38,11 +38,11 @@ Kèm hai lời hứa nền, không phải story nhưng là ràng buộc cứng c
 | Working set < 25MB | ✅ | 12,51MB lúc nghỉ; 17,23MB sau khi mở bảng trạng thái |
 | Thêm lại icon khay sau khi Explorer sống lại | ✅ | Gửi thông điệp `TaskbarCreated` → app sống, ghi đúng nhật ký, bảng vẫn mở được |
 | Chạy trên Windows 10 1809 sạch | 🕓 **Treo** | Chưa có máy 1809. Quyết định 2026-09-15: ưu tiên Windows 11 trước, thêm phép thử này khi có máy. Floor sản phẩm **không đổi** — `SupportedOSPlatformVersion` vẫn ghim 10.0.17763.0 để chặn API mới hơn bò vào mã |
-| CI xanh | 🕓 **Treo** | Tài khoản GitHub Actions bị chặn vì thanh toán → `ci.yml` chuyển sang `workflow_dispatch` (quyết định 2026-09-15). Hàng rào duy nhất lúc này là máy dev |
+| CI xanh | ✅ | Jenkins nội bộ, job `snappy-windows` build #4 SUCCESS trên `main` 2026-09-16 (~65 giây): 37 test, publish AOT 1,65MB, chạy thử app thật 11,19MB, thoát sạch. Không phải GitHub Actions — [ADR-0005](../../adr/0005-ci-cd-desktop-qua-jenkins-noi-bo.md) |
 
 ## Việc còn phải kiểm bằng tay (trên Windows 11)
 
-CI đang tắt, nên đây là *toàn bộ* phép nghiệm thu còn lại:
+Jenkins lo phần chạy được; ba thứ dưới đây cần mắt người:
 
 1. Nhìn thấy icon ở khay và bấm được vào nó — **xem [bài học 2026-09-15](../../lessons-learned.md) về việc Windows 11 giấu icon mới**.
 2. Đưa con trỏ sang màn hình có mức scale khác rồi bấm icon khay: bảng phải hiện sắc nét ở đúng tỉ lệ màn hình đó.

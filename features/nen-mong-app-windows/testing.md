@@ -22,21 +22,31 @@ Ticket 01 chưa nói protocol nên chưa chạm được seam đó. Những gì 
 dotnet test apps/windows/Snappy.slnx
 ```
 
-## Hàng rào CI
+## Hàng rào CI — Jenkins nội bộ
 
-Job `windows` trong `.github/workflows/ci.yml` (`windows-latest`):
+Job `snappy-windows` trên `http://192.168.1.235:9096`, agent là **máy dev Windows 11 thật** (`win11-snappy`). Pipeline khai báo trong `apps/windows/Jenkinsfile`. Vì sao không phải GitHub Actions: [ADR-0005](../../adr/0005-ci-cd-desktop-qua-jenkins-noi-bo.md).
 
-1. `dotnet build` — biên dịch.
-2. `dotnet test` — 37 test trên.
-3. `dotnet publish -c Release` — **AOT**. Bước riêng, vì `dotnet build` xanh mà publish AOT đỏ là chuyện xảy ra thật: ILCompiler mới là cái phát hiện reflection lọt vào mã.
-4. Đếm file trong thư mục publish + đo kích thước exe.
-5. **Chạy thử exe** rồi đo working set. Bước này có vì bản đầu tiên của ticket publish sạch rồi chết ngay lúc khởi động (mã 1400) — không có nó thì lỗi đó đi thẳng tới người dùng.
+Sáu bước, một lượt ~65 giây:
 
-> ⛔ **CI đã tắt chạy tự động (2026-09-15).** Tài khoản GitHub Actions bị chặn vì lý do thanh toán — mọi job, kể cả Rust/Swift có sẵn, đều không khởi động được. `ci.yml` chuyển sang `workflow_dispatch`: để `on: push` thì mỗi commit đẻ ra một run đỏ không mang tin gì, và một hàng rào luôn đỏ là hàng rào không ai đọc nữa.
->
-> **Hàng rào duy nhất lúc này là máy dev.** Trước khi đóng bất kỳ issue Windows nào, bắt buộc chạy tay `dotnet test apps/windows/Snappy.slnx` **và** `apps\windows\publish.cmd` — test xanh không chứng minh publish AOT xanh.
->
-> Khôi phục: bỏ chú thích hai khối `push`/`pull_request` ở đầu `ci.yml`. Job còn nguyên, không phải dựng lại. Job `windows` vì vậy **chưa được chứng minh là chạy được trên runner**.
+1. **Lấy mã** — deploy key SSH chỉ-đọc cho riêng `peekvn`.
+2. **Biên dịch** — `dotnet build -c Release`.
+3. **Test** — 37 test, xuất JUnit nên Jenkins báo cáo từng test chứ không chỉ "bước này đỏ".
+4. **Publish Native AOT** — gọi đúng `publish.cmd` mà người thật gõ. Bước riêng vì `dotnet build` xanh mà publish AOT đỏ là chuyện xảy ra thật: ILCompiler mới là cái phát hiện reflection lọt vào mã.
+5. **Hàng rào KPI** — `ci/check-artifacts.ps1`: thư mục publish chỉ được có `Snappy.exe` + `Snappy.pdb`, exe dưới trần dung lượng.
+6. **Chạy thử app thật** — `ci/smoke-test.ps1`: khởi động Snappy, kiểm cửa sổ host tồn tại, đọc nhật ký của chính app để biết icon khay thêm được, đo RAM nền, thoát bằng `WM_CLOSE`, đếm tiến trình sót.
+
+Bước 6 là bước đáng giá nhất và là bước runner đám mây không làm được. Bản đầu tiên của Ticket 01 publish sạch rồi chết ngay lúc khởi động (mã 1400) — không có bước này thì lỗi đó đi thẳng tới người dùng.
+
+Hai script hàng rào nằm trong repo nên chạy được y hệt trên máy dev:
+
+```
+powershell -File apps\windows\ci\check-artifacts.ps1
+powershell -File apps\windows\ci\smoke-test.ps1
+```
+
+**Cả bốn đường đỏ của chúng đã được ép cho đỏ một lần** — file lạ trong thư mục publish, vỡ trần dung lượng, thiếu exe, vỡ KPI RAM. Một hàng rào chưa bao giờ đỏ là một hàng rào chưa được chứng minh.
+
+> ⚠️ **GitHub Actions vẫn tắt** (`workflow_dispatch`). Hệ quả: các job Rust/Swift/protocol **không có hàng rào tự động nào** — chỉ app Windows có. Bảng lệnh chạy tay ở `peekvn/AGENTS.md` §1 giữ chỗ đó.
 
 ## Còn phải kiểm bằng tay (trên Windows 11)
 
