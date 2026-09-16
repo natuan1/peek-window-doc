@@ -47,6 +47,7 @@ Feature-by-feature breakdown.
 
 - [Features Index](features/INDEX.md)
   - [Nền móng app Windows](features/nen-mong-app-windows/overview.md) — app chạy nền, icon khay, bảng trạng thái, publish Native AOT ra một exe (✅ 2026-09-15)
+  - [Đóng gói & tự cập nhật](features/dong-goi-va-tu-cap-nhat/overview.md) — bộ cài Velopack không UAC, tự cập nhật delta mỗi 4 giờ (✅ 2026-09-16, ký số còn treo)
   - Cấu trúc mỗi feature:
     - Overview (scope, user stories)
     - Workflow (step-by-step)
@@ -68,6 +69,7 @@ Why we made important decisions.
 - [0003-resumable-upload-104-h1-pass.md](adr/0003-resumable-upload-104-h1-pass.md) — Resumable upload trên h1 — spike `104` PASS, advertise `resumableUpload` (2026-09-15)
 - [0004-cau-truc-app-windows-bon-project.md](adr/0004-cau-truc-app-windows-bon-project.md) — Cấu trúc app Windows: bốn project, `Snappy.Interop` là biên Win32 duy nhất (2026-09-15)
 - [0005-ci-cd-desktop-qua-jenkins-noi-bo.md](adr/0005-ci-cd-desktop-qua-jenkins-noi-bo.md) — CI/CD app desktop qua Jenkins nội bộ: runner đám mây không có phiên đồ hoạ để chạy thử app khay (2026-09-16)
+- [0006-dong-goi-velopack-cai-peruser.md](adr/0006-dong-goi-velopack-cai-peruser.md) — Đóng gói Velopack: cài `PerUser`, gốc cài trùng gốc dữ liệu, KPI 15MB chuyển sang bộ cài (2026-09-16)
 
 **Format:** `NNNN-kebab-case-title.md`  
 **Content:** Context → Decision → Consequences
@@ -169,11 +171,11 @@ See [WORKFLOW.md](WORKFLOW.md) for details.
 
 | Category | Status | Last Updated |
 |----------|--------|--------------|
-| CONTEXT.md | ✅ Có, kèm mục "Thực trạng app Windows" | 2026-09-15 |
+| CONTEXT.md | ✅ Có, kèm mục "Thực trạng app Windows" | 2026-09-16 |
 | Concepts | ⏳ Chưa có (thuật ngữ đang nằm gọn trong CONTEXT.md) | - |
 | Architecture | ⏳ Chưa có (quyết định kỹ thuật đang ghi ở ADR) | - |
-| Features | ✅ 1 feature — Nền móng app Windows | 2026-09-15 |
-| ADRs | ✅ 5 ADR | 2026-09-16 |
+| Features | ✅ 2 feature — Nền móng app Windows, Đóng gói & tự cập nhật | 2026-09-16 |
+| ADRs | ✅ 6 ADR | 2026-09-16 |
 | Guides | ⏳ Chưa có | - |
 
 **Note:** Most sections will be populated as features are implemented via `/implement` + `/update-doc` workflow.

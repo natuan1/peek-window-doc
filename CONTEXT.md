@@ -116,16 +116,30 @@ _Avoid_: telemetry, tracking
 - **Trạng thái Mí 1 "Gợi ý" GIỮ NGUYÊN** — không cần phương án dự phòng trong kế hoạch. Cơ chế khả thi không cần mouse hook: `SetWinEventHook` out-of-context nghe cửa sổ drag-image (`SysDragImage`) làm tín hiệu chính; xác nhận "đang kéo FILE" bằng một lần `OleGetClipboard` + `CFSTR_INDRAGLOOP` + `CF_HDROP`/`FileGroupDescriptorW`; polling 2 tầng làm fallback; strip mỏng luôn là drop target thật (magnet strip, không click-through, `WS_EX_NOACTIVATE`). Prior art đã ship: yeet, DropCast, Bytover, ShelfLife.
 - **Phạm vi mobile đi cùng Windows 1.0**: đổi thương hiệu + store-readiness (Apple trả phí $99/năm, App Group, dọn applicationId) + auto-accept toggle; text/url mobile để 1.1. (chốt 2026-09-13)
 
-## Thực trạng app Windows (2026-09-15)
+## Thực trạng app Windows (2026-09-16)
 
-Nền móng đã chạy được và **đã merge vào `main`** của `peekvn` — [Ticket 01](https://github.com/natuan1/peek-window-doc/issues/2). Chi tiết: [Nền móng app Windows](features/nen-mong-app-windows/overview.md).
+Nền móng ([Ticket 01](https://github.com/natuan1/peek-window-doc/issues/2)) đã **merge vào `main`** của `peekvn`. Bộ cài và tự cập nhật ([Ticket 02](https://github.com/natuan1/peek-window-doc/issues/3)) đã implement xong trên nhánh `ticket/02-velopack-ky-so`. Chi tiết: [Nền móng app Windows](features/nen-mong-app-windows/overview.md), [Đóng gói & tự cập nhật](features/dong-goi-va-tu-cap-nhat/overview.md).
 
 - **Bốn project** trong `peekvn/apps/windows/`: `Snappy.Shared` (DTO, đường dẫn), `Snappy.Interop` (biên Win32 duy nhất), `Snappy.Protocol` (ULTP — còn rỗng, do Ticket 04/05 đắp vào), `Snappy.Core` (project duy nhất sinh exe) — xem [ADR-0004](adr/0004-cau-truc-app-windows-bon-project.md).
 - **Chạy được**: app chạy nền, icon khay hệ thống, bảng trạng thái nhỏ, menu Thoát dọn sạch tiến trình, chỉ một bản chạy mỗi người dùng.
-- **Số đo thật** (publish Native AOT, máy dev Windows 11): exe **1,69MB**, working set lúc nghỉ **12,51MB** (mở bảng trạng thái: 17,23MB), thư mục publish chỉ có `Snappy.exe` + symbol native.
-- **Chưa có**: mDNS, server ULTP, Mí, Shelf, ghép đôi, bản quyền, bộ cài Velopack — theo đúng thứ tự ticket.
+- **Cài và tự cập nhật được**: bộ cài Velopack cài `PerUser` vào `%LocalAppData%\Snappy\` không hỏi UAC; app tự tìm bản mới mỗi 4 giờ ở nền, tải **gói vá** chứ không tải lại bộ cài, và áp bản vá lúc mở lại app. Đã đi hết một lượt cài → cập nhật → gỡ bằng tay trên máy thật 2026-09-16. Xem [ADR-0006](adr/0006-dong-goi-velopack-cai-peruser.md).
+- **Số đo thật** (publish Native AOT, máy dev Windows 11):
+
+  | | Ticket 01 | Ticket 02 | KPI |
+  |---|---|---|---|
+  | **Bộ cài** | — | **10,02 MB** | **< 15 MB** |
+  | exe | 1,69 MB | 7,71 MB | không phải KPI |
+  | Working set lúc nghỉ | 12,51 MB | 15,04 MB | < 25 MB (red line 30 MB) |
+  | Gói vá | — | 1 MB đổi → 1,01 MB (15 % gói đầy đủ) | "chỉ tải gói vá nhỏ" |
+
+  **Velopack ăn ~6 MB exe và ~2,5 MB RAM nền.** Đó là giá của tự-cập-nhật, trả một lần, và nó là thư viện *đầu tiên* của cả bốn project. Cả hai vẫn dưới KPI nhưng biên đã hẹp đi thật — mọi ticket sau nên đọc bảng này trước khi thêm thư viện thứ hai.
+
+  **KPI 15 MB đã chuyển từ exe sang bộ cài.** Exe không nén, bộ cài thì có, và chỉ một trong hai là thứ người dùng tải về.
+- **Chưa có**: mDNS, server ULTP, Mí, Shelf, ghép đôi, bản quyền — theo đúng thứ tự ticket.
+- **Chưa nghiệm thu được, treo có chủ ý**: ký số Azure Trusted Signing (`signtool verify /pa /v` pass) và SmartScreen trên máy sạch. Đường ống ký số đã dựng xong và đã ép đỏ ở nhánh "chưa ký"; cái thiếu là **tài khoản Azure Trusted Signing**, không phải mã. Cũng chưa có **hạ tầng phát hành thật** — spec #1 đã đẩy hạ tầng web ra ngoài phạm vi, và cho tới khi có thì lượt kiểm cập nhật hỏng êm.
 
 ### Quyết định vận hành
 
 - **CI/CD app desktop chuyển sang Jenkins nội bộ** (2026-09-16, [ADR-0005](adr/0005-ci-cd-desktop-qua-jenkins-noi-bo.md)). Tài khoản GitHub Actions bị chặn vì thanh toán là lý do trước mắt; lý do thật là runner đám mây **không có phiên đồ hoạ** nên không chạy thử được app khay hệ thống — mà đó là phép nghiệm thu duy nhất có sức nặng với Snappy. Job `snappy-windows` trên `http://192.168.1.235:9096`, agent là máy dev Windows 11 thật, một lượt ~65 giây. `ci.yml` của Actions giữ lại ở `workflow_dispatch` làm đường dự phòng và là nơi duy nhất kiểm Rust/Swift trên Linux/macOS — **hai nền tảng đó hiện không có hàng rào tự động nào**, bảng lệnh chạy tay ở `peekvn/AGENTS.md` §1 giữ chỗ.
+- **Ký số chạy trên Jenkins, không phải GitHub Actions** (2026-09-16, [ADR-0006 §5](adr/0006-dong-goi-velopack-cai-peruser.md)). Spec #1 ghi "ký số Azure Trusted Signing trên GitHub Actions (`windows-latest`)" — câu đó viết trước ADR-0005, và đường ký số đi theo CI thật chứ không theo câu chữ cũ. Ký **chỉ** chạy khi build có tham số `PHAT_HANH`: mỗi lần ký là một lời gọi tính tiền và ghi nhật ký kiểm toán, và một bí mật có mặt trong mọi lượt build là một bí mật sớm muộn cũng rơi vào log của một bước không liên quan.
 - **Ưu tiên Windows 11; nghiệm thu Windows 10 1809 treo lại.** Chưa có máy 1809 sạch, nên tiêu chí "chạy được trên 1809" để treo, không đánh dấu xanh và cũng không coi là nợ chặn đường. **Floor sản phẩm không đổi** — vẫn là Windows 10 1809, và `SupportedOSPlatformVersion` vẫn ghim 10.0.17763.0: cái ghim đó gần như miễn phí lúc này và là thứ duy nhất chặn API mới hơn lặng lẽ bò vào mã. Gỡ ra thì tới ngày có máy, "thêm hỗ trợ lại" không còn là thêm một phép thử mà là gỡ hàng chục lời gọi.
