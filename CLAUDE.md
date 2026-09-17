@@ -8,6 +8,12 @@ Quy tắc cho agent khi làm việc **trong repo này**. Mã nguồn có `CLAUDE
 `peek-docs` = clone của `github.com/natuan1/peek-window-doc`, nhánh **`master`**
 (không phải `main` — `git push origin main` sẽ đỏ).
 
+⚠️ **Không phải mọi tài liệu của dự án đều ở đây.** `peekvn` có `docs-site/`
+(Fumadocs) là nguồn chuẩn cho kiến trúc và nghiệp vụ của **iOS/Android**, và
+`peekvn/AGENTS.md` §4.1 giữ thứ tự ưu tiên khi hai tài liệu mâu thuẫn. Repo này
+là nguồn chuẩn cho **sản phẩm Windows**: spec, ticket, ADR, ngữ vựng miền.
+Đụng tới câu hỏi "cái gì thắng khi mâu thuẫn" thì đọc §4.1, đừng tự phán.
+
 Đây là **nguồn sự thật** cho nghiệp vụ, quyết định kiến trúc và trạng thái dự án
 của **Snappy**. Mã nguồn không nằm ở đây và sẽ không bao giờ nằm ở đây.
 
