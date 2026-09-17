@@ -20,6 +20,7 @@ Architecture Decision Records (ADRs) document significant decisions and their ra
 | [0004](0004-cau-truc-app-windows-bon-project.md) | Cấu trúc app Windows — bốn project, `Snappy.Interop` là biên Win32 duy nhất | Accepted | 2026-09-15 |
 | [0005](0005-ci-cd-desktop-qua-jenkins-noi-bo.md) | CI/CD app desktop qua Jenkins nội bộ, không phải GitHub Actions | Accepted | 2026-09-16 |
 | [0006](0006-dong-goi-velopack-cai-peruser.md) | Đóng gói Velopack — cài `PerUser`, gốc cài trùng gốc dữ liệu, KPI 15MB chuyển sang bộ cài | Accepted | 2026-09-16 |
+| [0007](0007-windows-gia-nhap-interop-suite.md) | Windows gia nhập interop suite — Rust là oracle, phía vắng mặt phải nói ra | Accepted | 2026-09-17 |
 
 ---
 

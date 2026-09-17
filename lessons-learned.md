@@ -71,3 +71,42 @@ Chúng ta cần hiểu rõ hơn nhu cầu thực tế của họ.
 **Hành động tiếp theo**: `ci/check-delta.ps1` giờ **tự dựng phần đã thay đổi** (chép thư mục publish ra chỗ khác, nhét thêm 1 MB dữ liệu ngẫu nhiên) và có thêm **chặn dưới**: gói vá phải mang nổi ít nhất một nửa phần đã đổi. Đo lại: 1,01 MB = 15 % gói đầy đủ. Chính con số 11,5 KB cũ là thứ chặn dưới mới bắt được.
 
 Luật rút ra cho mọi hàng rào sau: **mỗi hàng rào phải trả lời được câu "nếu thứ tôi đo chưa hề xảy ra thì tôi màu gì?"** Nếu câu trả lời là "xanh", nó cần một chặn dưới trước khi được tin.
+
+---
+
+## [2026-09-17] Harness "chạy được ở mọi nơi" — và nó chưa từng chạy trên Windows
+
+**Kế hoạch**: Ticket 03 chỉ cần hai thứ: một CLI trình ra đúng mặt cắt dòng
+lệnh, và vài dòng trong `run.sh` để gọi nó. `interoperability/README.md` viết
+sẵn rằng cặp `fixture` "chạy được ở mọi nơi", nên phần harness trông như một
+việc nửa giờ.
+
+**Kết quả thực tế**: phần CLI đúng là nửa giờ và khớp byte với Rust ngay lần
+đầu. Phần harness thì không — vì chưa ai từng chạy `run.sh` trên Windows, và ba
+thứ khác nhau đổ ra cùng lúc:
+
+1. `run.sh` dựng **cả hai** phía vô điều kiện, nên trên Windows nó chết ở
+   `swift build` trước khi tới cặp nào.
+2. Cặp `vectors` đỏ cả 43 dòng vì `core.autocrlf` — không byte nội dung nào
+   lệch, chỉ là `\r\n` gặp `\n`.
+3. Lỗi đỏ ấy lộ tiếp một lỗi thứ ba đã ngủ từ lâu: ghi chú nhiều dòng làm
+   `run.sh` đếm một FAIL thành bảy.
+
+Và sau khi tất cả đã xanh, CI vẫn đỏ — vì một `mode` symlink sai trong index từ
+một commit tài liệu hôm trước, thứ không dính dáng gì tới ticket này.
+
+**Bài học**: giả định sai nằm ở chỗ đọc câu "chạy được ở mọi nơi" trong tài liệu
+như một **phép đo**, trong khi nó là một **dự định**. Một câu trong README nói
+về các nền tảng chưa ai thử là một lời hứa, không phải một kết quả — và lời hứa
+ấy càng dễ tin khi chính người viết nó cũng tin.
+
+Dạng chung: mỗi lần một dự án chạy lần đầu trên một nền tảng mới, cái đổ vỡ
+không phải tính năng đang làm mà là **hạ tầng quanh nó** — dòng lệnh, ký tự
+xuống dòng, phân biệt hoa thường, quyền tệp. Ba lỗi ở trên đều thuộc loại đó, và
+không lỗi nào nằm trong phạm vi ticket.
+
+**Hành động tiếp theo**: `.gitattributes` ghim `eol=lf` cho mọi tệp được so theo
+byte giữa hai công cụ; `run.sh` dò toolchain và in `BỎQUA` kèm lý do thay vì
+giả định; và ba bài học (166, 167, 168) trong `peekvn/docs/bai-hoc.md`. Ticket
+sau nào đưa Snappy vào các cặp `transfer`/`tls-handshake` nên tính trước một
+khoản cho tầng hạ tầng này, không chỉ cho mã giao thức.

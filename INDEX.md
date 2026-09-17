@@ -48,6 +48,7 @@ Feature-by-feature breakdown.
 - [Features Index](features/INDEX.md)
   - [Nền móng app Windows](features/nen-mong-app-windows/overview.md) — app chạy nền, icon khay, bảng trạng thái, publish Native AOT ra một exe (✅ 2026-09-15)
   - [Đóng gói & tự cập nhật](features/dong-goi-va-tu-cap-nhat/overview.md) — bộ cài Velopack không UAC, tự cập nhật delta mỗi 4 giờ (✅ merge 2026-09-17, ký số còn treo)
+  - [Seam interop cho Windows](features/seam-interop-windows/overview.md) — Windows thành implementation ULTP thứ ba trong interop suite, cặp `rust-host ↔ windows` (✅ 2026-09-17)
   - Cấu trúc mỗi feature:
     - Overview (scope, user stories)
     - Workflow (step-by-step)
@@ -70,6 +71,7 @@ Why we made important decisions.
 - [0004-cau-truc-app-windows-bon-project.md](adr/0004-cau-truc-app-windows-bon-project.md) — Cấu trúc app Windows: bốn project, `Snappy.Interop` là biên Win32 duy nhất (2026-09-15)
 - [0005-ci-cd-desktop-qua-jenkins-noi-bo.md](adr/0005-ci-cd-desktop-qua-jenkins-noi-bo.md) — CI/CD app desktop qua Jenkins nội bộ: runner đám mây không có phiên đồ hoạ để chạy thử app khay (2026-09-16)
 - [0006-dong-goi-velopack-cai-peruser.md](adr/0006-dong-goi-velopack-cai-peruser.md) — Đóng gói Velopack: cài `PerUser`, gốc cài trùng gốc dữ liệu, KPI 15MB chuyển sang bộ cài (2026-09-16)
+- [0007-windows-gia-nhap-interop-suite.md](adr/0007-windows-gia-nhap-interop-suite.md) — Windows gia nhập interop suite: Rust là oracle, phía vắng mặt in `BỎQUA` chứ không im lặng (2026-09-17)
 
 **Format:** `NNNN-kebab-case-title.md`  
 **Content:** Context → Decision → Consequences

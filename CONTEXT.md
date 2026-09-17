@@ -120,7 +120,7 @@ _Avoid_: telemetry, tracking
 
 Nền móng ([Ticket 01](https://github.com/natuan1/peekvn/issues/132)) đã **merge vào `main`** của `peekvn`. Bộ cài và tự cập nhật ([Ticket 02](https://github.com/natuan1/peekvn/issues/133)) cũng đã **merge vào `main`** (2026-09-17, [PR #130](https://github.com/natuan1/peekvn/pull/130)). Chi tiết: [Nền móng app Windows](features/nen-mong-app-windows/overview.md), [Đóng gói & tự cập nhật](features/dong-goi-va-tu-cap-nhat/overview.md).
 
-- **Bốn project** trong `peekvn/apps/windows/`: `Snappy.Shared` (DTO, đường dẫn), `Snappy.Interop` (biên Win32 duy nhất), `Snappy.Protocol` (ULTP — còn rỗng, do Ticket 04/05 đắp vào), `Snappy.Core` (project duy nhất sinh exe) — xem [ADR-0004](adr/0004-cau-truc-app-windows-bon-project.md).
+- **Bốn project** trong `peekvn/apps/windows/`: `Snappy.Shared` (DTO, đường dẫn), `Snappy.Interop` (biên Win32 duy nhất), `Snappy.Protocol` (ULTP — mới có generator fixture của SPEC §43, phần mDNS/server do Ticket 04/05 đắp vào), `Snappy.Core` (project duy nhất sinh exe) — xem [ADR-0004](adr/0004-cau-truc-app-windows-bon-project.md). Cạnh đó có `tools/Snappy.Harness`, một console exe **chỉ** dành cho interop suite, không thuộc sản phẩm.
 - **Chạy được**: app chạy nền, icon khay hệ thống, bảng trạng thái nhỏ, menu Thoát dọn sạch tiến trình, chỉ một bản chạy mỗi người dùng.
 - **Cài và tự cập nhật được**: bộ cài Velopack cài `PerUser` vào `%LocalAppData%\Snappy\` không hỏi UAC; app tự tìm bản mới mỗi 4 giờ ở nền, tải **gói vá** chứ không tải lại bộ cài, và áp bản vá lúc mở lại app. Đã đi hết một lượt cài → cập nhật → gỡ bằng tay trên máy thật 2026-09-16. Xem [ADR-0006](adr/0006-dong-goi-velopack-cai-peruser.md).
 - **Số đo thật** (publish Native AOT, máy dev Windows 11):
@@ -135,7 +135,8 @@ Nền móng ([Ticket 01](https://github.com/natuan1/peekvn/issues/132)) đã **m
   **Velopack ăn ~6 MB exe và ~2,5 MB RAM nền.** Đó là giá của tự-cập-nhật, trả một lần, và nó là thư viện *đầu tiên* của cả bốn project. Cả hai vẫn dưới KPI nhưng biên đã hẹp đi thật — mọi ticket sau nên đọc bảng này trước khi thêm thư viện thứ hai.
 
   **KPI 15 MB đã chuyển từ exe sang bộ cài.** Exe không nén, bộ cài thì có, và chỉ một trong hai là thứ người dùng tải về.
-- **Chưa có**: mDNS, server ULTP, Mí, Shelf, ghép đôi, bản quyền — theo đúng thứ tự ticket.
+- **Kiểm được liên tiến trình**: Windows đã gia nhập interop suite như implementation ULTP thứ ba ([Ticket 03](https://github.com/natuan1/peekvn/issues/134), 2026-09-17). `./interoperability/run.sh fixture` chạy cặp `rust-host ↔ windows`; đã khớp byte với Rust ở cả sáu mốc của SPEC §43, tới 4 GB. Đây là **seam kiểm thử chính** của app Windows — `tests/Snappy.Tests` chỉ là biên phụ. Xem [Seam interop cho Windows](features/seam-interop-windows/overview.md) và [ADR-0007](adr/0007-windows-gia-nhap-interop-suite.md).
+- **Chưa có**: mDNS, server ULTP, Mí, Shelf, ghép đôi, bản quyền — theo đúng thứ tự ticket. Vì vậy các cặp `transfer` và `tls-handshake` của interop suite vẫn chưa có phía Windows.
 - **Chưa nghiệm thu được, treo có chủ ý**: ký số Azure Trusted Signing (`signtool verify /pa /v` pass) và SmartScreen trên máy sạch. Đường ống ký số đã dựng xong và đã ép đỏ ở nhánh "chưa ký"; cái thiếu là **tài khoản Azure Trusted Signing**, không phải mã. Cũng chưa có **hạ tầng phát hành thật** — spec #1 đã đẩy hạ tầng web ra ngoài phạm vi, và cho tới khi có thì lượt kiểm cập nhật hỏng êm.
 
 ### Quyết định vận hành
