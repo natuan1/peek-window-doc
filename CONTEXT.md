@@ -116,9 +116,9 @@ _Avoid_: telemetry, tracking
 - **Trạng thái Mí 1 "Gợi ý" GIỮ NGUYÊN** — không cần phương án dự phòng trong kế hoạch. Cơ chế khả thi không cần mouse hook: `SetWinEventHook` out-of-context nghe cửa sổ drag-image (`SysDragImage`) làm tín hiệu chính; xác nhận "đang kéo FILE" bằng một lần `OleGetClipboard` + `CFSTR_INDRAGLOOP` + `CF_HDROP`/`FileGroupDescriptorW`; polling 2 tầng làm fallback; strip mỏng luôn là drop target thật (magnet strip, không click-through, `WS_EX_NOACTIVATE`). Prior art đã ship: yeet, DropCast, Bytover, ShelfLife.
 - **Phạm vi mobile đi cùng Windows 1.0**: đổi thương hiệu + store-readiness (Apple trả phí $99/năm, App Group, dọn applicationId) + auto-accept toggle; text/url mobile để 1.1. (chốt 2026-09-13)
 
-## Thực trạng app Windows (2026-09-16)
+## Thực trạng app Windows (2026-09-17)
 
-Nền móng ([Ticket 01](https://github.com/natuan1/peek-window-doc/issues/2)) đã **merge vào `main`** của `peekvn`. Bộ cài và tự cập nhật ([Ticket 02](https://github.com/natuan1/peek-window-doc/issues/3)) đã implement xong trên nhánh `ticket/02-velopack-ky-so`. Chi tiết: [Nền móng app Windows](features/nen-mong-app-windows/overview.md), [Đóng gói & tự cập nhật](features/dong-goi-va-tu-cap-nhat/overview.md).
+Nền móng ([Ticket 01](https://github.com/natuan1/peek-window-doc/issues/2)) đã **merge vào `main`** của `peekvn`. Bộ cài và tự cập nhật ([Ticket 02](https://github.com/natuan1/peek-window-doc/issues/3)) cũng đã **merge vào `main`** (2026-09-17, [PR #130](https://github.com/natuan1/peekvn/pull/130)). Chi tiết: [Nền móng app Windows](features/nen-mong-app-windows/overview.md), [Đóng gói & tự cập nhật](features/dong-goi-va-tu-cap-nhat/overview.md).
 
 - **Bốn project** trong `peekvn/apps/windows/`: `Snappy.Shared` (DTO, đường dẫn), `Snappy.Interop` (biên Win32 duy nhất), `Snappy.Protocol` (ULTP — còn rỗng, do Ticket 04/05 đắp vào), `Snappy.Core` (project duy nhất sinh exe) — xem [ADR-0004](adr/0004-cau-truc-app-windows-bon-project.md).
 - **Chạy được**: app chạy nền, icon khay hệ thống, bảng trạng thái nhỏ, menu Thoát dọn sạch tiến trình, chỉ một bản chạy mỗi người dùng.

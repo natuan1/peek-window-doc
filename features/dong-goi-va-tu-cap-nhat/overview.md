@@ -1,6 +1,6 @@
 # Đóng gói & tự cập nhật — tổng quan
 
-**Trạng thái:** đã implement trên nhánh `ticket/02-velopack-ky-so` của `peekvn` (2026-09-16) · [Ticket 02 (#3)](https://github.com/natuan1/peek-window-doc/issues/3)
+**Trạng thái:** đã **merge vào `main`** của `peekvn` (2026-09-17, [PR #130](https://github.com/natuan1/peekvn/pull/130); CI build #14 trên `2beb4ef`) · [Ticket 02 (#3)](https://github.com/natuan1/peek-window-doc/issues/3)
 
 ## Tính năng này là gì
 

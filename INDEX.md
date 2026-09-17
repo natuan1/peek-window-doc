@@ -47,7 +47,7 @@ Feature-by-feature breakdown.
 
 - [Features Index](features/INDEX.md)
   - [Nền móng app Windows](features/nen-mong-app-windows/overview.md) — app chạy nền, icon khay, bảng trạng thái, publish Native AOT ra một exe (✅ 2026-09-15)
-  - [Đóng gói & tự cập nhật](features/dong-goi-va-tu-cap-nhat/overview.md) — bộ cài Velopack không UAC, tự cập nhật delta mỗi 4 giờ (✅ 2026-09-16, ký số còn treo)
+  - [Đóng gói & tự cập nhật](features/dong-goi-va-tu-cap-nhat/overview.md) — bộ cài Velopack không UAC, tự cập nhật delta mỗi 4 giờ (✅ merge 2026-09-17, ký số còn treo)
   - Cấu trúc mỗi feature:
     - Overview (scope, user stories)
     - Workflow (step-by-step)
@@ -174,7 +174,7 @@ See [WORKFLOW.md](WORKFLOW.md) for details.
 | CONTEXT.md | ✅ Có, kèm mục "Thực trạng app Windows" | 2026-09-16 |
 | Concepts | ⏳ Chưa có (thuật ngữ đang nằm gọn trong CONTEXT.md) | - |
 | Architecture | ⏳ Chưa có (quyết định kỹ thuật đang ghi ở ADR) | - |
-| Features | ✅ 2 feature — Nền móng app Windows, Đóng gói & tự cập nhật | 2026-09-16 |
+| Features | ✅ 2 feature — Nền móng app Windows, Đóng gói & tự cập nhật | 2026-09-17 |
 | ADRs | ✅ 6 ADR | 2026-09-16 |
 | Guides | ⏳ Chưa có | - |
 
