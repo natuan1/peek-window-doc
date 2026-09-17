@@ -5,7 +5,7 @@ Status: Accepted
 
 ## Context
 
-[Spec #1](https://github.com/natuan1/peek-window-doc/issues/1) chốt bốn project (`Snappy.Core` / `Snappy.Protocol` / `Snappy.Interop` / `Snappy.Shared`) nhưng không nói **luật nào giữ ranh giới giữa chúng**. Khi implement [Ticket 01](https://github.com/natuan1/peek-window-doc/issues/2), ba câu hỏi phải trả lời trước khi viết dòng đầu tiên, vì cả ba đều rẻ lúc này và rất đắt ở ticket sau:
+[Spec #131](https://github.com/natuan1/peekvn/issues/131) chốt bốn project (`Snappy.Core` / `Snappy.Protocol` / `Snappy.Interop` / `Snappy.Shared`) nhưng không nói **luật nào giữ ranh giới giữa chúng**. Khi implement [Ticket 01](https://github.com/natuan1/peekvn/issues/132), ba câu hỏi phải trả lời trước khi viết dòng đầu tiên, vì cả ba đều rẻ lúc này và rất đắt ở ticket sau:
 
 1. P/Invoke được phép nằm ở đâu? App này sẽ đụng vào Win32, COM shell (`IDropTarget`, `IDataObject`, `IStream`), GSMTC, Bluetooth GATT, CNG, Credential Manager. Rải `[LibraryImport]` theo nhu cầu là cách tự nhiên nhất, và cũng là cách làm cho câu hỏi "app đụng vào những gì của hệ điều hành" trở nên không trả lời được.
 2. DPI khai ở đâu? Windows chốt chế độ DPI cho tiến trình **trước** dòng đầu tiên của `Main`.
@@ -40,5 +40,5 @@ Status: Accepted
 ## Related
 
 - [ADR-0002](0002-ui-stack-aot-spike-pass.md) — spike xác nhận Native AOT + Win32 + Composition
-- [Spec #1](https://github.com/natuan1/peek-window-doc/issues/1), [Ticket 01 (#2)](https://github.com/natuan1/peek-window-doc/issues/2)
+- [Spec #131](https://github.com/natuan1/peekvn/issues/131), [Ticket 01 (#132)](https://github.com/natuan1/peekvn/issues/132)
 - [Nền móng app Windows](../features/nen-mong-app-windows/implementation.md)

@@ -5,7 +5,7 @@ Status: Accepted
 
 ## Context
 
-Sau [Ticket 01](https://github.com/natuan1/peek-window-doc/issues/2), app Windows có hàng rào CI viết bằng GitHub Actions nhưng **chưa bao giờ chạy xanh một lần nào**: tài khoản Actions bị chặn vì lý do thanh toán từ 2026-09-15, mọi job kể cả Rust/Swift có sẵn đều không khởi động được. `ci.yml` đã phải chuyển sang `workflow_dispatch` để không đẻ ra một run đỏ vô nghĩa mỗi commit.
+Sau [Ticket 01](https://github.com/natuan1/peekvn/issues/132), app Windows có hàng rào CI viết bằng GitHub Actions nhưng **chưa bao giờ chạy xanh một lần nào**: tài khoản Actions bị chặn vì lý do thanh toán từ 2026-09-15, mọi job kể cả Rust/Swift có sẵn đều không khởi động được. `ci.yml` đã phải chuyển sang `workflow_dispatch` để không đẻ ra một run đỏ vô nghĩa mỗi commit.
 
 Lý do tiền bạc là lý do trước mắt. Lý do thật sâu hơn, và nó không biến mất khi thanh toán thông:
 
@@ -60,4 +60,4 @@ Pipeline sáu bước, khai báo trong `apps/windows/Jenkinsfile` (pipeline-as-c
 
 - [ADR-0004](0004-cau-truc-app-windows-bon-project.md) — cấu trúc app Windows
 - [Nền móng app Windows — testing](../features/nen-mong-app-windows/testing.md)
-- [Spec #1](https://github.com/natuan1/peek-window-doc/issues/1)
+- [Spec #131](https://github.com/natuan1/peekvn/issues/131)

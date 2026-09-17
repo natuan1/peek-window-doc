@@ -1,5 +1,14 @@
 # ✅ Setup Complete!
 
+> ⚠️ **Ảnh chụp lịch sử (2026-09-13), không phải hiện trạng.** Giữ lại để biết
+> dự án đã dựng ra sao. Hai điểm trong đây **nay đã sai**:
+>
+> - Issue **không** còn ở `peek-window-doc`; mọi issue đã chuyển sang
+>   `natuan1/peekvn` (2026-09-17) — xem `agents/issue-tracker.md`.
+> - Thư mục workspace `peek-window` đã bị bỏ; giờ chỉ còn hai repo
+>   `D:\code\peekvn` và `D:\code\peek-docs` — xem `CLAUDE.md`.
+
+
 Tất cả đã được cấu hình. Dưới đây là tóm tắt.
 
 ## 🚀 Hai GitHub Repos Của Bạn

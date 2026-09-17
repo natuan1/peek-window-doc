@@ -1,6 +1,6 @@
 # Nền móng app Windows — tổng quan
 
-**Trạng thái:** đã implement và **merge vào `main`** của `peekvn` (2026-09-15) · [Ticket 01 (#2)](https://github.com/natuan1/peek-window-doc/issues/2)
+**Trạng thái:** đã implement và **merge vào `main`** của `peekvn` (2026-09-15) · [Ticket 01 (#132)](https://github.com/natuan1/peekvn/issues/132)
 
 ## Tính năng này là gì
 

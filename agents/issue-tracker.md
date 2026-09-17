@@ -1,81 +1,59 @@
-# Issue Tracker Configuration
+# Issue tracker
 
-## Summary
+**Mọi issue của dự án nằm ở một nơi duy nhất: `natuan1/peekvn`.**
 
-Issues are tracked in **GitHub Issues**:
-- **`peek-window-doc` repository**: documentation, business requirements, and technical specifications (source of truth)
-- **`peek-window` repository**: workspace-level planning and tracking issues
-- **`peekvn` repository** (`natuan1/peekvn`): implementation source code (Snappy Windows lives in `apps/windows/`) and day-to-day implementation issues
+Chốt 2026-09-17. Trước đó ticket Windows nằm ở `peek-window-doc` còn code và CI
+ở `peekvn` — hai tracker cho một dòng công việc, và cái giá của nó đo được:
 
-Issues created by skills (like `to-tickets` and `triage`) target the appropriate repo based on issue type. The `peek-window-doc` repository serves as the **source of truth** for requirements, architecture decisions, and project state.
+- PR [`peekvn#130`](https://github.com/natuan1/peekvn/pull/130) **không tự đóng
+  được** Ticket 02. `Closes #N` không đi xuyên repo, phải đóng bằng tay.
+- `gh issue view 3` khi đứng trong `peekvn` ra một issue hoàn toàn khác. Mọi lệnh
+  đều phải kèm `--repo`, và quên một lần là đọc nhầm ticket.
 
-## Workflow Philosophy
+19 issue đã được chuyển sang `peekvn` (số mới = số cũ + 130; Spec cũ `#1` giờ là
+[`#131`](https://github.com/natuan1/peekvn/issues/131)). GitHub giữ chuyển hướng
+từ URL cũ, nên link cũ vẫn tới đúng chỗ — nhưng **con số thì không**: `#3` viết
+trong ngữ cảnh `peekvn` giờ trỏ vào một issue khác hẳn.
 
-This follows Andrej Karpathy's **LLM Wiki** pattern, adapted for a two-repo structure:
+## Repo này giữ gì
 
-- **Documentation repo** (`docs`): the persistent, maintained wiki that reflects the true state of the application. All business logic, technical decisions, and requirements live here and are kept in sync with actual implementation.
-- **Implementation code**: lives in the `peekvn` monorepo (`apps/windows/`), kept aligned with the documentation. The local `app/` folder is a placeholder only.
-- **After completing a feature**, the documentation is always reviewed and updated to reflect the new reality.
+`peek-window-doc` (tức `D:\code\peek-docs`) **không còn issue nào**. Nó giữ phần
+tài liệu sống lâu hơn một ticket:
 
-This ensures that the documentation is never stale and always serves as a reliable reference for both humans and AI agents.
+- `CONTEXT.md` — ngữ vựng miền và quyết định đã xác minh
+- `adr/` — vì sao đã chọn thế
+- `features/` — mỗi tính năng bốn file
+- `plans/` — ba tài liệu kế hoạch gốc
+- `lessons-learned.md` — bài học khi kết quả khác kỳ vọng
 
-## Repository Names
+Spec sản phẩm giờ là một **issue** ở `peekvn`
+([#131](https://github.com/natuan1/peekvn/issues/131)), không phải file ở đây.
 
-- **`peek-window`** — Workspace-level planning and tracking
-- **`peek-window-doc`** — Documentation, requirements, and issue tracking (source of truth)
-- **`peekvn`** — Implementation source code (`apps/windows/` for Snappy Windows)
+## Lệnh
 
-## Setup
-
-To fully initialize this configuration:
-
-1. Create two GitHub repositories:
-   - `<username>/peek-window` — for source code
-   - `<username>/peek-window-doc` — for documentation, requirements, and tracking
-
-2. Implementation code lives in the separate `peekvn` monorepo (`github.com/natuan1/peekvn`), not in this workspace; the local `app/` folder stays a placeholder.
-
-3. In the `docs/` folder:
-   ```bash
-   git remote add origin https://github.com/<username>/peek-window-doc.git
-   git branch -M main
-   git push -u origin main
-   ```
-
-4. Create the Vietnamese triage labels in both repos (defined in `docs/agents/triage-labels.md`)
-
-## Issue Types by Repo
-
-### `peek-window-doc` repo (source of truth)
-- Feature specifications (PRD-style, requirements, user stories)
-- Architecture decisions (ADRs)
-- Technical design documents
-- Documentation updates
-- Integration issues or cross-repo concerns
-
-### `peek-window` repo (workspace tracking)
-- Planning-level issues spanning docs and implementation
-- Spike/prototype tracking for decisions under investigation
-
-### `peekvn` repo (implementation)
-- Bug reports in application code
-- Implementation tasks derived from specs in `peek-window-doc`
-- Code refactoring tasks
-- Performance improvements
-- Build and test infrastructure issues
-
-## CLI Integration
-
-Skills that interact with this tracker use the `gh` CLI:
+Trong `peekvn` thì không cần `--repo`; từ chỗ khác thì bắt buộc:
 
 ```bash
-# Skills read issues from and write issues to:
-gh issue list --repo <username>/peek-window
-gh issue list --repo <username>/peek-window-doc
-gh issue create --repo <username>/peek-window --title "..." --body "..."
-gh issue create --repo <username>/peek-window-doc --title "..." --body "..."
+gh issue view <id> --comments
+gh issue list --state open --label "sẵn-sàng-cho-agent"
+gh issue create --title "..." --body "..."
+gh issue comment <id> --body "..."
+gh issue edit <id> --add-label "..." --remove-label "..."
+gh issue close <id> --comment "..."
 ```
 
-## Note on PRs
+Body nhiều dòng thì dùng heredoc.
 
-Pull requests are **not** surfaced as a separate request surface to the triage queue. PRs are code review artifacts; issues are the source of work. If you want external PRs to be triaged, that can be configured separately.
+**Tra cứu động, luôn luôn.** Không tin danh sách issue chép trong bất kỳ file
+markdown nào — kể cả file này. Danh sách chép tay là danh sách sẽ mục, và lần
+chuyển repo vừa rồi vừa chứng minh điều đó với 18 tham chiếu phải sửa tay.
+
+## Nhãn
+
+Năm nhãn triage tiếng Việt, xem [`triage-labels.md`](triage-labels.md). `peekvn`
+đã có sẵn cả năm nên lượt chuyển giữ nguyên được nhãn.
+
+## PR
+
+`peekvn` nhận PR; ticket và code giờ cùng một repo nên `Closes #<id>` chạy thật.
+Đó chính là lý do của lần chuyển này.

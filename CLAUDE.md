@@ -89,8 +89,9 @@ gốc, và kiểm không có link gãy.
 
 ## Issue
 
-Spec và quyết định: `natuan1/peek-window-doc` (repo này).
-Issue triển khai hằng ngày: `natuan1/peekvn`.
+**Mọi issue ở `natuan1/peekvn`** — repo này không còn issue nào (chốt 2026-09-17).
+Spec sản phẩm giờ là issue [#131](https://github.com/natuan1/peekvn/issues/131),
+không phải file ở đây. Lý do và bảng ánh xạ số cũ→mới: `agents/issue-tracker.md`.
 
 Tra cứu **động** bằng `gh issue view <id> --comments`. **Không** tin danh sách
 issue chép trong bất kỳ file markdown nào — kể cả file này.

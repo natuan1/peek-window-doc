@@ -9,8 +9,8 @@ This folder contains documentation for each feature — user stories, workflows,
 
 | Feature | Description | Status |
 |---------|-------------|--------|
-| [Nền móng app Windows](nen-mong-app-windows/overview.md) | App chạy nền, icon khay, bảng trạng thái, thoát sạch; publish Native AOT ra một exe | ✅ Implement xong 2026-09-15 ([#2](https://github.com/natuan1/peek-window-doc/issues/2)) |
-| [Đóng gói & tự cập nhật](dong-goi-va-tu-cap-nhat/overview.md) | Bộ cài Velopack user-space không UAC; tự tìm bản mới mỗi 4 giờ, tải gói vá delta, áp lúc mở lại app | ✅ Merge vào `main` 2026-09-17 ([#3](https://github.com/natuan1/peek-window-doc/issues/3)) — ký số còn treo vì chưa có tài khoản Azure |
+| [Nền móng app Windows](nen-mong-app-windows/overview.md) | App chạy nền, icon khay, bảng trạng thái, thoát sạch; publish Native AOT ra một exe | ✅ Implement xong 2026-09-15 ([#132](https://github.com/natuan1/peekvn/issues/132)) |
+| [Đóng gói & tự cập nhật](dong-goi-va-tu-cap-nhat/overview.md) | Bộ cài Velopack user-space không UAC; tự tìm bản mới mỗi 4 giờ, tải gói vá delta, áp lúc mở lại app | ✅ Merge vào `main` 2026-09-17 ([#133](https://github.com/natuan1/peekvn/issues/133)) — ký số còn treo vì chưa có tài khoản Azure |
 
 ---
 

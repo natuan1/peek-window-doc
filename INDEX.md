@@ -109,7 +109,7 @@ Learning & improvements.
 
 After each step:
 1. Code changes in peek-window repo
-2. Docs update in peek-window-doc repo
+2. Docs update in peek-docs repo (peek-window-doc)
 3. Everything stays in sync
 ```
 

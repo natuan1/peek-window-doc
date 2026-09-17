@@ -31,7 +31,7 @@ When an issue is created:
 ## Implementation
 
 These labels exist across the repositories with identical names and descriptions:
-- `peek-window` and `peek-window-doc`: workspace and documentation issues
+- `peekvn`: **mọi** issue của dự án (chốt 2026-09-17; `peek-window-doc` không còn issue nào)
 - `peekvn` (implementation monorepo): the vocabulary here is **aligned with the labels already in use on `peekvn`** — do not introduce variant spellings
 
 Use Vietnamese label names consistently across all repos to maintain a unified workflow.

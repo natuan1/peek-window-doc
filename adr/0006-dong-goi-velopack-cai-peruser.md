@@ -5,7 +5,7 @@ Status: Accepted
 
 ## Context
 
-[Spec #1](https://github.com/natuan1/peek-window-doc/issues/1) đã chốt Velopack từ trước: *"cài user-space `%LocalAppData%\Snappy\`, không UAC; `VelopackApp.Build().Run()` ở entry; kiểm tra cập nhật mỗi 4 giờ, tải delta, áp khi khởi động lại"*. ADR này **không** ghi lại lựa chọn ấy — nó ghi những quyết định phải ra **trong lúc** hiện thực [Ticket 02 (#3)](https://github.com/natuan1/peek-window-doc/issues/3), mỗi cái đều có một đường mặc định dễ đi hơn và sai.
+[Spec #131](https://github.com/natuan1/peekvn/issues/131) đã chốt Velopack từ trước: *"cài user-space `%LocalAppData%\Snappy\`, không UAC; `VelopackApp.Build().Run()` ở entry; kiểm tra cập nhật mỗi 4 giờ, tải delta, áp khi khởi động lại"*. ADR này **không** ghi lại lựa chọn ấy — nó ghi những quyết định phải ra **trong lúc** hiện thực [Ticket 02 (#133)](https://github.com/natuan1/peekvn/issues/133), mỗi cái đều có một đường mặc định dễ đi hơn và sai.
 
 Bốn câu hỏi thật sự phải trả lời:
 
@@ -85,7 +85,7 @@ Bước `Kiểm chữ ký` có **ba** màu: xanh khi `signtool verify /pa /v` th
 - [ADR-0004](0004-cau-truc-app-windows-bon-project.md) — bốn project; `Snappy.Core` là nơi `UpdateCoordinator` sống
 - [ADR-0002](0002-ui-stack-aot-spike-pass.md) — số đo AOT gốc mà ADR này vừa làm hẹp biên
 - [Feature: Đóng gói & tự cập nhật](../features/dong-goi-va-tu-cap-nhat/overview.md)
-- [Ticket 02 (#3)](https://github.com/natuan1/peek-window-doc/issues/3)
+- [Ticket 02 (#133)](https://github.com/natuan1/peekvn/issues/133)
 
 ## Decision Log
 

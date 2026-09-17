@@ -2,7 +2,7 @@
 
 ## Seam chính không nằm trong app Windows
 
-Seam kiểm thử chính của Windows là **interop suite** `peekvn/interoperability/run.sh`: hai *tiến trình* độc lập nói cùng protocol. Một test in-process chỉ chứng minh mã nhất quán với chính nó; cái cần chứng minh là Windows nhất quán với `protocol/SPEC.md`, đúng cách mà rust-host và PeekKit đã phải chứng minh. Windows gia nhập suite đó ở [Ticket 03](https://github.com/natuan1/peek-window-doc/issues/4).
+Seam kiểm thử chính của Windows là **interop suite** `peekvn/interoperability/run.sh`: hai *tiến trình* độc lập nói cùng protocol. Một test in-process chỉ chứng minh mã nhất quán với chính nó; cái cần chứng minh là Windows nhất quán với `protocol/SPEC.md`, đúng cách mà rust-host và PeekKit đã phải chứng minh. Windows gia nhập suite đó ở [Ticket 03](https://github.com/natuan1/peekvn/issues/134).
 
 Ticket 01 chưa nói protocol nên chưa chạm được seam đó. Những gì có ở đây là **biên phụ**.
 
