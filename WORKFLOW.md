@@ -10,9 +10,14 @@ Issue/Spec → /implement → /update-doc → /code-review → ✓ Done
 
 ## Chi Tiết Từng Bước
 
-### 1. Issue/Spec trong `peek-window-doc` repo
+### 1. Issue/Spec trong `peekvn` repo
 
-Tạo issue hoặc spec trong repo https://github.com/natuan1/peek-window-doc với:
+> ⚠️ **Đổi từ 2026-09-17:** issue **không** còn nằm ở repo này. Toàn bộ đã
+> chuyển sang `peekvn` (commit `7972e7a`), nên repo tài liệu hiện có 0 issue mở.
+> Tracker là một chỗ duy nhất: **`peekvn`**. Repo này giữ *vì sao*
+> (`CONTEXT.md`, `adr/`, `lessons-learned.md`), không giữ *việc cần làm*.
+
+Tạo issue hoặc spec trong repo https://github.com/natuan1/peekvn với:
 - Mô tả tính năng
 - User stories
 - Implementation decisions
@@ -30,9 +35,9 @@ Skill này sẽ:
 - Tạo branch mới
 - Implement code theo spec
 - Chạy tests
-- Commit work vào app repo (peek-window)
+- Commit work vào repo mã nguồn (`peekvn`, nhánh `main`)
 
-**Output**: Code hoàn thành trong `peek-window` repo
+**Output**: Code hoàn thành trong `peekvn` repo
 
 ### 3. Update Documentation (NEW!)
 
@@ -105,7 +110,7 @@ Nếu:
 ### Issue được tạo
 ```
 Issue #5: Thêm authentication flow
-Repo: peek-window-doc
+Repo: peekvn
 ```
 
 ### Implement
