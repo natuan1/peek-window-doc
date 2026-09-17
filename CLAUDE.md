@@ -38,6 +38,22 @@ All responses, explanations, documentation updates, and communications from agen
 - CONTEXT.md updates
 
 ### Lessons Learned Protocol
+
+**Bài học có hai nửa. Nửa đọc đi trước nửa ghi.**
+
+#### Nửa 1 — ĐỌC, trước khi viết dòng mã đầu tiên (bắt buộc)
+
+Trước mỗi lần `/implement`, mở **cả hai** file bài học và đọc phần đầu:
+
+- `peekvn/docs/bai-hoc.md` — §Luật thường trực (5 họ lỗi lặp lại), rồi `git grep -n "^## " docs/bai-hoc.md` để quét tiêu đề tìm vùng sắp chạm.
+- `docs/lessons-learned.md` — ngắn, đọc hết.
+
+Một bài học khớp mà vẫn cố tình làm khác thì **phải nói ra lý do trong báo cáo**, không im lặng đi qua.
+
+**Vì sao luật này tồn tại:** trước 2026-09-16, mọi luật về bài học trong repo đều chỉ nói *ghi*. Hệ quả đo được: bài học 162 của `peekvn` phát minh lại y nguyên dấu hiệu nhận biết của bài học 2, sau 160 mục. Một file bài học chỉ-ghi là một file vô dụng — bài học là để rút kinh nghiệm cho lần sau, không phải học xong để đó.
+
+#### Nửa 2 — GHI, khi kết quả khác kỳ vọng
+
 **When a planned approach succeeds according to the plan, but the result doesn't match expectations, record the lesson in `docs/lessons-learned.md`.**
 
 This documents not failures, but surprising outcomes where:
@@ -69,36 +85,49 @@ This follows Andrej Karpathy's **LLM Wiki** pattern: documentation is not a side
 
 ### Feature Implementation Flow
 
-1. **Feature specification**: Issues in the `docs` repo describe what needs to be built
-2. **Implement**: Use `/implement` skill to code the feature in `peekvn\apps\windows\` (monorepo `peekvn`)
-   ```
-   /implement [spec/ticket]
-   ```
-3. **Update Documentation**: After code is done, automatically sync docs using `/update-doc` skill
-   ```
-   /update-doc
-   ```
-   This skill will:
-   - Read code changes from git diff
-   - Update `docs/CONTEXT.md` to reflect new state
-   - Create/update ADRs (Architecture Decision Records) if needed
-   - Record lessons learned if results surprised expectations
-   - Commit and push to `peek-window-doc` repo on GitHub
+**Một lệnh `/implement [ticket]` phải chạy hết chuỗi này.** Người dùng không phải gõ lệnh cho từng bước — agent tự đi tiếp, và chỉ dừng lại ở đúng hai chỗ có rào vật lý (§The Discipline).
 
-4. **Code Review**: Use `/code-review` to verify implementation matches spec
-   ```
-   /code-review
-   ```
-5. **Mark complete**: Issue is closed only after:
-   - Code is implemented ✓
-   - Documentation is updated ✓
-   - Code review passes ✓
+```
+/implement #N
+   │
+   ├─ 0. Đọc bài học ────────── peekvn/docs/bai-hoc.md §Luật thường trực + grep tiêu đề
+   │                            docs/lessons-learned.md
+   ├─ 1. Đọc spec ───────────── gh issue view N  (đừng tin danh sách chép trong markdown)
+   ├─ 2. Baseline xanh ──────── chạy test TRƯỚC khi sửa gì
+   ├─ 3. Implement ─────────── /tdd ở các seam đã thống nhất
+   ├─ 4. Nghiệm thu thật ───── chạy app/bộ cài thật, không chỉ test xanh (AGENTS.md §7.3)
+   ├─ 5. /code-review ──────── sửa phát hiện, hoặc nói rõ vì sao không sửa
+   ├─ 6. /update-doc ───────── CONTEXT.md + ADR + feature + bài học → push peek-window-doc
+   ├─ 7. commit + push nhánh ─ push là điều kiện để CI chạy, KHÔNG phải mở PR
+   ├─ 8. CI đạt ───────────── `apps\windows\ci\ci-run.ps1` — tự kích hoạt, tự
+   │                            theo dõi, tự đối chiếu commit. Không bấm tay.
+   └─ 9. Mở PR ────────────── chỉ khi 8 đạt
+```
+
+Issue chỉ được đóng khi **đủ cả năm**:
+
+- Code đã implement ✓
+- Đã nghiệm thu bằng cử chỉ người dùng thật ✓
+- Code review đã qua ✓
+- Tài liệu đã cập nhật và push ✓
+- **CI đạt trên nhánh đó** ✓ — và PR đã merge
 
 ### The Discipline
 
-**After completing any feature, you MUST run `/update-doc` before considering it done.**
+**"Xong" là hết bước 9, không phải hết bước 3.** Dừng ở `git commit` rồi báo xong là báo sai.
 
-The documentation must always reflect the true state of the application. If docs and code diverge, the feature is incomplete.
+**CI "đạt", không phải "xanh".** `ci-run.ps1` trả `0` SUCCESS, `2` UNSTABLE, `1` FAILURE. Mã 2 đi tiếp được **chỉ khi** xác minh được vàng là do bước treo đã biết (chưa ký số) — script tự đọc console để phân biệt với vàng-do-test-đỏ. Đòi xanh là chặn mọi ticket về sau vì một lý do không liên quan tới ticket nào: pipeline này không thể xanh cho tới khi có tài khoản Azure Trusted Signing.
+
+Chỉ có **hai lý do** được phép dừng lại hỏi người dùng:
+
+1. **Thiếu credential lần đầu** — `JENKINS_USER` / `JENKINS_TOKEN` chưa đặt trên máy. Một lần duy nhất, sau đó CI hoàn toàn tự động.
+2. **Tiêu chí treo vì thiếu phần cứng/tài khoản** — nói rõ treo cái gì, thiếu cái gì, và vì sao nó không chặn đường các ticket sau.
+
+**Không bao giờ bảo người dùng đi bấm một nút mà mình gọi được bằng API.** Gặp `401`/`403`, câu hỏi đúng là *"lấy khoá kiểu gì"*, không phải *"nhờ ai mở hộ"* — một mã lỗi xác thực là câu hỏi, không phải câu trả lời (bài học 165 của `peekvn`).
+
+Mọi bước còn lại agent tự đi. Nếu CI đỏ thì sửa rồi push lại — không mở PR trên một nhánh đang đỏ.
+
+Tài liệu phải luôn phản ánh đúng thực trạng mã. Docs lệch mã thì tính năng chưa xong.
 
 ## Project Status
 
@@ -107,16 +136,17 @@ The documentation must always reflect the true state of the application. If docs
 - **peek-window-doc**: https://github.com/natuan1/peek-window-doc — documentation & issues (`docs/` here is its local clone)
 - `docs/CONTEXT.md` written — domain language + verified decisions (2026-09-13)
 - Vietnamese triage labels created (2026-09-14), vocabulary aligned with the `peekvn` repo
-- [ADR-0001](adr/0001-brand-khac-service-mdns.md) — brand ≠ mDNS service name (2026-09-14)
+- [ADR-0001](docs/adr/0001-brand-khac-service-mdns.md) — brand ≠ mDNS service name (2026-09-14)
 
 ### Next Steps (order matters)
 
-1. ~~Spike Native AOT + Win32/Composition~~ ✅ **PASS 2026-09-14** — exe 3.05MB, working set 14.62MB, Composition OK under AOT ([ADR-0002](adr/0002-ui-stack-aot-spike-pass.md); primary source: `peekvn` branch `prototype/aot-footprint`).
-2. ~~Spike resumable upload (`104` over HTTP/1.1, real iPhone)~~ ✅ **PASS 2026-09-15** — CFNetwork xử lý nổi `104` giữa luồng h1 đến 50MB, 6/6 lượt `201`; advertise `resumableUpload: ["httpbis-interop-6"]`, server chỉ gửi `104` trên TLS ([ADR-0003](adr/0003-resumable-upload-104-h1-pass.md); primary source: `peekvn` branch `prototype/104-over-h1`).
+1. ~~Spike Native AOT + Win32/Composition~~ ✅ **PASS 2026-09-14** — exe 3.05MB, working set 14.62MB, Composition OK under AOT ([ADR-0002](docs/adr/0002-ui-stack-aot-spike-pass.md); primary source: `peekvn` branch `prototype/aot-footprint`).
+2. ~~Spike resumable upload (`104` over HTTP/1.1, real iPhone)~~ ✅ **PASS 2026-09-15** — CFNetwork xử lý nổi `104` giữa luồng h1 đến 50MB, 6/6 lượt `201`; advertise `resumableUpload: ["httpbis-interop-6"]`, server chỉ gửi `104` trên TLS ([ADR-0003](docs/adr/0003-resumable-upload-104-h1-pass.md); primary source: `peekvn` branch `prototype/104-over-h1`).
 3. ~~`/to-spec` → `/to-tickets` từ bản kế hoạch chi tiết~~ ✅ **Xong 2026-09-15** — [Spec #1](https://github.com/natuan1/peek-window-doc/issues/1) (đã sửa 5 điểm kế hoạch lệch sự thật: Kestrel→h1-only, `_ultp._tcp`→`_peek._tcp`, draft-12→interop-6, 3 thiết bị→5 Slot, WPF/WinUI 3→Win32+Composition) + **18 ticket tracer-bullet** [#2–#19](https://github.com/natuan1/peek-window-doc/issues/2), label `sẵn-sàng-cho-agent`.
-4. ~~Ticket 01 — skeleton Native AOT~~ ✅ **Xong và đã merge vào `main` của `peekvn` 2026-09-15** — 4 project, tray + bảng trạng thái + Per-Monitor V2, exe 1,69MB, RAM nền 12,51MB, 37 test xanh. Tài liệu: [ADR-0004](adr/0004-cau-truc-app-windows-bon-project.md) + [feature](features/nen-mong-app-windows/overview.md). **CI đã xanh** từ 2026-09-16 nhưng trên **Jenkins nội bộ**, không phải GitHub Actions ([ADR-0005](adr/0005-ci-cd-desktop-qua-jenkins-noi-bo.md)) — runner đám mây không có phiên đồ hoạ để chạy thử app khay. **Một tiêu chí còn treo có chủ ý**: nghiệm thu Windows 10 1809 hoãn tới khi có máy, ưu tiên Windows 11 trước; floor sản phẩm và `SupportedOSPlatformVersion` **không đổi**.
-5. Kế tiếp: **implement theo frontier** — Ticket 03 (#4, mở seam interop) và 04/05 (#5/#6, mDNS + server h1) chạy song song trên nền Ticket 01.
-6. Nợ vận hành: GitHub Actions vẫn tắt, nên **Rust/Swift/protocol không có hàng rào tự động nào** — chỉ app Windows có. Khôi phục khi thanh toán thông: bỏ chú thích hai khối `push`/`pull_request` ở đầu `peekvn/.github/workflows/ci.yml`.
+4. ~~Ticket 01 — skeleton Native AOT~~ ✅ **Xong và đã merge vào `main` của `peekvn` 2026-09-15** — 4 project, tray + bảng trạng thái + Per-Monitor V2, exe 1,69MB, RAM nền 12,51MB, 37 test xanh. Tài liệu: [ADR-0004](docs/adr/0004-cau-truc-app-windows-bon-project.md) + [feature](docs/features/nen-mong-app-windows/overview.md). **CI đã xanh** từ 2026-09-16 nhưng trên **Jenkins nội bộ**, không phải GitHub Actions ([ADR-0005](docs/adr/0005-ci-cd-desktop-qua-jenkins-noi-bo.md)) — runner đám mây không có phiên đồ hoạ để chạy thử app khay. **Một tiêu chí còn treo có chủ ý**: nghiệm thu Windows 10 1809 hoãn tới khi có máy, ưu tiên Windows 11 trước; floor sản phẩm và `SupportedOSPlatformVersion` **không đổi**.
+5. ~~Ticket 02 — bộ cài Velopack + ký số + auto-update delta~~ ✅ **Xong và đã merge vào `main` của `peekvn` 2026-09-17** ([PR #130](https://github.com/natuan1/peekvn/pull/130), CI build #14 trên `2beb4ef`) — bộ cài **10,02MB** cài `PerUser` không UAC, vòng kiểm cập nhật 4 giờ, gói vá delta 15% gói đầy đủ, 71 test. Tài liệu: [ADR-0006](docs/adr/0006-dong-goi-velopack-cai-peruser.md) + [feature](docs/features/dong-goi-va-tu-cap-nhat/overview.md). **Ba tiêu chí treo có chủ ý**: ký số Azure Trusted Signing, `signtool verify /pa /v`, SmartScreen trên máy sạch — cùng một lý do là chưa có **tài khoản Azure Trusted Signing**; đường ống đã dựng xong và đã ép đỏ ở nhánh "chưa ký", nên khi có tài khoản chỉ cần cắm secret rồi `ci-run.ps1 -Release`. **KPI hẹp lại**: Velopack ăn ~6MB exe và ~2,5MB RAM nền (exe 1,69→7,71MB, RAM 12,51→15,04MB) — đọc bảng số đo trong `peekvn/apps/windows/README.md` trước khi thêm thư viện thứ hai.
+6. Kế tiếp: **implement theo frontier** — Ticket 03 (#4, mở seam interop) và 04/05 (#5/#6, mDNS + server h1) chạy song song trên nền Ticket 01.
+7. Nợ vận hành: GitHub Actions vẫn tắt, nên **Rust/Swift/protocol không có hàng rào tự động nào** — chỉ app Windows có. Khôi phục khi thanh toán thông: bỏ chú thích hai khối `push`/`pull_request` ở đầu `peekvn/.github/workflows/ci.yml`.
 
 ## Folder Structure
 
