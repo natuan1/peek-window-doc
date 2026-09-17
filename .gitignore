@@ -1,0 +1,17 @@
+# Bí mật KHÔNG bao giờ vào repo này. Repo tài liệu là repo dễ quên nhất: nó
+# không có build, không có test, nên không có gì chặn một file lạc vào.
+#
+# `.env` của workspace cũ chứa JENKINS_API_TOKEN, và tới 2026-09-17 repo này
+# vẫn chưa có .gitignore nào — chỉ cần một lần `git add -A` ở sai thư mục là
+# token vào lịch sử git, chỗ không gỡ ra được.
+.env
+.env.*
+*.token
+*secret*
+
+# Rác của hệ điều hành và trình soạn thảo
+Thumbs.db
+desktop.ini
+.DS_Store
+.vscode/
+.idea/
