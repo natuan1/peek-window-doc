@@ -117,7 +117,7 @@ khoản cho tầng hạ tầng này, không chỉ cho mã giao thức.
 
 **Kế hoạch**: Ticket 04 mở discovery cho Windows. Bản Rust đã làm việc này rồi và
 làm kỹ — instance name mang dấu Device, hostname riêng `peek-<dấu>.local`, tự
-canh địa chỗ khi máy đổi IP. Kế hoạch là bê nguyên hình dạng ấy sang Windows,
+canh địa chỉ khi máy đổi IP. Kế hoạch là bê nguyên hình dạng ấy sang Windows,
 chỉ đổi thư viện mDNS bên dưới.
 
 **Kết quả thực tế**: phần bê nguyên chạy đúng như kế hoạch — và **bên kia không
