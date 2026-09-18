@@ -116,27 +116,35 @@ _Avoid_: telemetry, tracking
 - **Trạng thái Mí 1 "Gợi ý" GIỮ NGUYÊN** — không cần phương án dự phòng trong kế hoạch. Cơ chế khả thi không cần mouse hook: `SetWinEventHook` out-of-context nghe cửa sổ drag-image (`SysDragImage`) làm tín hiệu chính; xác nhận "đang kéo FILE" bằng một lần `OleGetClipboard` + `CFSTR_INDRAGLOOP` + `CF_HDROP`/`FileGroupDescriptorW`; polling 2 tầng làm fallback; strip mỏng luôn là drop target thật (magnet strip, không click-through, `WS_EX_NOACTIVATE`). Prior art đã ship: yeet, DropCast, Bytover, ShelfLife.
 - **Phạm vi mobile đi cùng Windows 1.0**: đổi thương hiệu + store-readiness (Apple trả phí $99/năm, App Group, dọn applicationId) + auto-accept toggle; text/url mobile để 1.1. (chốt 2026-09-13)
 
-## Thực trạng app Windows (2026-09-17)
+## Thực trạng app Windows (2026-09-18)
 
 Nền móng ([Ticket 01](https://github.com/natuan1/peekvn/issues/132)) đã **merge vào `main`** của `peekvn`. Bộ cài và tự cập nhật ([Ticket 02](https://github.com/natuan1/peekvn/issues/133)) cũng đã **merge vào `main`** (2026-09-17, [PR #130](https://github.com/natuan1/peekvn/pull/130)). Chi tiết: [Nền móng app Windows](features/nen-mong-app-windows/overview.md), [Đóng gói & tự cập nhật](features/dong-goi-va-tu-cap-nhat/overview.md).
 
-- **Bốn project** trong `peekvn/apps/windows/`: `Snappy.Shared` (DTO, đường dẫn), `Snappy.Interop` (biên Win32 duy nhất), `Snappy.Protocol` (ULTP — mới có generator fixture của SPEC §43, phần mDNS/server do Ticket 04/05 đắp vào), `Snappy.Core` (project duy nhất sinh exe) — xem [ADR-0004](adr/0004-cau-truc-app-windows-bon-project.md). Cạnh đó có `tools/Snappy.Harness`, một console exe **chỉ** dành cho interop suite, không thuộc sản phẩm.
+- **Bốn project** trong `peekvn/apps/windows/`: `Snappy.Shared` (DTO, đường dẫn), `Snappy.Interop` (biên Win32 duy nhất), `Snappy.Protocol` (ULTP — generator fixture SPEC §43, và từ Ticket 04 là mDNS + danh tính thiết bị; phần server do Ticket 05 đắp vào), `Snappy.Core` (project duy nhất sinh exe) — xem [ADR-0004](adr/0004-cau-truc-app-windows-bon-project.md). Cạnh đó có `tools/Snappy.Harness`, một console exe **chỉ** dành cho interop suite, không thuộc sản phẩm.
 - **Chạy được**: app chạy nền, icon khay hệ thống, bảng trạng thái nhỏ, menu Thoát dọn sạch tiến trình, chỉ một bản chạy mỗi người dùng.
 - **Cài và tự cập nhật được**: bộ cài Velopack cài `PerUser` vào `%LocalAppData%\Snappy\` không hỏi UAC; app tự tìm bản mới mỗi 4 giờ ở nền, tải **gói vá** chứ không tải lại bộ cài, và áp bản vá lúc mở lại app. Đã đi hết một lượt cài → cập nhật → gỡ bằng tay trên máy thật 2026-09-16. Xem [ADR-0006](adr/0006-dong-goi-velopack-cai-peruser.md).
 - **Số đo thật** (publish Native AOT, máy dev Windows 11):
 
-  | | Ticket 01 | Ticket 02 | KPI |
-  |---|---|---|---|
-  | **Bộ cài** | — | **10,02 MB** | **< 15 MB** |
-  | exe | 1,69 MB | 7,71 MB | không phải KPI |
-  | Working set lúc nghỉ | 12,51 MB | 15,04 MB | < 25 MB (red line 30 MB) |
-  | Gói vá | — | 1 MB đổi → 1,01 MB (15 % gói đầy đủ) | "chỉ tải gói vá nhỏ" |
+  | | Ticket 01 | Ticket 02 | Ticket 04 | KPI |
+  |---|---|---|---|---|
+  | **Bộ cài** | — | 10,02 MB | **10,18 MB** | **< 15 MB** |
+  | exe | 1,69 MB | 7,71 MB | 8,04 MB | không phải KPI |
+  | Working set lúc nghỉ | 12,51 MB | 15,04 MB | **17,84 MB** | < 25 MB (red line 30 MB) |
+  | Gói vá | — | 1 MB đổi → 1,01 MB (15 % gói đầy đủ) | như cũ | "chỉ tải gói vá nhỏ" |
 
   **Velopack ăn ~6 MB exe và ~2,5 MB RAM nền.** Đó là giá của tự-cập-nhật, trả một lần, và nó là thư viện *đầu tiên* của cả bốn project. Cả hai vẫn dưới KPI nhưng biên đã hẹp đi thật — mọi ticket sau nên đọc bảng này trước khi thêm thư viện thứ hai.
 
   **KPI 15 MB đã chuyển từ exe sang bộ cài.** Exe không nén, bộ cài thì có, và chỉ một trong hai là thứ người dùng tải về.
+
+  **Ticket 04 ăn thêm 2,8 MB RAM nền mà không thêm thư viện nào** — giá của `ECDsaCng` (danh tính thiết bị) cộng luồng callback của dnsapi. Biên còn lại tới red line là ~12 MB cho mười bốn ticket nữa, trong đó Mí (Ticket 10) mang theo cả Composition.
 - **Kiểm được liên tiến trình**: Windows đã gia nhập interop suite như implementation ULTP thứ ba ([Ticket 03](https://github.com/natuan1/peekvn/issues/134), 2026-09-17). `./interoperability/run.sh fixture` chạy cặp `rust-host ↔ windows`; đã khớp byte với Rust ở cả sáu mốc của SPEC §43, tới 4 GB. Đây là **seam kiểm thử chính** của app Windows — `tests/Snappy.Tests` chỉ là biên phụ. Xem [Seam interop cho Windows](features/seam-interop-windows/overview.md) và [ADR-0007](adr/0007-windows-gia-nhap-interop-suite.md).
-- **Chưa có**: mDNS, server ULTP, Mí, Shelf, ghép đôi, bản quyền — theo đúng thứ tự ticket. Vì vậy các cặp `transfer` và `tls-handshake` của interop suite vẫn chưa có phía Windows.
+- **Thấy được thiết bị lân cận**: Snappy quảng bá và duyệt `_peek._tcp` qua responder mDNS **có sẵn của Windows** (`dnsapi.dll`), dựng bảng thiết bị lân cận và hiện nó trên bảng trạng thái khay ([Ticket 04](https://github.com/natuan1/peekvn/issues/135), 2026-09-18, [PR #152](https://github.com/natuan1/peekvn/pull/152)). Máy cũng đã có **danh tính thiết bị** P-256 bền qua khởi động lại (SPEC §9.1), lưu trong kho khoá CNG. Chi tiết: [Discovery LAN trên Windows](features/discovery-lan-windows/overview.md) và [ADR-0008](adr/0008-discovery-qua-responder-in-box-windows.md).
+
+  Hai chỗ cố tình chưa làm: **không có cột nền tảng** (TXT của SPEC §8 đóng ở ba khoá; câu trả lời ở `GET /v1/info`, tức Ticket 05), và **peer rời bảng chỉ bằng timeout 120 giây** (chưa đo được dnsapi có chuyển bản ghi goodbye vào callback hay không). Cổng 8443 đang được quảng bá trước khi có server nghe ở đó — tiêu chí vì vậy dừng ở *"hai đầu **thấy** nhau"*, chưa phải *"nối được"*.
+
+  ⚠️ **Ràng buộc cho Ticket 05**: HĐH quảng bá mọi địa chỉ của tên máy, gồm cả IPv6, và app không chọn được tập ấy — server ULTP **bắt buộc nghe dual-stack**.
+- **Chưa có**: server ULTP, Mí, Shelf, ghép đôi, bản quyền — theo đúng thứ tự ticket. Vì vậy các cặp `transfer` và `tls-handshake` của interop suite vẫn chưa có phía Windows.
+- **Chưa nghiệm thu được, treo vì thiếu thiết bị**: demo discovery với **iPhone thật** — quy trình sáu bước đã viết ở `peekvn/interoperability/manual-ios.md`. Bằng chứng hiện có nói Snappy đúng với một stack độc lập (Rust), không nói nó đúng với Bonjour của Apple.
 - **Chưa nghiệm thu được, treo có chủ ý**: ký số Azure Trusted Signing (`signtool verify /pa /v` pass) và SmartScreen trên máy sạch. Đường ống ký số đã dựng xong và đã ép đỏ ở nhánh "chưa ký"; cái thiếu là **tài khoản Azure Trusted Signing**, không phải mã. Cũng chưa có **hạ tầng phát hành thật** — spec #1 đã đẩy hạ tầng web ra ngoài phạm vi, và cho tới khi có thì lượt kiểm cập nhật hỏng êm.
 
 ### Quyết định vận hành

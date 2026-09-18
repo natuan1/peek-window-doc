@@ -12,6 +12,7 @@ This folder contains documentation for each feature — user stories, workflows,
 | [Nền móng app Windows](nen-mong-app-windows/overview.md) | App chạy nền, icon khay, bảng trạng thái, thoát sạch; publish Native AOT ra một exe | ✅ Implement xong 2026-09-15 ([#132](https://github.com/natuan1/peekvn/issues/132)) |
 | [Đóng gói & tự cập nhật](dong-goi-va-tu-cap-nhat/overview.md) | Bộ cài Velopack user-space không UAC; tự tìm bản mới mỗi 4 giờ, tải gói vá delta, áp lúc mở lại app | ✅ Merge vào `main` 2026-09-17 ([#133](https://github.com/natuan1/peekvn/issues/133)) — ký số còn treo vì chưa có tài khoản Azure |
 | [Seam interop cho Windows](seam-interop-windows/overview.md) | Windows thành implementation ULTP thứ ba trong `interoperability/run.sh`: CLI fixture + cặp `rust-host ↔ windows` | ✅ Implement xong 2026-09-17 ([#134](https://github.com/natuan1/peekvn/issues/134)) |
+| [Discovery LAN trên Windows](discovery-lan-windows/overview.md) | Quảng bá và duyệt `_peek._tcp` qua responder in-box của Windows; bảng thiết bị lân cận trên bảng trạng thái | ✅ Implement xong 2026-09-18, **chờ demo iPhone thật** ([#135](https://github.com/natuan1/peekvn/issues/135)) |
 
 ---
 

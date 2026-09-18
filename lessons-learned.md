@@ -110,3 +110,42 @@ byte giữa hai công cụ; `run.sh` dò toolchain và in `BỎQUA` kèm lý do 
 giả định; và ba bài học (166, 167, 168) trong `peekvn/docs/bai-hoc.md`. Ticket
 sau nào đưa Snappy vào các cặp `transfer`/`tls-handshake` nên tính trước một
 khoản cho tầng hạ tầng này, không chỉ cho mã giao thức.
+
+---
+
+## [2026-09-18] Kế hoạch là "làm giống bản Rust" — và đúng chỗ giống nhất là chỗ hỏng
+
+**Kế hoạch**: Ticket 04 mở discovery cho Windows. Bản Rust đã làm việc này rồi và
+làm kỹ — instance name mang dấu Device, hostname riêng `peek-<dấu>.local`, tự
+canh địa chỗ khi máy đổi IP. Kế hoạch là bê nguyên hình dạng ấy sang Windows,
+chỉ đổi thư viện mDNS bên dưới.
+
+**Kết quả thực tế**: phần bê nguyên chạy đúng như kế hoạch — và **bên kia không
+resolve nổi**. Bản ghi PTR ra dây đầy đủ, tên hiện lên trong mọi công cụ duyệt,
+SRV có host có cổng, nhưng không có bản ghi A nào cho `peek-<dấu>.local`, nên
+không ai gõ cửa được. Truyền IPv4 tường minh cho API cũng không đổi gì: responder
+của Windows **chỉ** giữ bản ghi A cho tên máy của chính nó. Đổi sang
+`<tên máy>.local` là resolve đủ ngay lượt đầu, kèm cả IPv6.
+
+**Bài học**: giả định sai nằm ở chỗ coi "cùng giao thức" là "cùng cách làm". mDNS
+là một giao thức, nhưng *ai giữ bản ghi nào* là chính sách của từng
+implementation — và ở đây ta không tự giữ bản ghi, ta đi nhờ HĐH giữ hộ. Một
+tham số API nhận vào (`pIp4`) mà không quảng bá ra là hoàn toàn hợp lệ với người
+viết nó, chỉ vô lý với người đọc chữ ký hàm như một lời hứa.
+
+Dạng chung, và nó rộng hơn mDNS: **khi chuyển một thiết kế sang nền tảng mới, thứ
+đổ vỡ không phải phần khó — nó là phần đã làm xong ở nền tảng cũ**, vì đó đúng là
+phần không ai nghĩ phải đo lại. Ticket 03 đã nói gần y hệt về hạ tầng quanh mã;
+lần này là về chính mã.
+
+Một hệ quả nhỏ mà đắt: vì hostname không còn mang dấu Device, chỗ duy nhất phân
+biệt hai máy trùng tên là instance name — và vì tập địa chỉ do HĐH chọn (gồm cả
+IPv6), server của Ticket 05 buộc phải nghe dual-stack. Cả hai ràng buộc ấy sinh
+ra từ đúng một phép đo.
+
+**Hành động tiếp theo**: [ADR-0008](adr/0008-discovery-qua-responder-in-box-windows.md)
+ghi quyết định và bảng đo; ba vòng đo giữ ở nhánh `prototype/mdns-dnsapi` của
+`peekvn`; bài học 169 của `peekvn/docs/bai-hoc.md` ghi dấu hiệu nhận biết. Và một
+luật cho mọi phép đo mạng về sau: **luôn chạy một phép đối chứng cùng lúc** —
+trong ticket này, hai lần một kết quả rỗng suýt bị đọc thành "mã hỏng" trong khi
+thủ phạm là cái thước.
