@@ -110,7 +110,8 @@ Một hàng rào chưa bao giờ đỏ là một hàng rào chưa được chứ
 - **iPhone thật** — quy trình ở `peekvn/interoperability/manual-ios.md`. Bằng
   chứng hiện có nói Snappy đúng với một stack độc lập (Rust), **không** nói nó
   đúng với CFNetwork của Apple.
-- **Windows 10** — xem
-  [ADR-0009](../../adr/0009-tls-1-3-ghim-cung-thu-hep-san-he-dieu-hanh-thuc-te.md):
-  SChannel của Windows 10 không có TLS 1.3 theo tài liệu Microsoft, và chưa có
-  máy để đo. Đây là giả thuyết mạnh, không phải bằng chứng.
+- **Windows 10** — sàn đã nâng lên Windows 11 vì đúng lý do này
+  ([ADR-0009](../../adr/0009-tls-1-3-ghim-cung-thu-hep-san-he-dieu-hanh-thuc-te.md)),
+  nên nó không còn là tiêu chí nghiệm thu của Snappy. Vẫn còn treo **một** phép
+  đo: câu *"SChannel của Windows 10 không có TLS 1.3"* đến từ tài liệu Microsoft
+  chứ không từ phép đo của dự án. Có máy sạch thì đo — nếu sai, sàn quay lại được.

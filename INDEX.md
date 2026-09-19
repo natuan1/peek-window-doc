@@ -74,7 +74,7 @@ Why we made important decisions.
 - [0005-ci-cd-desktop-qua-jenkins-noi-bo.md](adr/0005-ci-cd-desktop-qua-jenkins-noi-bo.md) — CI/CD app desktop qua Jenkins nội bộ: runner đám mây không có phiên đồ hoạ để chạy thử app khay (2026-09-16)
 - [0006-dong-goi-velopack-cai-peruser.md](adr/0006-dong-goi-velopack-cai-peruser.md) — Đóng gói Velopack: cài `PerUser`, gốc cài trùng gốc dữ liệu, KPI 15MB chuyển sang bộ cài (2026-09-16)
 - [0007-windows-gia-nhap-interop-suite.md](adr/0007-windows-gia-nhap-interop-suite.md) — Windows gia nhập interop suite: Rust là oracle, phía vắng mặt in `BỎQUA` chứ không im lặng (2026-09-17)
-- [0009-tls-1-3-ghim-cung-thu-hep-san-he-dieu-hanh-thuc-te.md](adr/0009-tls-1-3-ghim-cung-thu-hep-san-he-dieu-hanh-thuc-te.md) — TLS 1.3 ghim cứng, không fallback: sàn HĐH *thực tế* của vai server thành Windows 11 (2026-09-19)
+- [0009-tls-1-3-ghim-cung-thu-hep-san-he-dieu-hanh-thuc-te.md](adr/0009-tls-1-3-ghim-cung-thu-hep-san-he-dieu-hanh-thuc-te.md) — TLS 1.3 ghim cứng, không fallback — và sàn hệ điều hành nâng từ Windows 10 1809 lên **Windows 11** (2026-09-19)
 - [0010-bang-nang-luc-khai-theo-hanh-vi-khong-theo-lo-trinh.md](adr/0010-bang-nang-luc-khai-theo-hanh-vi-khong-theo-lo-trinh.md) — Bảng năng lực khai theo hành vi hôm nay, không theo lộ trình; `CapabilityTruthTests` đối chiếu cả 12 dòng (2026-09-19)
 - [0008-discovery-qua-responder-in-box-windows.md](adr/0008-discovery-qua-responder-in-box-windows.md) — discovery qua `dnsapi.dll` của Windows; hostname trong SRV phải là tên máy thật vì HĐH chỉ giữ bản ghi A cho tên nó (2026-09-18)
 

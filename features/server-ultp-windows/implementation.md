@@ -99,14 +99,17 @@ bẫy này chỉ có ở dual-stack và không lộ ra ở một test chạy to�
 |---|---|---|---|
 | Bộ cài | 10,18 MB | **10,45 MB** | < 15 MB |
 | exe | 8,04 MB | 8,59 MB | — |
-| Working set lúc nghỉ | 17,84 MB | **19,39 MB** | < 25 MB |
-| Working set sau một request | — | **21,87 MB** | < 25 MB |
+| Working set lúc nghỉ | 17,84 MB | **18,89 MB** | < 25 MB |
+| Working set sau một request | — | **21,51 MB** | < 25 MB |
 
-**Con số 19,39 MB đã là con số sau một lần cắt.** Bản đầu dựng sẵn `HttpClient`
+**Con số 18,89 MB đã là con số sau một lần cắt.** Bản đầu dựng sẵn `HttpClient`
 của `PeerInfoProbe` trong constructor và cho **22,38 MB** — `SocketsHttpHandler`
 một mình **3,0 MB**, tiêu cho một máy chưa có hàng xóm nào để hỏi, tức trạng
 thái thường trực của một máy để bàn. Hoãn tới lần hỏi đầu tiên trả lại đúng 3 MB
 ấy. Ghi ở bài học **172** của `peekvn`.
 
-Biên tới KPI 25 MB còn ~5,6 MB lúc nghỉ và ~3,1 MB sau khi có kết nối, cho mười
+Biên tới KPI 25 MB còn ~6,1 MB lúc nghỉ và ~3,5 MB sau khi có kết nối, cho mười
 ba ticket nữa — trong đó Mí (Ticket 10) mang theo cả Composition.
+
+Số đo trên đo lại sau khi nâng TFM lên `net10.0-windows10.0.22000.0` (ADR-0009);
+bộ cài và exe không đổi, working set lúc nghỉ giảm nhẹ.

@@ -1,7 +1,8 @@
 # Server ULTP trên Windows — khung h1-only
 
 **Trạng thái:** ✅ Implement xong 2026-09-19 ([Ticket 05 / #136](https://github.com/natuan1/peekvn/issues/136))
-**Nghiệm thu còn treo:** demo với **iPhone thật**; nghiệm thu trên **Windows 10** (xem [ADR-0009](../../adr/0009-tls-1-3-ghim-cung-thu-hep-san-he-dieu-hanh-thuc-te.md))
+**Nghiệm thu còn treo:** demo với **iPhone thật**
+**Kéo theo:** sàn hệ điều hành đã nâng lên **Windows 11** ([ADR-0009](../../adr/0009-tls-1-3-ghim-cung-thu-hep-san-he-dieu-hanh-thuc-te.md))
 
 ## Tính năng này là gì
 

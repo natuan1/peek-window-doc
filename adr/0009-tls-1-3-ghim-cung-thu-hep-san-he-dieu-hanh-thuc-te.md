@@ -1,4 +1,4 @@
-# ADR-0009: TLS 1.3 ghim cứng — và nó thu hẹp sàn hệ điều hành *thực tế* của Snappy
+# ADR-0009: TLS 1.3 ghim cứng — và sàn hệ điều hành nâng lên Windows 11
 
 Date: 2026-09-19
 Status: Accepted
@@ -39,30 +39,53 @@ không phải một thuộc tính của hệ thống. Kèm một phép khẳng �
 handshake (`ssl.SslProtocol != Tls13` ⇒ đóng kết nối kèm dòng nhật ký): một
 thiết lập là một lời hứa, một phép kiểm mới là hàng rào.
 
-**Và ghi nhận hệ quả thay vì giấu nó:** sàn hệ điều hành *thực tế* cho **vai
-server** của Snappy là **Windows 11 / Server 2022**, không phải Windows 10 1809.
+**Và nâng sàn sản phẩm lên Windows 11 thay vì giấu hệ quả.**
 
-Sàn *sản phẩm* không đổi — 1809 vẫn là con số CONTEXT.md chốt, và
-`SupportedOSPlatformVersion` vẫn ghim 10.0.17763.0. Trên Windows 10, Snappy vẫn
-cài được, vẫn chạy nền, vẫn quảng bá và vẫn **thấy** thiết bị lân cận; chỉ
-không ai gõ cửa được nó.
+> 🔄 **Sửa 2026-09-19**, cùng ngày. Bản đầu của ADR này giữ sàn ở 1809 và chỉ
+> *ghi nhận* rằng sàn thực tế của vai server là Windows 11. Chủ repo quyết định
+> nâng hẳn sàn sản phẩm. Lý do bản đầu sai: một sàn sản phẩm mà tính năng cốt
+> lõi không chạy được ở đó không phải một sàn, nó là một lời hứa suông — và
+> người đọc `CONTEXT.md` sẽ đọc "1809" như một cam kết.
+
+`Directory.Build.props`:
+
+```xml
+<TargetFramework>net10.0-windows10.0.22000.0</TargetFramework>
+<SupportedOSPlatformVersion>10.0.22000.0</SupportedOSPlatformVersion>
+```
+
+📐 Hai số ấy **không** độc lập với nhau — đổi mỗi cái dưới là build đỏ ở cả sáu
+project: `NETSDK1135: SupportedOSPlatformVersion 10.0.22000.0 cannot be higher
+than TargetPlatformVersion 10.0.19041.0`. TFM 22000 là tập cha của 19041 nên
+không mất API nào cho Composition (Ticket 10) hay GSMTC (Ticket 15), và 📐 số đo
+sau khi đổi không xấu đi: exe 8,59 MB (như cũ), bộ cài 10,45 MB (như cũ),
+working set lúc nghỉ 18,89 MB (từ 19,39 MB).
 
 ## Consequences
 
-**Cái mất.** Trên Windows 10, Snappy rơi vào đúng hình dạng xấu nhất của
-discovery mà [ADR-0008](0008-discovery-qua-responder-in-box-windows.md) và bài
-học 55 của `peekvn` mô tả: máy hiện trong danh sách của iPhone, bấm vào thì
-timeout. Khác biệt quan trọng là lần này ta **biết trước**, nên nó là một câu
-chữ phải viết ra màn hình chứ không phải một lỗi phải đi tìm.
+**Cái mất — và nó là mất thật.** Windows 10 rơi khỏi thị trường của Snappy.
+Đó là một phần người dùng bị cắt bằng một dòng cấu hình, nên nó xứng đáng là
+một quyết định được ghi ra chứ không phải một hệ quả lặng lẽ của một `MUST` về
+crypto.
+
+Đổi lại: nếu **không** nâng sàn, cùng số người dùng ấy vẫn không dùng được
+Snappy — họ chỉ phát hiện ra muộn hơn, bằng một lượt gửi timeout, và với một
+lời hứa "hỗ trợ Windows 10" đã in trên trang tải về. Một sàn mà tính năng cốt
+lõi không chạy được ở đó không phải một sàn.
 
 **Cái được.** Không có đường nào để kênh rơi xuống 1.2, kể cả do một dòng cấu
-hình sửa nhầm sau này.
+hình sửa nhầm sau này. Và `CONTEXT.md` thôi mang một con số không còn đúng.
+
+**Việc kéo theo, chưa làm:** bộ cài phải **từ chối cài** trên máy dưới sàn kèm
+câu tiếng Việt nói rõ vì sao. Velopack có thiết lập cho việc này; nó thuộc
+Ticket 18 (độ bền + phát hành 1.0), và tới lúc đó thì trên Windows 10 người
+dùng cài được một app không nhận được kết nối nào — đúng hình dạng bài học 55,
+chỉ khác là ta đã biết và đã hẹn chỗ sửa.
 
 **Chưa nghiệm thu được, và nói rõ là chưa:** không có máy Windows 10 sạch để
 đo. Câu "TLS 1.3 không có trên Windows 10" ở đây đến từ **tài liệu Microsoft**,
 không từ một phép đo của dự án — nên nó là giả thuyết mạnh, không phải bằng
-chứng. Đúng theo quy tắc của CONTEXT.md §"Ưu tiên Windows 11": ghi ra, để treo,
-không đánh dấu xanh và cũng không im lặng bỏ qua.
+chứng. Nếu đo ra khác, sàn quay lại được mà không mất gì đã làm.
 
 **Việc phải làm trước 1.0**, và nó không thuộc Ticket 05:
 
@@ -71,9 +94,10 @@ không đánh dấu xanh và cũng không im lặng bỏ qua.
    phải phát hiện và nói thẳng với người dùng rằng máy này chỉ **gửi** được,
    chưa **nhận** được — bằng tiếng Việt, kèm việc phải làm. Một câu ở onboarding
    rẻ hơn nhiều so với để họ tự phát hiện bằng một lượt gửi timeout.
-3. Hoặc chủ repo quyết định nâng sàn sản phẩm lên Windows 11. Đó là một quyết
-   định về thị trường, không phải về mã — nên nó thuộc về chủ repo, và ADR này
-   chỉ đặt nó lên bàn.
+3. ~~Hoặc chủ repo quyết định nâng sàn sản phẩm lên Windows 11.~~ ✅ **Đã chọn
+   đường này, 2026-09-19.** Nên mục 2 ở trên đổi nghĩa: Ticket 17 không phải
+   nói với người dùng Windows 10 rằng họ chỉ gửi được — bộ cài chỉ cần **từ
+   chối cài** trên máy dưới sàn, kèm câu tiếng Việt nói rõ vì sao.
 
 ## Đã đo được (2026-09-19, bản AOT thật, máy dev Windows 11)
 

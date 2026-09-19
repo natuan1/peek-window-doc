@@ -23,7 +23,7 @@ Status: Accepted
 
 **Cửa sổ tĩnh vẽ bằng GDI; Composition dành riêng cho Mí.** Bảng trạng thái là bốn dòng chữ không animation — kéo cả `DispatcherQueue` vào để tô nó là trả giá bằng RAM nền, thứ đang bị KPI 25MB soi.
 
-**Không khai `activeCodePage` UTF-8 trong manifest**: nó chỉ có từ Windows 10 1903, còn floor là 1809 — trên 1809 nó bị bỏ qua lặng lẽ. App gọi toàn API `*W` nên không cần tới nó.
+**Không khai `activeCodePage` UTF-8 trong manifest**: nó chỉ có từ Windows 10 1903, còn floor lúc đó là 1809 — trên 1809 nó bị bỏ qua lặng lẽ. App gọi toàn API `*W` nên không cần tới nó. *(Sàn đã nâng lên Windows 11 ngày 2026-09-19 — [ADR-0009](0009-tls-1-3-ghim-cung-thu-hep-san-he-dieu-hanh-thuc-te.md) — nên lý do "1903" hết hiệu lực; lý do còn lại, "app gọi toàn API `*W`", vẫn đủ.)
 
 ## Consequences
 
