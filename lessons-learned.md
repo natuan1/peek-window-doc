@@ -149,3 +149,58 @@ ghi quyết định và bảng đo; ba vòng đo giữ ở nhánh `prototype/mdn
 luật cho mọi phép đo mạng về sau: **luôn chạy một phép đối chứng cùng lúc** —
 trong ticket này, hai lần một kết quả rỗng suýt bị đọc thành "mã hỏng" trong khi
 thủ phạm là cái thước.
+
+---
+
+## [2026-09-19] Kế hoạch là "dựng khung server" — và hai thứ tốn nhất không phải khung
+
+**Kế hoạch**: Ticket 05 dựng khung server ULTP cho Snappy: `TcpListener` +
+`SslStream`, router HTTP/1.1 tự viết, `GET /v1/info`. Phần khó dự kiến nằm ở bộ
+phân tích HTTP tự viết — chỗ duy nhất phải đúng theo RFC mà không có thư viện
+đỡ.
+
+**Kết quả thực tế**: bộ phân tích đúng là phần dễ kiểm nhất — mỗi luật RFC là
+một dòng `[InlineData]`, và nó xanh gần như ngay. Hai thứ tốn nhất nằm ngoài
+tầm nhìn của kế hoạch, và cả hai đều là **một tầng bên dưới thứ đang viết**:
+
+1. **SChannel không nhận certificate mang khoá tạm.** `CreateSelfSigned` trả về
+   một certificate ký được ngay trong tiến trình, nên mọi phép thử ở tầng mã đều
+   nói nó tốt. Nhưng SChannel tìm khoá riêng qua thuộc tính
+   `CERT_KEY_PROV_INFO` của certificate, không qua đối tượng .NET đang cầm nó —
+   và câu lỗi nó ném ra (*"The credentials supplied to the package were not
+   recognized"*) không nhắc một chữ nào tới khoá.
+
+2. **`System.Uri` nuốt zone của IPv6.** 📐 `new Uri("https://[fe80::1%7]:…")`
+   cho ra host `fe80::1`. Không ngoại lệ, không cờ nào bảo nó giữ. Mà 4 trong 5
+   địa chỉ Snappy quảng bá là IPv6, và máy dev có ba giao diện mạng.
+
+Và một thứ thứ ba, không phải lỗi mà là một cái giá không ai tính: **một dòng
+`new HttpClient()` trong constructor ăn 3,0 MB working set** — hơn một nửa biên
+còn lại của KPI 25 MB, tiêu cho một máy chưa nghe thấy hàng xóm nào.
+
+**Bài học**: giả định sai nằm ở chỗ đo "độ khó" bằng **lượng mã phải viết**.
+Bộ phân tích HTTP là 280 dòng mã của ta, nên nó *trông* khó — và chính vì nó là
+mã của ta nên nó cũng là phần duy nhất ta kiểm được trọn vẹn. Ba chỗ đắt ở trên
+đều là **một dòng gọi vào thứ người khác viết**, nơi chữ ký hàm là tất cả những
+gì ta thấy, và hành vi thật chỉ lộ ra lúc chạy.
+
+Dạng chung, và nó nối thẳng với bài học của Ticket 04 (*"thứ đổ vỡ không phải
+phần khó — nó là phần đã làm xong ở nền tảng cũ"*): **rủi ro không tỉ lệ với
+lượng mã, nó tỉ lệ với số biên giới đi qua.** Mỗi lời gọi ra ngoài là một chỗ
+lời hứa (chữ ký hàm, tài liệu) có thể lệch khỏi hành vi, và không phép đọc mã
+nào phát hiện được — chỉ một phép chạy thật.
+
+Một hệ quả nhỏ mà đáng giữ: cả ba đều bị bắt bởi **cùng một loại phép thử** —
+chạy thứ thật, đo bằng công cụ bên ngoài. Certificate lộ ra ở lần
+`AuthenticateAsServerAsync` đầu tiên trong test; zone IPv6 lộ ra vì có một
+assertion viết ra để *khẳng định nó còn nguyên* (và nó đỏ ngay); 3 MB lộ ra vì
+`Get-Process` trên bản AOT thật, không trên `dotnet run`.
+
+**Hành động tiếp theo**: [ADR-0009](adr/0009-tls-1-3-ghim-cung-thu-hep-san-he-dieu-hanh-thuc-te.md)
+ghi quyết định TLS 1.3 ghim cứng và hệ quả về sàn HĐH;
+[ADR-0010](adr/0010-bang-nang-luc-khai-theo-hanh-vi-khong-theo-lo-trinh.md) ghi
+luật khai capability theo hành vi; bài học **171** và **172** của
+`peekvn/docs/bai-hoc.md` ghi dấu hiệu nhận biết của hai chỗ trên. Và một luật
+cho các ticket sau: **mỗi thư viện hoặc API hệ thống mới đưa vào phải kèm một
+con số RAM đo trên bản AOT thật**, ghi vào bảng số đo của
+`apps/windows/README.md` — biên tới KPI giờ chỉ còn ~3 MB sau khi có kết nối.

@@ -116,7 +116,7 @@ _Avoid_: telemetry, tracking
 - **Trạng thái Mí 1 "Gợi ý" GIỮ NGUYÊN** — không cần phương án dự phòng trong kế hoạch. Cơ chế khả thi không cần mouse hook: `SetWinEventHook` out-of-context nghe cửa sổ drag-image (`SysDragImage`) làm tín hiệu chính; xác nhận "đang kéo FILE" bằng một lần `OleGetClipboard` + `CFSTR_INDRAGLOOP` + `CF_HDROP`/`FileGroupDescriptorW`; polling 2 tầng làm fallback; strip mỏng luôn là drop target thật (magnet strip, không click-through, `WS_EX_NOACTIVATE`). Prior art đã ship: yeet, DropCast, Bytover, ShelfLife.
 - **Phạm vi mobile đi cùng Windows 1.0**: đổi thương hiệu + store-readiness (Apple trả phí $99/năm, App Group, dọn applicationId) + auto-accept toggle; text/url mobile để 1.1. (chốt 2026-09-13)
 
-## Thực trạng app Windows (2026-09-18)
+## Thực trạng app Windows (2026-09-19)
 
 Nền móng ([Ticket 01](https://github.com/natuan1/peekvn/issues/132)) đã **merge vào `main`** của `peekvn`. Bộ cài và tự cập nhật ([Ticket 02](https://github.com/natuan1/peekvn/issues/133)) cũng đã **merge vào `main`** (2026-09-17, [PR #130](https://github.com/natuan1/peekvn/pull/130)). Chi tiết: [Nền móng app Windows](features/nen-mong-app-windows/overview.md), [Đóng gói & tự cập nhật](features/dong-goi-va-tu-cap-nhat/overview.md).
 
@@ -125,25 +125,35 @@ Nền móng ([Ticket 01](https://github.com/natuan1/peekvn/issues/132)) đã **m
 - **Cài và tự cập nhật được**: bộ cài Velopack cài `PerUser` vào `%LocalAppData%\Snappy\` không hỏi UAC; app tự tìm bản mới mỗi 4 giờ ở nền, tải **gói vá** chứ không tải lại bộ cài, và áp bản vá lúc mở lại app. Đã đi hết một lượt cài → cập nhật → gỡ bằng tay trên máy thật 2026-09-16. Xem [ADR-0006](adr/0006-dong-goi-velopack-cai-peruser.md).
 - **Số đo thật** (publish Native AOT, máy dev Windows 11):
 
-  | | Ticket 01 | Ticket 02 | Ticket 04 | KPI |
-  |---|---|---|---|---|
-  | **Bộ cài** | — | 10,02 MB | **10,18 MB** | **< 15 MB** |
-  | exe | 1,69 MB | 7,71 MB | 8,04 MB | không phải KPI |
-  | Working set lúc nghỉ | 12,51 MB | 15,04 MB | **17,84 MB** | < 25 MB (red line 30 MB) |
-  | Gói vá | — | 1 MB đổi → 1,01 MB (15 % gói đầy đủ) | như cũ | "chỉ tải gói vá nhỏ" |
+  | | Ticket 01 | Ticket 02 | Ticket 04 | Ticket 05 | KPI |
+  |---|---|---|---|---|---|
+  | **Bộ cài** | — | 10,02 MB | 10,18 MB | **10,45 MB** | **< 15 MB** |
+  | exe | 1,69 MB | 7,71 MB | 8,04 MB | 8,59 MB | không phải KPI |
+  | Working set lúc nghỉ | 12,51 MB | 15,04 MB | 17,84 MB | **19,39 MB** | < 25 MB (red line 30 MB) |
+  | Working set sau một request | — | — | — | **21,87 MB** | như trên |
+  | Gói vá | — | 1 MB đổi → 1,01 MB (15 % gói đầy đủ) | như cũ | như cũ | "chỉ tải gói vá nhỏ" |
 
   **Velopack ăn ~6 MB exe và ~2,5 MB RAM nền.** Đó là giá của tự-cập-nhật, trả một lần, và nó là thư viện *đầu tiên* của cả bốn project. Cả hai vẫn dưới KPI nhưng biên đã hẹp đi thật — mọi ticket sau nên đọc bảng này trước khi thêm thư viện thứ hai.
 
   **KPI 15 MB đã chuyển từ exe sang bộ cài.** Exe không nén, bộ cài thì có, và chỉ một trong hai là thứ người dùng tải về.
 
-  **Ticket 04 ăn thêm 2,8 MB RAM nền mà không thêm thư viện nào** — giá của `ECDsaCng` (danh tính thiết bị) cộng luồng callback của dnsapi. Biên còn lại tới red line là ~12 MB cho mười bốn ticket nữa, trong đó Mí (Ticket 10) mang theo cả Composition.
+  **Ticket 04 ăn thêm 2,8 MB RAM nền mà không thêm thư viện nào** — giá của `ECDsaCng` (danh tính thiết bị) cộng luồng callback của dnsapi.
+
+  **Ticket 05 ăn thêm 1,55 MB RAM nền và 0,55 MB exe**, cũng không thêm thư viện nào — giá của TLS, server và JSON. Nhưng con số 19,39 MB ấy **đã là con số sau một lần cắt**: bản đầu dựng sẵn `HttpClient` của `PeerInfoProbe` lúc khởi động và cho 22,38 MB, tức `SocketsHttpHandler` một mình **3,0 MB** tiêu cho một máy chưa có hàng xóm nào để hỏi. Biên tới KPI 25 MB giờ còn ~5,6 MB lúc nghỉ và ~3,1 MB sau khi có kết nối, cho mười ba ticket nữa — trong đó Mí (Ticket 10) mang theo cả Composition. **Đây là con số phải nhìn trước khi viết dòng mã đầu tiên của Ticket 06.**
 - **Kiểm được liên tiến trình**: Windows đã gia nhập interop suite như implementation ULTP thứ ba ([Ticket 03](https://github.com/natuan1/peekvn/issues/134), 2026-09-17). `./interoperability/run.sh fixture` chạy cặp `rust-host ↔ windows`; đã khớp byte với Rust ở cả sáu mốc của SPEC §43, tới 4 GB. Đây là **seam kiểm thử chính** của app Windows — `tests/Snappy.Tests` chỉ là biên phụ. Xem [Seam interop cho Windows](features/seam-interop-windows/overview.md) và [ADR-0007](adr/0007-windows-gia-nhap-interop-suite.md).
 - **Thấy được thiết bị lân cận**: Snappy quảng bá và duyệt `_peek._tcp` qua responder mDNS **có sẵn của Windows** (`dnsapi.dll`), dựng bảng thiết bị lân cận và hiện nó trên bảng trạng thái khay ([Ticket 04](https://github.com/natuan1/peekvn/issues/135), 2026-09-18, [PR #152](https://github.com/natuan1/peekvn/pull/152)). Máy cũng đã có **danh tính thiết bị** P-256 bền qua khởi động lại (SPEC §9.1), lưu trong kho khoá CNG. Chi tiết: [Discovery LAN trên Windows](features/discovery-lan-windows/overview.md) và [ADR-0008](adr/0008-discovery-qua-responder-in-box-windows.md).
 
-  Hai chỗ cố tình chưa làm: **không có cột nền tảng** (TXT của SPEC §8 đóng ở ba khoá; câu trả lời ở `GET /v1/info`, tức Ticket 05), và **peer rời bảng chỉ bằng timeout 120 giây** (chưa đo được dnsapi có chuyển bản ghi goodbye vào callback hay không). Cổng 8443 đang được quảng bá trước khi có server nghe ở đó — tiêu chí vì vậy dừng ở *"hai đầu **thấy** nhau"*, chưa phải *"nối được"*.
+  Một chỗ cố tình chưa làm còn lại: **peer rời bảng chỉ bằng timeout 120 giây** (chưa đo được dnsapi có chuyển bản ghi goodbye vào callback hay không).
+- **Nhận được kết nối**: từ [Ticket 05](https://github.com/natuan1/peekvn/issues/136) (2026-09-19) Snappy mở cổng **8443**, nói **TLS 1.3** (ALPN chỉ `http/1.1`, certificate self-signed P-256 bền qua khởi động lại), có **router HTTP/1.1 tự viết** và trả lời `GET /v1/info` đúng `device-info.schema.json`. Chi tiết: [Server ULTP trên Windows](features/server-ultp-windows/overview.md).
 
-  ⚠️ **Ràng buộc cho Ticket 05**: HĐH quảng bá mọi địa chỉ của tên máy, gồm cả IPv6, và app không chọn được tập ấy — server ULTP **bắt buộc nghe dual-stack**.
-- **Chưa có**: server ULTP, Mí, Shelf, ghép đôi, bản quyền — theo đúng thứ tự ticket. Vì vậy các cặp `transfer` và `tls-handshake` của interop suite vẫn chưa có phía Windows.
+  Server nghe **dual-stack** — ràng buộc bắt buộc, không phải sở thích: HĐH quảng bá mọi địa chỉ của tên máy (📐 1 IPv4 + 4 IPv6) và app không chọn được tập ấy, nên bind mỗi `0.0.0.0` là mời peer gõ cửa năm địa chỉ mà chỉ nhận ở một.
+
+  **Bảng thiết bị lân cận giờ có cột nền tảng**, và nó tới từ `GET /v1/info` chứ không từ TXT (TXT của SPEC §8 đóng ở ba khoá). Hệ quả có ích ngoài dự tính: **ô trống của cột ấy là một phép đo** — nó phân biệt "nghe thấy" với "tới được", hai chuyện mDNS không phân biệt nổi.
+
+  ⚠️ **Bảng năng lực hôm nay khai gần như toàn `false`** — cố ý, xem [ADR-0010](adr/0010-bang-nang-luc-khai-theo-hanh-vi-khong-theo-lo-trinh.md). Router chưa có `/v1/transfers` nên khai `pushReceiver: true` là mời iPhone gửi file tới một địa chỉ trả `404`. Ticket 07/08/09 lật từng cờ cùng lúc với route của nó, và `CapabilityTruthTests` đỏ nếu quên.
+
+  ⚠️ **TLS 1.3 ghim cứng thu hẹp sàn HĐH *thực tế* của vai server xuống Windows 11** — SChannel của Windows 10 không có TLS 1.3. Sàn *sản phẩm* không đổi; xem [ADR-0009](adr/0009-tls-1-3-ghim-cung-thu-hep-san-he-dieu-hanh-thuc-te.md).
+- **Chưa có**: Mí, Shelf, ghép đôi, truyền file, bản quyền — theo đúng thứ tự ticket. Vì vậy các cặp `transfer` và `tls-handshake` của interop suite vẫn chưa có phía Windows.
 - **Chưa nghiệm thu được, treo vì thiếu thiết bị**: demo discovery với **iPhone thật** — quy trình sáu bước đã viết ở `peekvn/interoperability/manual-ios.md`. Bằng chứng hiện có nói Snappy đúng với một stack độc lập (Rust), không nói nó đúng với Bonjour của Apple.
 - **Chưa nghiệm thu được, treo có chủ ý**: ký số Azure Trusted Signing (`signtool verify /pa /v` pass) và SmartScreen trên máy sạch. Đường ống ký số đã dựng xong và đã ép đỏ ở nhánh "chưa ký"; cái thiếu là **tài khoản Azure Trusted Signing**, không phải mã. Cũng chưa có **hạ tầng phát hành thật** — spec #1 đã đẩy hạ tầng web ra ngoài phạm vi, và cho tới khi có thì lượt kiểm cập nhật hỏng êm.
 
