@@ -14,6 +14,7 @@ This folder contains documentation for each feature — user stories, workflows,
 | [Seam interop cho Windows](seam-interop-windows/overview.md) | Windows thành implementation ULTP thứ ba trong `interoperability/run.sh`: CLI fixture + cặp `rust-host ↔ windows` | ✅ Implement xong 2026-09-17 ([#134](https://github.com/natuan1/peekvn/issues/134)) |
 | [Discovery LAN trên Windows](discovery-lan-windows/overview.md) | Quảng bá và duyệt `_peek._tcp` qua responder in-box của Windows; bảng thiết bị lân cận trên bảng trạng thái | ✅ Implement xong 2026-09-18, **chờ demo iPhone thật** ([#135](https://github.com/natuan1/peekvn/issues/135)) |
 | [Server ULTP trên Windows](server-ultp-windows/overview.md) | Khung server h1-only: TLS 1.3 trên 8443 nghe dual-stack, router HTTP/1.1 tự viết, `GET /v1/info`, cột nền tảng của bảng thiết bị | ✅ Implement xong 2026-09-19, **chờ demo iPhone thật** + nghiệm thu Windows 10 ([#136](https://github.com/natuan1/peekvn/issues/136)) |
+| [Ghép đôi SAS trên Windows](ghep-doi-sas-windows/overview.md) | Hai màn hình hiện cùng sáu chữ số, người thật so rồi bấm; Trust Store bền qua khởi động lại; mọi kết nối sau ghim SPKI và xác thực hai chiều | ✅ Implement xong 2026-09-19, **chờ demo iPhone thật** ([#137](https://github.com/natuan1/peekvn/issues/137)) |
 
 ---
 

@@ -24,6 +24,8 @@ Architecture Decision Records (ADRs) document significant decisions and their ra
 | [0008](0008-discovery-qua-responder-in-box-windows.md) | Discovery đi qua responder in-box của Windows, và hostname phải là tên máy thật | Accepted | 2026-09-18 |
 | [0009](0009-tls-1-3-ghim-cung-thu-hep-san-he-dieu-hanh-thuc-te.md) | TLS 1.3 ghim cứng — và sàn hệ điều hành nâng lên Windows 11 | Accepted | 2026-09-19 |
 | [0010](0010-bang-nang-luc-khai-theo-hanh-vi-khong-theo-lo-trinh.md) | Bảng năng lực khai theo **hành vi hôm nay**, không theo lộ trình | Accepted | 2026-09-19 |
+| [0011](0011-ghep-doi-khong-tu-confirm-responder-cho-nguoi-dung-cuc-bo.md) | Ghép đôi **không tự confirm** — responder giữ request mở chờ người dùng cục bộ | Accepted | 2026-09-19 |
+| [0012](0012-cap-harness-do-hanh-vi-nen-tang-phai-chay-cho-tung-tls-stack.md) | Cặp harness đo **hành vi nền tảng** phải chạy cho từng TLS stack | Accepted | 2026-09-19 |
 
 ---
 

@@ -153,7 +153,18 @@ Nền móng ([Ticket 01](https://github.com/natuan1/peekvn/issues/132)) đã **m
   ⚠️ **Bảng năng lực hôm nay khai gần như toàn `false`** — cố ý, xem [ADR-0010](adr/0010-bang-nang-luc-khai-theo-hanh-vi-khong-theo-lo-trinh.md). Router chưa có `/v1/transfers` nên khai `pushReceiver: true` là mời iPhone gửi file tới một địa chỉ trả `404`. Ticket 07/08/09 lật từng cờ cùng lúc với route của nó, và `CapabilityTruthTests` đỏ nếu quên.
 
   ⚠️ **TLS 1.3 ghim cứng thu hẹp sàn HĐH *thực tế* của vai server xuống Windows 11** — SChannel của Windows 10 không có TLS 1.3. Sàn *sản phẩm* không đổi; xem [ADR-0009](adr/0009-tls-1-3-ghim-cung-thu-hep-san-he-dieu-hanh-thuc-te.md).
-- **Chưa có**: Mí, Shelf, ghép đôi, truyền file, bản quyền — theo đúng thứ tự ticket. Vì vậy các cặp `transfer` và `tls-handshake` của interop suite vẫn chưa có phía Windows.
+- **Ghép đôi được**: từ [Ticket 06](https://github.com/natuan1/peekvn/issues/137) (2026-09-19) Snappy nhớ được một thiết bị. Hai màn hình hiện **cùng sáu chữ số**, người thật so rồi bấm ở cả hai máy; sau đó SPKI được ghim vào Trust Store bền qua khởi động lại, và mọi kết nối sau **xác thực hai chiều**. Chi tiết: [Ghép đôi SAS trên Windows](features/ghep-doi-sas-windows/overview.md).
+
+  Phần mật mã đối chiếu với **vector do bản Rust sinh ra**, không với chính nó: một transcript sai *nhất quán* vẫn cho ra sáu chữ số trông hoàn hảo, và nó chỉ hỏng ở chỗ iPhone hiện một con số khác.
+
+  ⚠️ **`confirmed: true` trên dây là quyết định của người dùng BÊN KIA**, nên nó không đủ — responder còn chờ người ngồi trước máy này, và hết hạn tính là *từ chối*. Xem [ADR-0011](adr/0011-ghep-doi-khong-tu-confirm-responder-cho-nguoi-dung-cuc-bo.md).
+
+  📐 **Ràng buộc kênh đo được bằng một MITM thật**: gỡ `responderTLSSPKI` khỏi transcript thì dưới một kẻ đứng giữa hoàn chỉnh, hai đầu tính ra **cùng một** SAS (`203235`) — người dùng làm đúng mọi thứ và vẫn cấp phép cho kẻ tấn công.
+
+  📐 **SChannel *có* verify chữ ký handshake**, đo bằng nhánh `windows` mới của cặp `tls-handshake`. ADR-0014 của `peekvn` kết luận điều tương tự cho `URLSession` và nói thẳng rằng kết luận ấy MUST NOT mang sang nền tảng khác mà không đo lại — xem [ADR-0012](adr/0012-cap-harness-do-hanh-vi-nen-tang-phai-chay-cho-tung-tls-stack.md).
+
+  ⚠️ **Người dùng Windows chưa có chỗ bấm để quên một thiết bị.** `DELETE /v1/pairings/{deviceId}` đòi session token và một peer chỉ gỡ được chính nó, nên với một chiếc điện thoại đã mất thì chưa có đường gỡ. Việc của ticket sau.
+- **Chưa có**: Mí, Shelf, truyền file, bản quyền — theo đúng thứ tự ticket. Cặp `transfer` của interop suite vẫn chưa có phía Windows; cặp `tls-handshake` thì **đã có** từ Ticket 06.
 - **Chưa nghiệm thu được, treo vì thiếu thiết bị**: demo discovery với **iPhone thật** — quy trình sáu bước đã viết ở `peekvn/interoperability/manual-ios.md`. Bằng chứng hiện có nói Snappy đúng với một stack độc lập (Rust), không nói nó đúng với Bonjour của Apple.
 - **Chưa nghiệm thu được, treo có chủ ý**: ký số Azure Trusted Signing (`signtool verify /pa /v` pass) và SmartScreen trên máy sạch. Đường ống ký số đã dựng xong và đã ép đỏ ở nhánh "chưa ký"; cái thiếu là **tài khoản Azure Trusted Signing**, không phải mã. Cũng chưa có **hạ tầng phát hành thật** — spec #1 đã đẩy hạ tầng web ra ngoài phạm vi, và cho tới khi có thì lượt kiểm cập nhật hỏng êm.
 

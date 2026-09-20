@@ -51,6 +51,7 @@ Feature-by-feature breakdown.
   - [Seam interop cho Windows](features/seam-interop-windows/overview.md) — Windows thành implementation ULTP thứ ba trong interop suite, cặp `rust-host ↔ windows` (✅ 2026-09-17)
   - [Discovery LAN trên Windows](features/discovery-lan-windows/overview.md) — quảng bá và duyệt `_peek._tcp` qua responder in-box của Windows, bảng thiết bị lân cận (✅ 2026-09-18, chờ demo iPhone thật)
   - [Server ULTP trên Windows](features/server-ultp-windows/overview.md) — TLS 1.3 trên 8443, router HTTP/1.1 tự viết, `GET /v1/info`, cột nền tảng (✅ 2026-09-19, chờ demo iPhone thật)
+  - [Ghép đôi SAS trên Windows](features/ghep-doi-sas-windows/overview.md) — sáu chữ số trên hai màn hình, Trust Store bền, xác thực hai chiều (✅ 2026-09-19, chờ demo iPhone thật)
   - Cấu trúc mỗi feature:
     - Overview (scope, user stories)
     - Workflow (step-by-step)
@@ -76,6 +77,8 @@ Why we made important decisions.
 - [0007-windows-gia-nhap-interop-suite.md](adr/0007-windows-gia-nhap-interop-suite.md) — Windows gia nhập interop suite: Rust là oracle, phía vắng mặt in `BỎQUA` chứ không im lặng (2026-09-17)
 - [0009-tls-1-3-ghim-cung-thu-hep-san-he-dieu-hanh-thuc-te.md](adr/0009-tls-1-3-ghim-cung-thu-hep-san-he-dieu-hanh-thuc-te.md) — TLS 1.3 ghim cứng, không fallback — và sàn hệ điều hành nâng từ Windows 10 1809 lên **Windows 11** (2026-09-19)
 - [0010-bang-nang-luc-khai-theo-hanh-vi-khong-theo-lo-trinh.md](adr/0010-bang-nang-luc-khai-theo-hanh-vi-khong-theo-lo-trinh.md) — Bảng năng lực khai theo hành vi hôm nay, không theo lộ trình; `CapabilityTruthTests` đối chiếu cả 12 dòng (2026-09-19)
+- [0011-ghep-doi-khong-tu-confirm-responder-cho-nguoi-dung-cuc-bo.md](adr/0011-ghep-doi-khong-tu-confirm-responder-cho-nguoi-dung-cuc-bo.md) — `confirmed: true` trên dây là quyết định của người dùng BÊN KIA; responder còn chờ người ngồi trước máy này, và hết hạn tính là từ chối (2026-09-19)
+- [0012-cap-harness-do-hanh-vi-nen-tang-phai-chay-cho-tung-tls-stack.md](adr/0012-cap-harness-do-hanh-vi-nen-tang-phai-chay-cho-tung-tls-stack.md) — `require_side … || exit 0` ở đầu một cặp làm cả cặp BỎQUA trên nền tảng đo được; 📐 SChannel CÓ verify chữ ký handshake (2026-09-19)
 - [0008-discovery-qua-responder-in-box-windows.md](adr/0008-discovery-qua-responder-in-box-windows.md) — discovery qua `dnsapi.dll` của Windows; hostname trong SRV phải là tên máy thật vì HĐH chỉ giữ bản ghi A cho tên nó (2026-09-18)
 
 **Format:** `NNNN-kebab-case-title.md`  
