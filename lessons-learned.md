@@ -227,3 +227,9 @@ Và hàng rào RAM của CI đo lúc khởi động, tức trước khi thứ đ
 - Xung đột KPI ↔ Composition giao cho chủ dự án ở [natuan1/peekvn#181](https://github.com/natuan1/peekvn/issues/181).
 - Ba bài học 192–194 ở `peekvn/docs/bai-hoc.md`.
 - Luật cho các ticket sau: mọi câu **cơ chế** trong kế hoạch phải kèm một số đo, hoặc bị đánh dấu là chưa đo. Mọi phép "hoãn tới lần dùng đầu" phải có một phép đo **sau** lần dùng đầu.
+
+**Kết cục (cùng ngày)**: chủ dự án chọn bỏ Composition cho Mí và vẽ bằng layered window ([ADR-0014](adr/0014-mi-ve-bang-layered-window-khong-composition.md)).
+
+- Sau lượt kéo đầu tiên RAM còn 23,3 MB, dưới KPI.
+- Bộ cài quay về 10,84 MB.
+- Có một bẫy mới: pixel alpha 0 của layered window là click-through, và OLE không coi chỗ đó là đích thả. Hàng rào cũ khẳng định "không có `WS_EX_LAYERED`", tức là canh một cờ chứ không canh hành vi. Nó phải được thay bằng một phép `WindowFromPoint` (bài học 195 của `peekvn`).

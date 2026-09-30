@@ -1,10 +1,14 @@
 # Mí magnet strip trên Windows — Ticket 10
 
 **Trạng thái:** implement xong 2026-09-30 trên nhánh `feat/141-mi-magnet-strip`
-([#141](https://github.com/natuan1/peekvn/issues/141)). **Chưa nghiệm thu** đa màn
-hình, DPI 125–200% và fullscreen exclusive, vì máy dev chỉ có một màn hình
-1920×1080 ở 100%. ⚠️ RAM sau lần kéo đầu tiên vượt KPI, xem
-[#181](https://github.com/natuan1/peekvn/issues/181).
+([#141](https://github.com/natuan1/peekvn/issues/141)).
+
+**Chưa nghiệm thu:** đa màn hình, DPI 125–200% và fullscreen exclusive. Máy dev chỉ
+có một màn hình 1920×1080 ở 100%.
+
+**RAM:** đã về dưới KPI sau khi bỏ Composition
+([#181](https://github.com/natuan1/peekvn/issues/181),
+[ADR-0014](../../adr/0014-mi-ve-bang-layered-window-khong-composition.md)).
 
 ## Làm được gì
 
@@ -15,36 +19,41 @@ lại trên nó:
 kéo tệp ở đâu đó  →  vạch Gợi ý hiện ở cạnh trên  →  rê tệp lên và dừng ≥ 80 ms  →  khay nở ra
 ```
 
-Mí rộng 30% màn hình và bắt đầu từ 5% bên trái. Khoảng giữa để cho Snap Layouts,
-góc phải để cho nút đóng cửa sổ.
+Mí rộng 30% màn hình và bắt đầu từ 5% bên trái, chừa khoảng giữa cho Snap Layouts
+và góc phải cho nút đóng cửa sổ.
+
+**Hình:** đen, độ trong 0,8, không viền, bo cong nhẹ ở hai góc dưới. Chủ dự án chốt
+ngày 2026-09-30.
 
 ## Năm trạng thái
 
 | | Trạng thái | Người dùng thấy |
 |---|---|---|
-| 0 | Nghỉ | không có gì, cửa sổ ẩn hẳn |
-| 1 | Gợi ý | vạch xanh mảnh 6 DIP |
-| 2 | Sẵn sàng nhận | khay tối cao 90 DIP, viền xanh, nở trong 160 ms |
-| 3 | Nhắm đích | khay viền đậm hơn |
+| 0 | Nghỉ | không có gì — cửa sổ ẩn hẳn |
+| 1 | Gợi ý | vạch đen mảnh 6 DIP |
+| 2 | Sẵn sàng nhận | khay đen cao 90 DIP, nở trong 160 ms |
+| 3 | Nhắm đích | khay sáng hơn một bậc (không viền) |
 | 4 | Đang chạy | pill 180×32 DIP |
 
 ## Chưa làm, có chủ ý
 
-- **Mí chưa nhận cú thả nào.** Con trỏ hiện "không thả được", vì chưa có Shelf
+- **Mí chưa nhận cú thả nào.** Con trỏ báo "không thả được", vì chưa có Shelf
   ([Ticket 12](https://github.com/natuan1/peekvn/issues/143)) hay Đích thả
-  ([Ticket 13](https://github.com/natuan1/peekvn/issues/144)). Nói "Copy" với OLE
-  là hứa một việc rồi lặng lẽ vứt nó.
+  ([Ticket 13](https://github.com/natuan1/peekvn/issues/144)) để nhận. Báo "Copy"
+  với OLE là hứa một việc rồi lặng lẽ bỏ qua nó.
 - Trạng thái 3 và 4 có trong máy trạng thái và có test, nhưng **chưa tới được
-  bằng tay**: cần Đích thả thật và Phiên truyền thật của Ticket 13.
+  bằng tay**. Cả hai cần Đích thả và Phiên truyền thật của Ticket 13.
 - Khay đã nở chưa có chữ hay đích nào bên trong.
 
-## Ba quyết định lệch kế hoạch
+## Câu hỏi mở cho chủ dự án
 
-Xem [ADR-0013](../../adr/0013-mi-an-khi-nghi-dung-luoi-xac-nhan-tep-qua-dragenter.md).
+Trên thanh tiêu đề tối, vạch Gợi ý đen 0,8 cao 6 DIP gần như không thấy được.
+Người dùng tìm ra Mí nhờ chính vạch này.
 
-- **Nghỉ là ẩn**, không phải vạch 3px.
-- **Xác nhận tệp đi qua `DragEnter`**, không qua clipboard. Clipboard đã được đo
-  và không thấy lượt kéo.
-- **OLE và Composition dựng lười.**
+## Các quyết định lệch kế hoạch
+
+- **Nghỉ là ẩn hẳn, xác nhận tệp đi qua `DragEnter`.** Clipboard đã được đo và
+  không thấy lượt kéo. Xem [ADR-0013](../../adr/0013-mi-an-khi-nghi-dung-luoi-xac-nhan-tep-qua-dragenter.md).
+- **Bỏ Composition, vẽ bằng layered window.** Xem [ADR-0014](../../adr/0014-mi-ve-bang-layered-window-khong-composition.md).
 
 Xem thêm: [workflow](workflow.md) · [implementation](implementation.md) · [testing](testing.md)

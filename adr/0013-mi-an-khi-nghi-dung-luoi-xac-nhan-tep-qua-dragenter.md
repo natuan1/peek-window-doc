@@ -1,7 +1,7 @@
 # ADR-0013: Mí ẩn hẳn khi Nghỉ, dựng OLE/Composition lười, xác nhận tệp qua `DragEnter`
 
 Date: 2026-09-30
-Status: Accepted
+Status: Accepted. Phần **Composition** đã bị [ADR-0014](0014-mi-ve-bang-layered-window-khong-composition.md) thay cùng ngày: Mí giờ vẽ bằng layered window, và RAM sau lượt kéo đầu tiên là 23,3 MB, dưới KPI. Nghỉ ẩn hẳn, OLE dựng lười và xác nhận tệp qua `DragEnter` vẫn giữ nguyên.
 
 ## Context
 

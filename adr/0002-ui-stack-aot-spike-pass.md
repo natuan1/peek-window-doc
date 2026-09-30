@@ -1,7 +1,7 @@
 # ADR-0002: Xác nhận UI stack qua spike `aot-footprint` (Native AOT + Win32 + Composition)
 
 Date: 2026-09-14
-Status: Accepted
+Status: Accepted. Riêng **Mí** đã bị [ADR-0014](0014-mi-ve-bang-layered-window-khong-composition.md) thay ngày 2026-09-30: spike đo trên một exe trống, còn trên app thật Composition đẩy RAM sau lượt kéo đầu tiên vượt KPI. Kết luận *"Composition sống được dưới AOT"* vẫn đúng.
 
 ## Context
 
