@@ -52,6 +52,7 @@ Feature-by-feature breakdown.
   - [Discovery LAN trên Windows](features/discovery-lan-windows/overview.md) — quảng bá và duyệt `_peek._tcp` qua responder in-box của Windows, bảng thiết bị lân cận (✅ 2026-09-18, chờ demo iPhone thật)
   - [Server ULTP trên Windows](features/server-ultp-windows/overview.md) — TLS 1.3 trên 8443, router HTTP/1.1 tự viết, `GET /v1/info`, cột nền tảng (✅ 2026-09-19, chờ demo iPhone thật)
   - [Ghép đôi SAS trên Windows](features/ghep-doi-sas-windows/overview.md) — sáu chữ số trên hai màn hình, Trust Store bền, xác thực hai chiều (✅ 2026-09-19, chờ demo iPhone thật)
+  - [Mí magnet strip trên Windows](features/mi-magnet-strip-windows/overview.md) — dải cạnh trên, năm trạng thái, phát hiện kéo qua `SysDragImage`, Composition, ẩn khi fullscreen (✅ 2026-09-30, chưa nghiệm thu đa màn hình/DPI; RAM #181)
   - Cấu trúc mỗi feature:
     - Overview (scope, user stories)
     - Workflow (step-by-step)
@@ -79,6 +80,7 @@ Why we made important decisions.
 - [0010-bang-nang-luc-khai-theo-hanh-vi-khong-theo-lo-trinh.md](adr/0010-bang-nang-luc-khai-theo-hanh-vi-khong-theo-lo-trinh.md) — Bảng năng lực khai theo hành vi hôm nay, không theo lộ trình; `CapabilityTruthTests` đối chiếu cả 12 dòng (2026-09-19)
 - [0011-ghep-doi-khong-tu-confirm-responder-cho-nguoi-dung-cuc-bo.md](adr/0011-ghep-doi-khong-tu-confirm-responder-cho-nguoi-dung-cuc-bo.md) — `confirmed: true` trên dây là quyết định của người dùng BÊN KIA; responder còn chờ người ngồi trước máy này, và hết hạn tính là từ chối (2026-09-19)
 - [0012-cap-harness-do-hanh-vi-nen-tang-phai-chay-cho-tung-tls-stack.md](adr/0012-cap-harness-do-hanh-vi-nen-tang-phai-chay-cho-tung-tls-stack.md) — `require_side … || exit 0` ở đầu một cặp làm cả cặp BỎQUA trên nền tảng đo được; 📐 SChannel CÓ verify chữ ký handshake (2026-09-19)
+- [0013-mi-an-khi-nghi-dung-luoi-xac-nhan-tep-qua-dragenter.md](adr/0013-mi-an-khi-nghi-dung-luoi-xac-nhan-tep-qua-dragenter.md) — Mí ẩn hẳn khi Nghỉ, OLE/Composition dựng lười; 📐 clipboard không thấy lượt kéo; RAM sau lần kéo đầu vượt KPI → #181 (2026-09-30)
 - [0008-discovery-qua-responder-in-box-windows.md](adr/0008-discovery-qua-responder-in-box-windows.md) — discovery qua `dnsapi.dll` của Windows; hostname trong SRV phải là tên máy thật vì HĐH chỉ giữ bản ghi A cho tên nó (2026-09-18)
 
 **Format:** `NNNN-kebab-case-title.md`  

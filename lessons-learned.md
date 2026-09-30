@@ -204,3 +204,26 @@ luật khai capability theo hành vi; bài học **171** và **172** của
 cho các ticket sau: **mỗi thư viện hoặc API hệ thống mới đưa vào phải kèm một
 con số RAM đo trên bản AOT thật**, ghi vào bảng số đo của
 `apps/windows/README.md` — biên tới KPI giờ chỉ còn ~3 MB sau khi có kết nối.
+
+---
+
+## [2026-09-30] Mí làm đúng kế hoạch — và đúng câu cơ chế trong kế hoạch là câu không chạy
+
+**Kế hoạch**: Ticket 10 dựng Mí đúng như `CONTEXT.md` đã chốt: `SysDragImage` làm tín hiệu chính, xác nhận "đang kéo FILE" bằng `OleGetClipboard` + `CFSTR_INDRAGLOOP`, Composition để vẽ. Phần rủi ro lớn nhất được coi là đã gỡ, vì spike AOT (ADR-0002) đã chứng minh Composition sống được dưới Native AOT và vừa KPI RAM.
+
+**Kết quả thực tế**: trước dòng mã đầu tiên, một đầu dò kéo thật một tệp từ Explorer. `SysDragImage` đúng như tài liệu viết. **Clipboard thì mù**: `DV_E_FORMATETC` cho mọi định dạng, y hệt lúc không kéo gì. Mí xây xong, đạt năm kịch bản kéo thật. Nhưng sau lượt kéo đầu tiên, RAM nền lên **26,7 MB**, vượt KPI 25 MB mà spike từng cho là còn rộng.
+
+**Bài học**: giả định sai nằm ở chỗ coi hai thứ đã "chốt" là hai phép đo.
+
+- Câu `OleGetClipboard` trong `CONTEXT.md` chưa ai chạy. Nó là một ý tưởng nghe hợp lý, được ghi cạnh những quyết định đã đo nên mượn luôn độ tin của chúng.
+- Spike ADR-0002 đo Composition trên một **exe trống** (14,6 MB). Nó không đo Composition **cộng** chín ticket đã đắp lên nền. Một spike chứng minh *khả thi*, không chứng minh *vừa ngân sách lúc tới lượt*.
+
+Và hàng rào RAM của CI đo lúc khởi động, tức trước khi thứ đắt nhất của ticket kịp xảy ra, nên nó xanh suốt.
+
+**Hành động tiếp theo**:
+
+- Xác nhận tệp chuyển sang `IDropTarget::DragEnter` ([ADR-0013](adr/0013-mi-an-khi-nghi-dung-luoi-xac-nhan-tep-qua-dragenter.md)).
+- `CONTEXT.md` gạch câu sai và ghi số đo cạnh nó.
+- Xung đột KPI ↔ Composition giao cho chủ dự án ở [natuan1/peekvn#181](https://github.com/natuan1/peekvn/issues/181).
+- Ba bài học 192–194 ở `peekvn/docs/bai-hoc.md`.
+- Luật cho các ticket sau: mọi câu **cơ chế** trong kế hoạch phải kèm một số đo, hoặc bị đánh dấu là chưa đo. Mọi phép "hoãn tới lần dùng đầu" phải có một phép đo **sau** lần dùng đầu.

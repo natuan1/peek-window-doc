@@ -16,6 +16,7 @@ This folder contains documentation for each feature — user stories, workflows,
 | [Server ULTP trên Windows](server-ultp-windows/overview.md) | Khung server h1-only: TLS 1.3 trên 8443 nghe dual-stack, router HTTP/1.1 tự viết, `GET /v1/info`, cột nền tảng của bảng thiết bị | ✅ Implement xong 2026-09-19, **chờ demo iPhone thật** + nghiệm thu Windows 10 ([#136](https://github.com/natuan1/peekvn/issues/136)) |
 | [Ghép đôi SAS trên Windows](ghep-doi-sas-windows/overview.md) | Hai màn hình hiện cùng sáu chữ số, người thật so rồi bấm; Trust Store bền qua khởi động lại; mọi kết nối sau ghim SPKI và xác thực hai chiều | ✅ Implement xong 2026-09-19, **chờ demo iPhone thật** ([#137](https://github.com/natuan1/peekvn/issues/137)) |
 | [Nhận push từ iPhone trên Windows](nhan-push-windows/overview.md) | iPhone đẩy tệp sang PC: offer/accept, token theo từng mục, PUT chảy thẳng xuống đĩa, chống path traversal của Windows, tự nhận theo từng thiết bị | ✅ Implement xong 2026-09-20, **chờ demo iPhone thật** ([#138](https://github.com/natuan1/peekvn/issues/138)) |
+| [Mí magnet strip trên Windows](mi-magnet-strip-windows/overview.md) | Dải 30% bề rộng neo cạnh trên màn hình, năm trạng thái, phát hiện kéo qua `SysDragImage` + polling, nở 160 ms bằng Composition, ẩn khi fullscreen; chưa nhận cú thả | ✅ Implement xong 2026-09-30 ([#141](https://github.com/natuan1/peekvn/issues/141)) — **chưa nghiệm thu** đa màn hình/DPI; RAM sau lần kéo đầu vượt KPI ([#181](https://github.com/natuan1/peekvn/issues/181)) |
 
 ---
 
