@@ -49,7 +49,7 @@ Ba DLL còn lại (`clbcatq`, `dataexchange`, `twinapi.appcore`) là giá của 
 - Biên tới KPI 25 MB **sau lần dùng Mí đầu tiên** chỉ còn **~1,7 MB** cho tám ticket còn lại, không phải 4,5 MB như con số "lúc nghỉ" gợi ra. `ci/check-mi-drag.ps1` giờ đỏ nếu mốc ấy chạm 25 MB.
 - Animation chạy trên thread giao diện, không còn chạy trên thread của DWM. Một lời gọi chậm trên thread ấy (một `IDataObject` chậm của Outlook) sẽ làm rơi khung hình. Chuyện này chưa đo.
 - Mỗi hiệu ứng mới (bóng đổ, blur, chữ trong khay) phải tự tô. Không có `SpriteVisual` hay brush nào để mượn.
-- Vạch Gợi ý đen 0,8 cao 6 DIP rất khó thấy trên thanh tiêu đề tối. Đó là hệ quả của màu đã chốt, và là câu hỏi mở cho chủ dự án.
+- Vạch Gợi ý đen 0,8 cao 6 DIP gần như không thấy được trên thanh tiêu đề tối. Chủ dự án đổi nó ngay trong ngày: **trắng đục 0,75, dày 10 DIP**, gần điểm sáng của Task View. Khay nở ra vẫn giữ màu đen 0,8.
 
 ## Alternatives Considered
 

@@ -22,15 +22,16 @@ kéo tệp ở đâu đó  →  vạch Gợi ý hiện ở cạnh trên  →  r�
 Mí rộng 30% màn hình và bắt đầu từ 5% bên trái, chừa khoảng giữa cho Snap Layouts
 và góc phải cho nút đóng cửa sổ.
 
-**Hình:** đen, độ trong 0,8, không viền, bo cong nhẹ ở hai góc dưới. Chủ dự án chốt
-ngày 2026-09-30.
+**Hình:** đen, độ trong 0,8, không viền, bo cong nhẹ ở hai góc dưới. Riêng vạch
+Gợi ý có màu **trắng đục 0,75, dày 10 DIP**, gần điểm sáng của Task View. Chủ dự án
+chốt ngày 2026-09-30.
 
 ## Năm trạng thái
 
 | | Trạng thái | Người dùng thấy |
 |---|---|---|
 | 0 | Nghỉ | không có gì — cửa sổ ẩn hẳn |
-| 1 | Gợi ý | vạch đen mảnh 6 DIP |
+| 1 | Gợi ý | vạch trắng đục 10 DIP |
 | 2 | Sẵn sàng nhận | khay đen cao 90 DIP, nở trong 160 ms |
 | 3 | Nhắm đích | khay sáng hơn một bậc (không viền) |
 | 4 | Đang chạy | pill 180×32 DIP |
@@ -44,11 +45,6 @@ ngày 2026-09-30.
 - Trạng thái 3 và 4 có trong máy trạng thái và có test, nhưng **chưa tới được
   bằng tay**. Cả hai cần Đích thả và Phiên truyền thật của Ticket 13.
 - Khay đã nở chưa có chữ hay đích nào bên trong.
-
-## Câu hỏi mở cho chủ dự án
-
-Trên thanh tiêu đề tối, vạch Gợi ý đen 0,8 cao 6 DIP gần như không thấy được.
-Người dùng tìm ra Mí nhờ chính vạch này.
 
 ## Các quyết định lệch kế hoạch
 
