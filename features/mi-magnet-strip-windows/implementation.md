@@ -8,7 +8,7 @@ window, không Composition ([ADR-0014](../../adr/0014-mi-ve-bang-layered-window-
 |---|---|
 | `src/Snappy.Core/MiStateMachine.cs` | Năm trạng thái, logic thuần. Thời gian là tham số: `NextDeadline` + `Tick` thay cho đồng hồ. Lệnh vẽ suy ra ở một chỗ duy nhất (`CommandsFor`). |
 | `src/Snappy.Core/MiLayout.cs` | Khung cửa sổ và `MiShape` (thân, bán kính, màu, vùng bắt con trỏ) theo màn hình + DPI: 30% / 5%; Gợi ý 10 DIP trắng đục trên vùng 60 DIP; khay 90 DIP; pill 180×32. |
-| `src/Snappy.Core/MiPainter.cs` | Tô `MiShape` thành BGRA premultiplied. Đen 0,8 (vạch Gợi ý trắng đục 0,75), không viền, hai góc dưới khử răng cưa. Vùng thả ngoài thân vẽ alpha 1. |
+| `src/Snappy.Core/MiPainter.cs` | Tô `MiShape` thành BGRA premultiplied. Trắng đục 0,75 (Nhắm đích 0,9), không viền, hai góc dưới khử răng cưa. Vùng thả ngoài thân vẽ alpha 1. |
 | `src/Snappy.Core/MiAnimation.cs` | Cubic ease-out 160 ms giữa hai `MiShape`, thời gian là tham số. |
 | `src/Snappy.Core/FullscreenRule.cs` | Fullscreen nếu QUNS báo, hoặc cửa sổ không viền phủ kín màn hình. |
 | `src/Snappy.Core/MiWindow.cs` | Nối dây: hook + polling + OLE → máy trạng thái → `MiPainter` → `LayeredSurface`. Vẽ từng khung trên `WM_TIMER` 10 ms. |

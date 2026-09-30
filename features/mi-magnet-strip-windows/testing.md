@@ -12,7 +12,7 @@ Có 60 test (tính cả từng ca của `[Theory]`).
   - nhả chuột thì Mí về Nghỉ ngay;
   - lượt kéo bắt đầu trong lúc Đang chạy.
 - **`MiPainterTests` và `MiAnimationTests`.** Kiểm các tính chất sau:
-  - pixel đen 0,8;
+  - pixel trắng đục 0,75, cùng một màu cho vạch Gợi ý, khay và pill;
   - không viền: mép trái, mép phải và hàng trên cùng cùng một màu với giữa khay;
   - hai góc dưới bo tròn, hai góc trên vuông;
   - mép cong có pixel chuyển tiếp (khử răng cưa);

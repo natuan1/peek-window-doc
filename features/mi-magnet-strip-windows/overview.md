@@ -22,9 +22,9 @@ kéo tệp ở đâu đó  →  vạch Gợi ý hiện ở cạnh trên  →  r�
 Mí rộng 30% màn hình và bắt đầu từ 5% bên trái, chừa khoảng giữa cho Snap Layouts
 và góc phải cho nút đóng cửa sổ.
 
-**Hình:** đen, độ trong 0,8, không viền, bo cong nhẹ ở hai góc dưới. Riêng vạch
-Gợi ý có màu **trắng đục 0,75, dày 10 DIP**, gần điểm sáng của Task View. Chủ dự án
-chốt ngày 2026-09-30.
+**Hình:** **trắng đục 0,75**, gần với điểm sáng của Task View. Không viền, bo cong nhẹ
+ở hai góc dưới. Vạch Gợi ý, khay nở ra và pill dùng cùng một màu. Chủ dự án chốt
+ngày 2026-09-30, sau hai lần thử bản thật (bản đầu là đen 0,8).
 
 ## Năm trạng thái
 
@@ -32,8 +32,8 @@ chốt ngày 2026-09-30.
 |---|---|---|
 | 0 | Nghỉ | không có gì — cửa sổ ẩn hẳn |
 | 1 | Gợi ý | vạch trắng đục 10 DIP |
-| 2 | Sẵn sàng nhận | khay đen cao 90 DIP, nở trong 160 ms |
-| 3 | Nhắm đích | khay sáng hơn một bậc (không viền) |
+| 2 | Sẵn sàng nhận | khay trắng đục cao 90 DIP, nở trong 160 ms |
+| 3 | Nhắm đích | khay trắng đặc hơn (0,9), không viền |
 | 4 | Đang chạy | pill 180×32 DIP |
 
 ## Chưa làm, có chủ ý
