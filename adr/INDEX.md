@@ -28,6 +28,7 @@ Architecture Decision Records (ADRs) document significant decisions and their ra
 | [0012](0012-cap-harness-do-hanh-vi-nen-tang-phai-chay-cho-tung-tls-stack.md) | Cặp harness đo **hành vi nền tảng** phải chạy cho từng TLS stack | Accepted | 2026-09-19 |
 | [0013](0013-mi-an-khi-nghi-dung-luoi-xac-nhan-tep-qua-dragenter.md) | Mí **ẩn hẳn** khi Nghỉ, dựng OLE lười, xác nhận tệp qua `DragEnter` chứ không qua clipboard (phần Composition → 0014) | Accepted | 2026-09-30 |
 | [0014](0014-mi-ve-bang-layered-window-khong-composition.md) | Mí vẽ bằng **layered window**, không Composition. Đen 0,8, không viền; vùng thả alpha 1 | Accepted | 2026-09-30 |
+| [0015](0015-tempdrops-mot-thu-muc-moi-muc-khong-hoi-shell-luc-tha.md) | TempDrops **một thư mục `{Guid}` mỗi Mục**, ghi qua hàng rào S11/S16; trần 2 GiB + LRU; lúc thả **không** gọi `SHGetFileInfoW` (📐 2,3 MB RAM) | Accepted | 2026-10-01 |
 
 ---
 

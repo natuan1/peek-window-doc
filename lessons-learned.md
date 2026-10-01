@@ -233,3 +233,15 @@ Và hàng rào RAM của CI đo lúc khởi động, tức trước khi thứ đ
 - Sau lượt kéo đầu tiên RAM còn 23,3 MB, dưới KPI.
 - Bộ cài quay về 10,84 MB.
 - Có một bẫy mới: pixel alpha 0 của layered window là click-through, và OLE không coi chỗ đó là đích thả. Hàng rào cũ khẳng định "không có `WS_EX_LAYERED`", tức là canh một cờ chứ không canh hành vi. Nó phải được thay bằng một phép `WindowFromPoint` (bài học 195 của `peekvn`).
+
+---
+
+## [2026-10-01] Metadata qua `SHGetFileInfoW` đúng như ticket ghi — và nó là thứ đắt nhất của cả ticket
+
+**Kế hoạch**: Ticket 11 ([natuan1/peekvn#142](https://github.com/natuan1/peekvn/issues/142)) ghi *"Metadata + icon qua `SHGetFileInfoW`: tên, dung lượng, MIME type chính xác"*. Bản đầu làm đúng thế: mỗi Mục hỏi shell tên loại ngay lúc thả. Lời gọi không mở tệp, chỉ tra theo đuôi — tưởng là rẻ.
+
+**Kết quả thực tế**: Mọi tệp vào đúng tên, đúng byte (SHA-256 trùng cho Explorer, zip, Chrome, Edge), nhưng sau bốn cú thả RAM nền **26,5 MB**, vượt KPI 25 MB. Đối chứng chỉ bỏ đúng lời gọi shell: **24,2 MB**. Lời gọi ấy nạp năm DLL của kho AppX và không bao giờ nhả chúng.
+
+**Bài học**: Một API "chỉ tra registry" trên Windows 11 có thể kéo theo cả một tầng WinRT. Kế hoạch gom "metadata" và "icon" vào một câu như thể chúng cùng giá và cùng lúc cần, trong khi thứ người dùng *cần ngay lúc thả* chỉ là tên, dung lượng, MIME. Tên loại và icon chỉ có người xem khi khay thẻ vẽ chúng.
+
+**Hành động tiếp theo**: Lúc thả không hỏi shell ([ADR-0015](adr/0015-tempdrops-mot-thu-muc-moi-muc-khong-hoi-shell-luc-tha.md)); `ShellFileInfo` để dành cho Ticket 12. **Ticket 12 phải đo RAM sau lần gọi shell đầu tiên trước khi coi xong**, vì biên còn ~0,6 MB. Kèm theo: menu khay tự nó đã đẩy RAM lên 25,5 MB trên `main` — chưa hàng rào nào đo sau cử chỉ ấy.

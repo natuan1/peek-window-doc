@@ -38,10 +38,10 @@ ngày 2026-09-30, sau hai lần thử bản thật (bản đầu là đen 0,8).
 
 ## Chưa làm, có chủ ý
 
-- **Mí chưa nhận cú thả nào.** Con trỏ báo "không thả được", vì chưa có Shelf
-  ([Ticket 12](https://github.com/natuan1/peekvn/issues/143)) hay Đích thả
-  ([Ticket 13](https://github.com/natuan1/peekvn/issues/144)) để nhận. Báo "Copy"
-  với OLE là hứa một việc rồi lặng lẽ bỏ qua nó.
+- ~~Mí chưa nhận cú thả nào.~~ **Từ Ticket 11 (2026-10-01) Mí nhận cú thả tệp** vào
+  Shelf một Ngăn — xem [Trích xuất tệp thật/ảo → TempDrops](../tempdrops-windows/overview.md).
+  Đích thả riêng (thiết bị, ô Shelf) vẫn là
+  [Ticket 13](https://github.com/natuan1/peekvn/issues/144).
 - Trạng thái 3 và 4 có trong máy trạng thái và có test, nhưng **chưa tới được
   bằng tay**. Cả hai cần Đích thả và Phiên truyền thật của Ticket 13.
 - Khay đã nở chưa có chữ hay đích nào bên trong.

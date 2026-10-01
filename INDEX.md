@@ -52,7 +52,8 @@ Feature-by-feature breakdown.
   - [Discovery LAN trên Windows](features/discovery-lan-windows/overview.md) — quảng bá và duyệt `_peek._tcp` qua responder in-box của Windows, bảng thiết bị lân cận (✅ 2026-09-18, chờ demo iPhone thật)
   - [Server ULTP trên Windows](features/server-ultp-windows/overview.md) — TLS 1.3 trên 8443, router HTTP/1.1 tự viết, `GET /v1/info`, cột nền tảng (✅ 2026-09-19, chờ demo iPhone thật)
   - [Ghép đôi SAS trên Windows](features/ghep-doi-sas-windows/overview.md) — sáu chữ số trên hai màn hình, Trust Store bền, xác thực hai chiều (✅ 2026-09-19, chờ demo iPhone thật)
-  - [Mí magnet strip trên Windows](features/mi-magnet-strip-windows/overview.md) — dải cạnh trên, năm trạng thái, phát hiện kéo qua `SysDragImage`, Composition, ẩn khi fullscreen (✅ 2026-09-30, chưa nghiệm thu đa màn hình/DPI; vẽ bằng layered window — ADR-0014)
+  - [Mí magnet strip trên Windows](features/mi-magnet-strip-windows/overview.md) — dải cạnh trên, năm trạng thái, phát hiện kéo qua `SysDragImage`, ẩn khi fullscreen (✅ 2026-09-30, chưa nghiệm thu đa màn hình/DPI; vẽ bằng layered window — ADR-0014; nhận cú thả tệp từ Ticket 11)
+  - [Trích xuất tệp thật/ảo → TempDrops](features/tempdrops-windows/overview.md) — thả tệp Explorer/zip/Chrome/Edge lên Mí vào Shelf một Ngăn, tệp ảo ra `TempDrops\{Guid}\`, bộ dọn đủ năm quy tắc (✅ 2026-10-01, treo demo Outlook — máy không cài)
   - Cấu trúc mỗi feature:
     - Overview (scope, user stories)
     - Workflow (step-by-step)
@@ -82,6 +83,7 @@ Why we made important decisions.
 - [0012-cap-harness-do-hanh-vi-nen-tang-phai-chay-cho-tung-tls-stack.md](adr/0012-cap-harness-do-hanh-vi-nen-tang-phai-chay-cho-tung-tls-stack.md) — `require_side … || exit 0` ở đầu một cặp làm cả cặp BỎQUA trên nền tảng đo được; 📐 SChannel CÓ verify chữ ký handshake (2026-09-19)
 - [0013-mi-an-khi-nghi-dung-luoi-xac-nhan-tep-qua-dragenter.md](adr/0013-mi-an-khi-nghi-dung-luoi-xac-nhan-tep-qua-dragenter.md) — Mí ẩn hẳn khi Nghỉ, OLE/Composition dựng lười; 📐 clipboard không thấy lượt kéo; RAM sau lần kéo đầu vượt KPI → #181 (2026-09-30)
 - [0014-mi-ve-bang-layered-window-khong-composition.md](adr/0014-mi-ve-bang-layered-window-khong-composition.md) — Mí bỏ Composition, vẽ bằng layered window; 📐 RAM sau lượt kéo đầu 26,7 → 23,3 MB; pixel alpha 0 là click-through (2026-09-30)
+- [0015-tempdrops-mot-thu-muc-moi-muc-khong-hoi-shell-luc-tha.md](adr/0015-tempdrops-mot-thu-muc-moi-muc-khong-hoi-shell-luc-tha.md) — TempDrops một `{Guid}` mỗi Mục qua hàng rào S11/S16, trần 2 GiB + LRU; 📐 `SHGetFileInfoW` lúc thả tốn 2,3 MB nên dời tới khay thẻ (2026-10-01)
 - [0008-discovery-qua-responder-in-box-windows.md](adr/0008-discovery-qua-responder-in-box-windows.md) — discovery qua `dnsapi.dll` của Windows; hostname trong SRV phải là tên máy thật vì HĐH chỉ giữ bản ghi A cho tên nó (2026-09-18)
 
 **Format:** `NNNN-kebab-case-title.md`  
