@@ -40,5 +40,6 @@ Khởi động sau khi cấy một thư mục rác: `Purged 1 leftover entries f
 
 - **Outlook Desktop** — máy không cài. Không chặn Ticket 12/13; chặn việc đóng tiêu
   chí "attachment Outlook" của #142.
-- **RAM sau khi mở menu khay**: 25,5 MB trên cả `main` — lỗi có sẵn, không thuộc
-  ticket này (bài học 197 của `peekvn`).
+- ~~RAM sau khi mở menu khay 25,5 MB~~ — đã sửa 2026-10-01 ([ADR-0016](../../adr/0016-kpi-ram-nen-do-bang-private-working-set.md)).
+  Mốc "sau menu + thả lại" của `check-drop-extract.ps1` giờ là hàng rào: 📐 private
+  6,0 MB, tổng 25,9 MB (KPI private < 25, red line tổng 30).

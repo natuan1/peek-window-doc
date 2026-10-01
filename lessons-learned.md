@@ -245,3 +245,16 @@ Và hàng rào RAM của CI đo lúc khởi động, tức trước khi thứ đ
 **Bài học**: Một API "chỉ tra registry" trên Windows 11 có thể kéo theo cả một tầng WinRT. Kế hoạch gom "metadata" và "icon" vào một câu như thể chúng cùng giá và cùng lúc cần, trong khi thứ người dùng *cần ngay lúc thả* chỉ là tên, dung lượng, MIME. Tên loại và icon chỉ có người xem khi khay thẻ vẽ chúng.
 
 **Hành động tiếp theo**: Lúc thả không hỏi shell ([ADR-0015](adr/0015-tempdrops-mot-thu-muc-moi-muc-khong-hoi-shell-luc-tha.md)); `ShellFileInfo` để dành cho Ticket 12. **Ticket 12 phải đo RAM sau lần gọi shell đầu tiên trước khi coi xong**, vì biên còn ~0,6 MB. Kèm theo: menu khay tự nó đã đẩy RAM lên 25,5 MB trên `main` — chưa hàng rào nào đo sau cử chỉ ấy.
+
+---
+
+## [2026-10-01] KPI RAM "< 25 MB" chưa từng nói thước nào — và thước tổng đếm cả DLL của Windows
+
+**Kế hoạch**: sửa lỗi menu khay đẩy RAM lên 25,5 MB, rồi mới làm Ticket 12. Tin rằng đó là lỗi cuối cùng giữa app và KPI.
+
+**Kết quả thực tế**: sửa được bằng `ImmDisableIME` cho luồng UI (25,5 → 22,3 MB). Nhưng người đã kéo thả **và** mở menu vẫn ở 25,1–25,8 MB, vì OLE và menu cộng dồn. Đo thêm thước private ở cùng các mốc: chỉ 4,7–5,5 MB. Khoảng 20 MB của KPI là trang DLL hệ thống dùng chung.
+
+**Bài học**: một KPI hiệu năng phải ghi rõ thước đo ngay từ ngày đặt ra. Sáu ticket liền đếm biên từng 0,1 MB theo một thước đếm cả thứ không phải của app. Hai quyết định thiết kế (bỏ Composition, dời `SHGetFileInfoW`) được chốt theo thước ấy. Spike 14/09 đã ghi cả hai con số, chỉ là không ai chọn.
+
+**Hành động tiếp theo**: chủ dự án chốt private working set < 25 MB, red line 30 MB theo thước tổng ([ADR-0016](adr/0016-kpi-ram-nen-do-bang-private-working-set.md)). Một định nghĩa duy nhất ở `peekvn/apps/windows/ci/ram.ps1`. Hai quyết định cũ vẫn đúng theo red line, không cần mở lại.
+

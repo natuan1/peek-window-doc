@@ -84,6 +84,7 @@ Why we made important decisions.
 - [0013-mi-an-khi-nghi-dung-luoi-xac-nhan-tep-qua-dragenter.md](adr/0013-mi-an-khi-nghi-dung-luoi-xac-nhan-tep-qua-dragenter.md) — Mí ẩn hẳn khi Nghỉ, OLE/Composition dựng lười; 📐 clipboard không thấy lượt kéo; RAM sau lần kéo đầu vượt KPI → #181 (2026-09-30)
 - [0014-mi-ve-bang-layered-window-khong-composition.md](adr/0014-mi-ve-bang-layered-window-khong-composition.md) — Mí bỏ Composition, vẽ bằng layered window; 📐 RAM sau lượt kéo đầu 26,7 → 23,3 MB; pixel alpha 0 là click-through (2026-09-30)
 - [0015-tempdrops-mot-thu-muc-moi-muc-khong-hoi-shell-luc-tha.md](adr/0015-tempdrops-mot-thu-muc-moi-muc-khong-hoi-shell-luc-tha.md) — TempDrops một `{Guid}` mỗi Mục qua hàng rào S11/S16, trần 2 GiB + LRU; 📐 `SHGetFileInfoW` lúc thả tốn 2,3 MB nên dời tới khay thẻ (2026-10-01)
+- [0016-kpi-ram-nen-do-bang-private-working-set.md](adr/0016-kpi-ram-nen-do-bang-private-working-set.md) — KPI RAM nền đo bằng private working set < 25 MB, red line 30 MB theo thước tổng; luồng UI tắt IME để menu khay không nạp TSF (2026-10-01)
 - [0008-discovery-qua-responder-in-box-windows.md](adr/0008-discovery-qua-responder-in-box-windows.md) — discovery qua `dnsapi.dll` của Windows; hostname trong SRV phải là tên máy thật vì HĐH chỉ giữ bản ghi A cho tên nó (2026-09-18)
 
 **Format:** `NNNN-kebab-case-title.md`  
