@@ -54,6 +54,7 @@ Feature-by-feature breakdown.
   - [Ghép đôi SAS trên Windows](features/ghep-doi-sas-windows/overview.md) — sáu chữ số trên hai màn hình, Trust Store bền, xác thực hai chiều (✅ 2026-09-19, chờ demo iPhone thật)
   - [Mí magnet strip trên Windows](features/mi-magnet-strip-windows/overview.md) — dải cạnh trên, năm trạng thái, phát hiện kéo qua `SysDragImage`, ẩn khi fullscreen (✅ 2026-09-30, chưa nghiệm thu đa màn hình/DPI; vẽ bằng layered window — ADR-0014; nhận cú thả tệp từ Ticket 11)
   - [Trích xuất tệp thật/ảo → TempDrops](features/tempdrops-windows/overview.md) — thả tệp Explorer/zip/Chrome/Edge lên Mí vào Shelf một Ngăn, tệp ảo ra `TempDrops\{Guid}\`, bộ dọn đủ năm quy tắc (✅ 2026-10-01, treo demo Outlook — máy không cài)
+  - [Khay thẻ Shelf một Ngăn](features/shelf-tray-windows/overview.md) — khay thẻ ngang trên Mí, kéo thẻ hay cả Ngăn ra Explorer/trình duyệt (Copy), mở thư mục, bỏ Mục, báo tệp gốc đã mất; khay sống trong tiến trình con (✅ 2026-10-02, RAM tổng 28,3 MB)
   - Cấu trúc mỗi feature:
     - Overview (scope, user stories)
     - Workflow (step-by-step)
@@ -83,8 +84,9 @@ Why we made important decisions.
 - [0012-cap-harness-do-hanh-vi-nen-tang-phai-chay-cho-tung-tls-stack.md](adr/0012-cap-harness-do-hanh-vi-nen-tang-phai-chay-cho-tung-tls-stack.md) — `require_side … || exit 0` ở đầu một cặp làm cả cặp BỎQUA trên nền tảng đo được; 📐 SChannel CÓ verify chữ ký handshake (2026-09-19)
 - [0013-mi-an-khi-nghi-dung-luoi-xac-nhan-tep-qua-dragenter.md](adr/0013-mi-an-khi-nghi-dung-luoi-xac-nhan-tep-qua-dragenter.md) — Mí ẩn hẳn khi Nghỉ, OLE/Composition dựng lười; 📐 clipboard không thấy lượt kéo; RAM sau lần kéo đầu vượt KPI → #181 (2026-09-30)
 - [0014-mi-ve-bang-layered-window-khong-composition.md](adr/0014-mi-ve-bang-layered-window-khong-composition.md) — Mí bỏ Composition, vẽ bằng layered window; 📐 RAM sau lượt kéo đầu 26,7 → 23,3 MB; pixel alpha 0 là click-through (2026-09-30)
-- [0015-tempdrops-mot-thu-muc-moi-muc-khong-hoi-shell-luc-tha.md](adr/0015-tempdrops-mot-thu-muc-moi-muc-khong-hoi-shell-luc-tha.md) — TempDrops một `{Guid}` mỗi Mục qua hàng rào S11/S16, trần 2 GiB + LRU; 📐 `SHGetFileInfoW` lúc thả tốn 2,3 MB nên dời tới khay thẻ (2026-10-01)
+- [0015-tempdrops-mot-thu-muc-moi-muc-khong-hoi-shell-luc-tha.md](adr/0015-tempdrops-mot-thu-muc-moi-muc-khong-hoi-shell-luc-tha.md) — TempDrops một `{Guid}` mỗi Mục qua hàng rào S11/S16, trần 2 GiB + LRU; 📐 `SHGetFileInfoW` lúc thả tốn 2,3 MB nên dời tới khay thẻ — khay thẻ cũng không gọi, xem 0017 (2026-10-01)
 - [0016-kpi-ram-nen-do-bang-private-working-set.md](adr/0016-kpi-ram-nen-do-bang-private-working-set.md) — KPI RAM nền đo bằng private working set < 25 MB, red line 30 MB theo thước tổng; luồng UI tắt IME để menu khay không nạp TSF (2026-10-01)
+- [0017-tinh-nang-nang-phan-shell-chay-trong-tien-trinh-con.md](adr/0017-tinh-nang-nang-phan-shell-chay-trong-tien-trinh-con.md) — hộp chọn tệp và khay thẻ Shelf chạy trong tiến trình Snappy con; 📐 hộp chọn tệp 63 → 23 MB, kéo-thả Windows 11 +17 MB không còn ở tiến trình nền; icon thẻ là glyph (2026-10-02)
 - [0008-discovery-qua-responder-in-box-windows.md](adr/0008-discovery-qua-responder-in-box-windows.md) — discovery qua `dnsapi.dll` của Windows; hostname trong SRV phải là tên máy thật vì HĐH chỉ giữ bản ghi A cho tên nó (2026-09-18)
 
 **Format:** `NNNN-kebab-case-title.md`  

@@ -258,3 +258,13 @@ Và hàng rào RAM của CI đo lúc khởi động, tức trước khi thứ đ
 
 **Hành động tiếp theo**: chủ dự án chốt private working set < 25 MB, red line 30 MB theo thước tổng ([ADR-0016](adr/0016-kpi-ram-nen-do-bang-private-working-set.md)). Một định nghĩa duy nhất ở `peekvn/apps/windows/ci/ram.ps1`. Hai quyết định cũ vẫn đúng theo red line, không cần mở lại.
 
+
+## [2026-10-02] Shelf kéo ra Explorer đúng byte ngay lượt đầu — và lượt kéo ấy là 17 MB không bao giờ nhả
+
+**Kế hoạch**: khay thẻ Ticket 12 là một cửa sổ nữa trong tiến trình nền, như Mí. Nguồn kéo là `IDataObject` tự viết với `CF_HDROP`, nhẹ hơn nguồn kéo của shell.
+
+**Kết quả thực tế**: kéo ra đúng byte, nhưng lượt kéo đầu tiên đẩy working set tổng 25,3 → 42,8 MB. Windows 11 nạp 18 DLL kéo-thả hiện đại (`d3d11`, `dcomp`, `datatransfer`…) cho **mọi** nguồn kéo, kể cả `DoDragDrop` thuần của `ole32`. Định chuyển riêng `DoDragDrop` sang tiến trình con thì con đứng chờ mãi: OLE chỉ bắt chuột cho cú nhấn rơi vào cửa sổ của chính luồng gọi nó. Cùng tuần, hộp chọn tệp có sẵn từ Ticket 09 cũng lộ ra 63 MB.
+
+**Bài học**: với Windows, "API nhẹ" không có nghĩa là "DLL nhẹ". Giá RAM của một tính năng đọc ở bản publish sau lần dùng đầu, không đọc ở tên API. Và một DLL đã nạp thì chỉ có một cách bỏ đi: để tiến trình chứa nó chết.
+
+**Hành động tiếp theo**: tính năng nặng phần shell chạy trong tiến trình Snappy con. Cả khay (vì ràng buộc chuột của OLE), cả hộp chọn tệp, dùng chung `ChildProcess` ([ADR-0017](adr/0017-tinh-nang-nang-phan-shell-chay-trong-tien-trinh-con.md)). Biên theo red line tổng chỉ còn ~1,7 MB, nên ticket sau phải đo RAM sau lần dùng đầu ngay từ bản publish đầu tiên.

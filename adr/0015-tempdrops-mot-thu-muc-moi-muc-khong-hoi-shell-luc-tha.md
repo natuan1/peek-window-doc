@@ -62,3 +62,4 @@ working set lên **26,5 MB**. Đối chứng chỉ thay lời gọi ấy bằng 
 - [ADR-0013](0013-mi-an-khi-nghi-dung-luoi-xac-nhan-tep-qua-dragenter.md), [ADR-0014](0014-mi-ve-bang-layered-window-khong-composition.md) — Mí và mốc RAM sau lượt kéo.
 - [Tính năng: Trích xuất tệp thật/ảo → TempDrops](../features/tempdrops-windows/overview.md)
 - `peekvn` bài học 176 (`NUL`), 194 (đo sau lần dùng đầu), 196 (giá của `SHGetFileInfoW`), 197 (menu khay).
+- [ADR-0017](0017-tinh-nang-nang-phan-shell-chay-trong-tien-trinh-con.md) (2026-10-02): khay thẻ Ticket 12 cũng **không** gọi `SHGetFileInfoW` — 📐 icon shell cộng ~7,5 MB; thẻ dùng glyph theo loại.

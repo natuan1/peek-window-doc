@@ -31,6 +31,7 @@ Hai phép đo ngày 2026-10-01 (bài học 197 và 199 của `peekvn`):
 - **Ràng buộc mới cho luồng UI:** mọi ô gõ chữ sau này (đổi tên Mục, ô tìm kiếm…) phải chạy trên luồng khác, hoặc phải xem lại quyết định này. Một ô gõ chữ đặt trên luồng UI sẽ không có IME.
 - Trần 25 MB theo private rất lỏng so với 5,5 MB hôm nay. Nó chặn rò bộ đệm lớn, không chặn từng MB. Từng MB vẫn lộ ra ở red line tổng.
 - Lỗi có sẵn lộ ra cùng lượt: hộp chọn tệp để lại ~63 MB tổng (private ~11 MB), vượt red line. Tách thành việc riêng.
+  **Sửa 2026-10-02:** hộp chọn tệp không còn chạy trên một luồng của tiến trình nền, mà trong một tiến trình Snappy con — xem [ADR-0017](0017-tinh-nang-nang-phan-shell-chay-trong-tien-trinh-con.md). Mục 3 ở trên vì thế chỉ còn đúng cho luồng UI.
 - `ci/check-tray-menu.ps1` là hàng rào mới. Nó mở menu bằng cú chuột phải thật, kiểm menu tự đóng khi bấm ra ngoài, kiểm luồng UI không có IME, kiểm hộp chọn tệp ở luồng khác và còn IME. Nó đỏ trên `main`, và đỏ khi bỏ `SetForegroundWindow`.
 
 ## Related
