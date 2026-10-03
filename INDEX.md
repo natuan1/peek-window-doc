@@ -55,6 +55,7 @@ Feature-by-feature breakdown.
   - [Mí magnet strip trên Windows](features/mi-magnet-strip-windows/overview.md) — dải cạnh trên, năm trạng thái, phát hiện kéo qua `SysDragImage`, ẩn khi fullscreen (✅ 2026-09-30, chưa nghiệm thu đa màn hình/DPI; vẽ bằng layered window — ADR-0014; nhận cú thả tệp từ Ticket 11)
   - [Trích xuất tệp thật/ảo → TempDrops](features/tempdrops-windows/overview.md) — thả tệp Explorer/zip/Chrome/Edge lên Mí vào Shelf một Ngăn, tệp ảo ra `TempDrops\{Guid}\`, bộ dọn đủ năm quy tắc (✅ 2026-10-01, treo demo Outlook — máy không cài)
   - [Khay thẻ Shelf một Ngăn](features/shelf-tray-windows/overview.md) — khay thẻ ngang trên Mí, kéo thẻ hay cả Ngăn ra Explorer/trình duyệt (Copy), mở thư mục, bỏ Mục, báo tệp gốc đã mất; khay sống trong tiến trình con (✅ 2026-10-02, RAM tổng 28,3 MB)
+  - [Đích thả và gửi từ Mí](features/mi-dich-tha-windows/overview.md) — ô Shelf, avatar Thiết bị tin cậy, nút "Tất cả"; thả lên avatar là gửi (pull) với pill tiến trình thật; gửi thư mục; báo offline/đứt giữa chừng (✅ 2026-10-03)
   - Cấu trúc mỗi feature:
     - Overview (scope, user stories)
     - Workflow (step-by-step)

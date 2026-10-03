@@ -268,3 +268,21 @@ Và hàng rào RAM của CI đo lúc khởi động, tức trước khi thứ đ
 **Bài học**: với Windows, "API nhẹ" không có nghĩa là "DLL nhẹ". Giá RAM của một tính năng đọc ở bản publish sau lần dùng đầu, không đọc ở tên API. Và một DLL đã nạp thì chỉ có một cách bỏ đi: để tiến trình chứa nó chết.
 
 **Hành động tiếp theo**: tính năng nặng phần shell chạy trong tiến trình Snappy con. Cả khay (vì ràng buộc chuột của OLE), cả hộp chọn tệp, dùng chung `ChildProcess` ([ADR-0017](adr/0017-tinh-nang-nang-phan-shell-chay-trong-tien-trinh-con.md)). Biên theo red line tổng chỉ còn ~1,7 MB, nên ticket sau phải đo RAM sau lần dùng đầu ngay từ bản publish đầu tiên.
+
+---
+
+## [2026-10-03] Đích thả làm đúng kế hoạch — và ba phép đo của chính tôi đo sai thứ trước khi đo đúng
+
+**Kế hoạch**: Ticket 13 ([natuan1/peekvn#144](https://github.com/natuan1/peekvn/issues/144)) — Mí vẽ Đích thả, thả lên avatar là gửi qua đường pull của Ticket 09, pill báo tiến trình, đường hỏng có câu rõ ràng. Phần khó dự kiến là vẽ chữ trên layered window (GDI không biết alpha).
+
+**Kết quả thực tế**: phần dự kiến khó xong trong một buổi — chữ đi qua mặt nạ độ phủ, kiểm bằng ảnh dựng thật trước khi đụng app. Cái tốn thời gian là **dụng cụ đo**, ba lần:
+
+1. Trust Store đọc từ shell của agent là bản ảo hoá MSIX cũ (một thiết bị) — Snappy thật có hai, rồi ba.
+2. Điểm thả "giữa dải" của hai kịch bản cũ — "vào Shelf" từ Ticket 11 — trở thành avatar thứ ba khi Trust Store có ba máy. Kịch bản sẽ gửi tệp thử tới điện thoại.
+3. "Đóng app iPhone giữa chừng" không cắt được gì: tải về sống trong `nsurlsessiond`. Pill nói đúng "Đang gửi · 26%", còn kịch bản đỏ vì đòi một cú đứt chưa hề xảy ra.
+
+Và một phát hiện ngoài phạm vi: bấm "Có" ở hộp thoại ghép đôi chậm 30 giây làm Windows tin iPhone trong khi iPhone không tin Windows.
+
+**Bài học**: khi tính năng nằm giữa hai máy và dữ liệu của người dùng, **ý nghĩa** của một phép đo đổi theo thứ nằm ngoài mã — Trust Store thật, số thiết bị, cách iOS chạy tải về. Cả ba lần, câu hỏi cứu được là "phía bên kia ghi gì?": nhật ký thật của Snappy, dòng `Drop targets:` với toạ độ thật, dòng `interrupted` của server.
+
+**Hành động tiếp theo**: bài học 204–207 của `peekvn/docs/bai-hoc.md`; kịch bản đọc toạ độ đích từ nhật ký thay vì tự tính; red line RAM tổng (+0,9 MB của ticket, mốc nền trôi 2,5 MB trong mười phút) và bề rộng pill là hai câu hỏi cho chủ dự án; lỗi ghép đôi nửa vời tách thành việc riêng.
