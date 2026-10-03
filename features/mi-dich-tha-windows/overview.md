@@ -46,7 +46,7 @@ Mục **không bao giờ** rời Ngăn vì một lượt gửi hỏng — chúng
 
 | Tình huống | Pill | Sau đó |
 |---|---|---|
-| X không hỏi lời mời lần nào trong 15 s (app đóng, máy ngoài mạng) | "Không thấy X — mở app trên máy ấy để nhận" | bong bóng "Đã mời X… mở app trên X để nhận — lời mời giữ 24 giờ" |
+| X không hỏi lời mời lần nào trong 45 s (app đóng, máy ngoài mạng) | "Không thấy X — mở app trên máy ấy để nhận" | bong bóng "Đã mời X… mở app trên X để nhận — lời mời giữ 24 giờ" |
 | Byte dừng 20 s giữa chừng | "Mất kết nối với X — tệp vẫn ở Shelf" | bong bóng "Lượt gửi tới X dừng giữa chừng" |
 | X tự tạm dừng | "X tạm dừng nhận" — **không** tính là đứt | |
 | Bản ghép đôi cũ chưa có bảng năng lực | "Cần ghép đôi lại với X" | hộp thoại hướng dẫn ghép lại (sau khi cú thả xong) |
@@ -60,7 +60,7 @@ Mục **không bao giờ** rời Ngăn vì một lượt gửi hỏng — chúng
 - **Thư mục rỗng** không đi qua dây: P0 chưa gửi mục `directory` (SPEC §18.2). Thư mục không có
   tệp nào thì pill nói "Không có tệp nào để gửi".
 - Avatar không có chấm "trực tuyến": iPhone chỉ quảng bá khi app mở, nên một chấm xám đọc như
-  "không gửi được" trong khi lời mời vẫn sống 24 giờ. Phép đo thật là 15 s chờ ở pill.
+  "không gửi được" trong khi lời mời vẫn sống 24 giờ. Phép đo thật là 45 s chờ ở pill.
 - Pill ẩn giữa lúc Đang gửi thì không còn ai canh đứt; kết cục cuối vẫn tới bằng bong bóng
   "Đã gửi…" khi Phiên terminal.
 

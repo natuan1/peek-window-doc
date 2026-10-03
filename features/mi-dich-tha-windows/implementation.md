@@ -5,7 +5,7 @@ Mọi đường dẫn tính từ `peekvn/apps/windows/`.
 | Tệp | Vai |
 |---|---|
 | `src/Snappy.Core/MiTargets.cs` | **thuần**: chỗ từng Đích thả trên khay đã nở, `HitTest`, chữ cái avatar |
-| `src/Snappy.Core/SendPill.cs` | **thuần**: pha, chữ, tỉ lệ của pill; mọi hạn giờ (15 s / 20 s / 120 s / giữ 2–5 s) |
+| `src/Snappy.Core/SendPill.cs` | **thuần**: pha, chữ, tỉ lệ của pill; mọi hạn giờ (45 s / 20 s / 120 s / giữ 2–5 s) |
 | `src/Snappy.Core/MiContent.cs` | **thuần**: tô hình tròn, chữ (qua mặt nạ độ phủ), thanh tiến trình lên bộ đệm premultiplied |
 | `src/Snappy.Interop/TextRasterizer.cs` | GDI dựng một dòng chữ thành mặt nạ độ phủ |
 | `src/Snappy.Core/MiWindow.cs` | nối dây: `Over`/`Drop` hit-test, `ShowPill`, bộ đếm pill, `FootprintChanged` |

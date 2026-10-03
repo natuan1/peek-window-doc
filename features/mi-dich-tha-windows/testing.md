@@ -7,7 +7,7 @@
 | Lớp test | Khẳng định |
 |---|---|
 | `MiTargetsTests` | ô Shelf đầu trái, avatar kế tiếp, "Tất cả" dính mép phải; cột cao trọn khay; thiết bị thừa đi qua "Tất cả"; DPI; hit-test; mép trái + 40 px là ô Shelf ở mọi DPI × mọi số thiết bị, và **đối chứng**: x = 20% là avatar khi có ba máy; tô không bao giờ hạ alpha của thân; đích đang nhắm đổi màu; thanh tiến trình đúng tỉ lệ; chưa có byte thì không vẽ thanh |
-| `SendPillTests` | mọi mép giờ ở đúng mili-giây (15 s không bị hỏi, 20 s byte đứng, 120 s chờ người, giữ 2/5 s); Paused không phải đứt và đếm lại từ đầu khi tiếp tục; không "0%"; xong một phần không nói "đã gửi"; không mã kỹ thuật nào lên pill |
+| `SendPillTests` | mọi mép giờ ở đúng mili-giây (45 s không bị hỏi, 20 s byte đứng, 120 s chờ người, giữ 2/5 s); Paused không phải đứt và đếm lại từ đầu khi tiếp tục; không "0%"; xong một phần không nói "đã gửi"; không mã kỹ thuật nào lên pill |
 | `PullTests` (+3) | thư mục thành từng tệp với `relativePath` giữ cây, đúng byte qua dây thật; thư mục không có tệp → không có gì để gửi; một thư mục con bị cấm liệt kê (ACL deny thật) → **cả lượt** `FileUnreadable` |
 | `MiStateMachineTests` (+3) | `RunStarted` từ Nghỉ, từ khay đang nở, và khi pill đang chạy |
 | `SendNoticesTests` (+1) | câu "dừng giữa chừng" không nói "hỏng" và chỉ việc làm tiếp |
@@ -23,13 +23,21 @@ Máy nhận là **iOS Simulator** chạy app iOS của repo, ghép đôi SAS th�
 | Lượt | Kết quả |
 |---|---|
 | Thiết bị nhận được | khay nở với 3 avatar; nhắm/bỏ nhắm; ô Shelf; thả avatar → `Waiting -> Sending -> Done`, iPhone lưu tệp, SHA-256 trùng; thư mục → iPhone dựng lại `Thu muc C/con/hai.txt`, SHA-256 trùng; menu "Tất cả" chọn máy bằng bàn phím → pill; Esc và "Chỉ giữ ở Shelf" không gửi; bấm pill → ẩn, lượt gửi chạy tiếp |
-| `-Offline` (app iPhone đóng) | `Pill Waiting -> Failed (NotSeen)` đúng 15,0 s; bong bóng "Đã mời … mở app trên … để nhận" |
+| `-Offline` (app iPhone đóng) | `Pill Waiting -> Failed (NotSeen)` đúng hạn (15 s lúc đo, nay 45 s); bong bóng "Đã mời … mở app trên … để nhận" |
 | Thiết bị thật chưa có bảng năng lực | pill "Cần ghép đôi lại với iPhone của Tuấn" + hộp thoại hướng dẫn sau cú thả |
 | `-StallMB 3000` + tắt Simulator giữa chừng | `interrupted after 67567616 of 3145728000 bytes`; `Failed (Stalled)` 20,0 s sau; bong bóng "dừng giữa chừng"; Mục ở lại Ngăn |
 | CI Jenkins #155, #156 | đạt (vàng chỉ ở ký số); junit 706/0; bộ cài 11,01 MB |
 
 Ảnh thật (vẽ trên màn hình): avatar đang nhắm sáng xanh, nhãn "iPhone của Tuấn" đủ chữ, pill
 "Đang mời iPhone 17 Pro…" rồi "Đang gửi tới iPhone 17 Pro · 26%".
+
+## iPhone thật — 03/10/2026, qua iPhone Mirroring
+
+- Bản ghép đôi cũ (23/9, trước Ticket 09) → pill "Cần ghép đôi lại"; làm đúng như hộp thoại: quên NATUAN1 trên iPhone, ghép lại (SAS `948 604` hai đầu).
+- Thả lên avatar "iPhone của Tuấn" → iPhone hiện "Có tệp đang chờ bạn" → Nhận → "Đã nhận gui di B.txt từ NATUAN1".
+- **Lộ lỗi:** ngưỡng "Không thấy" 15 s báo nhầm offline 0,9 s trước lần hỏi đầu của iPhone. 76 lần hỏi đo được: 17% khe dài 15–21 s. Ngưỡng nay 45 s (bài học 208 của `peekvn`).
+- Lượt sau iPhone được cầm lên, app xuống nền, **0** lần hỏi: `Failed (NotSeen)` ở giây 45 — báo đúng.
+- ⚠️ Lời mời thư mục xếp hàng sau một hộp mời đang mở **không hiện** trên iPhone dù được kéo về hơn 20 lần — nghi ở hàng đợi lời mời phía iOS, chưa đo riêng, tách việc.
 
 ## Số đo RAM
 
@@ -44,7 +52,7 @@ cả ticket. Câu hỏi về red line ghi ở `peekvn/apps/windows/README.md` §
 
 ## Treo
 
-- **iPhone thật**: không cắm máy nào lúc làm ticket; cả hai thiết bị thật trong Trust Store có bản
-  ghép đôi chưa có bảng năng lực (chỉ đo được đường "Cần ghép đôi lại").
+- **Thư mục tới iPhone thật**: lượt đo duy nhất bị xếp hàng sau một hộp mời đang mở và không hiện
+  (xem mục iPhone thật ở trên). Đứt giữa chừng không đo được qua Mirroring.
 - **Đa màn hình, DPI ≠ 100%**: máy dev một màn hình 100% (test thuần đã phủ DPI 96–288).
 - **Capsule M3**: chưa tồn tại, hợp đồng `FootprintChanged` chưa có người nghe.

@@ -44,7 +44,7 @@ TransferStore.Read(id, me, PillProgress.Of)     dưới khoá: state, lần bị
 ```
 
 "Bên kia có mở app không" ở `pull` chỉ đo được bằng một thứ: bên kia có kéo danh sách lời mời
-về không (`Transfer.TimesSeenByReceiver`). iPhone hỏi mỗi 5 giây khi app mở; 15 s không thấy hỏi
+về không (`Transfer.TimesSeenByReceiver`). iPhone hỏi mỗi 5 giây khi app mở, nhưng 📐 có khe tới 21 s trên máy thật; 45 s không thấy hỏi
 là "Không thấy X".
 
 ## Bong bóng
