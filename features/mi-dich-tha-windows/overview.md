@@ -54,7 +54,7 @@ Mục **không bao giờ** rời Ngăn vì một lượt gửi hỏng — chúng
 
 ## Không làm (theo ticket hoặc cố ý)
 
-- **Capsule media M3 chưa tồn tại.** Ticket chỉ đòi hợp đồng: `MiWindow.FootprintChanged` báo khung
+- **Capsule media** ở ticket này chưa tồn tại — từ Ticket 15 nó có, xem [Capsule media](../capsule-media-windows/overview.md). Ticket này chỉ đòi hợp đồng: `MiWindow.FootprintChanged` báo khung
   Mí đang chiếm (hoặc `null` khi ẩn), một lần mỗi trạng thái đích. M3 nghe nó và trượt ra khỏi
   khung ấy. Chưa có ai đăng ký, nên chưa có phép đo nào cho nó.
 - **Thư mục rỗng** không đi qua dây: P0 chưa gửi mục `directory` (SPEC §18.2). Thư mục không có

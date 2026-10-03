@@ -55,4 +55,4 @@ cả ticket. Câu hỏi về red line ghi ở `peekvn/apps/windows/README.md` §
 
 - **Đứt giữa chừng trên iPhone thật**: không đo được qua Mirroring (đã đo trên Simulator).
 - **Đa màn hình, DPI ≠ 100%**: máy dev một màn hình 100% (test thuần đã phủ DPI 96–288).
-- **Capsule M3**: chưa tồn tại, hợp đồng `FootprintChanged` chưa có người nghe.
+- **Capsule media**: lúc Ticket 13 chưa tồn tại. Từ Ticket 15 hợp đồng `FootprintChanged` có người nghe và được đo ở `ci/check-media-capsule.ps1` kịch bản E.

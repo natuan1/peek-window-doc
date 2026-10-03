@@ -56,6 +56,7 @@ Feature-by-feature breakdown.
   - [Trích xuất tệp thật/ảo → TempDrops](features/tempdrops-windows/overview.md) — thả tệp Explorer/zip/Chrome/Edge lên Mí vào Shelf một Ngăn, tệp ảo ra `TempDrops\{Guid}\`, bộ dọn đủ năm quy tắc (✅ 2026-10-01, treo demo Outlook — máy không cài)
   - [Khay thẻ Shelf một Ngăn](features/shelf-tray-windows/overview.md) — khay thẻ ngang trên Mí, kéo thẻ hay cả Ngăn ra Explorer/trình duyệt (Copy), mở thư mục, bỏ Mục, báo tệp gốc đã mất; khay sống trong tiến trình con (✅ 2026-10-02, RAM tổng 28,3 MB)
   - [Đích thả và gửi từ Mí](features/mi-dich-tha-windows/overview.md) — ô Shelf, avatar Thiết bị tin cậy, nút "Tất cả"; thả lên avatar là gửi (pull) với pill tiến trình thật; gửi thư mục; báo offline/đứt giữa chừng (✅ 2026-10-03)
+  - [Capsule media trên Windows](features/capsule-media-windows/overview.md) — nhạc đang phát → capsule giữa dải Mí với bìa, điều khiển ⏸/▶/⏭, pin tai nghe GATT; trượt nhường Mí; tiến trình con, WinRT bằng vtable tay (✅ 2026-10-03, treo pin BLE thật + Spotify)
   - Cấu trúc mỗi feature:
     - Overview (scope, user stories)
     - Workflow (step-by-step)
@@ -88,6 +89,7 @@ Why we made important decisions.
 - [0015-tempdrops-mot-thu-muc-moi-muc-khong-hoi-shell-luc-tha.md](adr/0015-tempdrops-mot-thu-muc-moi-muc-khong-hoi-shell-luc-tha.md) — TempDrops một `{Guid}` mỗi Mục qua hàng rào S11/S16, trần 2 GiB + LRU; 📐 `SHGetFileInfoW` lúc thả tốn 2,3 MB nên dời tới khay thẻ — khay thẻ cũng không gọi, xem 0017 (2026-10-01)
 - [0016-kpi-ram-nen-do-bang-private-working-set.md](adr/0016-kpi-ram-nen-do-bang-private-working-set.md) — KPI RAM nền đo bằng private working set < 25 MB, red line 30 MB theo thước tổng; luồng UI tắt IME để menu khay không nạp TSF (2026-10-01)
 - [0017-tinh-nang-nang-phan-shell-chay-trong-tien-trinh-con.md](adr/0017-tinh-nang-nang-phan-shell-chay-trong-tien-trinh-con.md) — hộp chọn tệp và khay thẻ Shelf chạy trong tiến trình Snappy con; 📐 hộp chọn tệp 63 → 23 MB, kéo-thả Windows 11 +17 MB không còn ở tiến trình nền; icon thẻ là glyph (2026-10-02)
+- [0018-capsule-media-tien-trinh-con-winrt-bang-vtable-tay.md](adr/0018-capsule-media-tien-trinh-con-winrt-bang-vtable-tay.md) — capsule media là tiến trình con thường trực; GSMTC/WIC bằng vtable tay, pin qua Win32 GATT; 📐 projection CsWinRT trong exe = +1,1 MB private ở tiến trình nền dù không gọi (2026-10-03)
 - [0008-discovery-qua-responder-in-box-windows.md](adr/0008-discovery-qua-responder-in-box-windows.md) — discovery qua `dnsapi.dll` của Windows; hostname trong SRV phải là tên máy thật vì HĐH chỉ giữ bản ghi A cho tên nó (2026-09-18)
 
 **Format:** `NNNN-kebab-case-title.md`  

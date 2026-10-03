@@ -286,3 +286,15 @@ Và một phát hiện ngoài phạm vi: bấm "Có" ở hộp thoại ghép đ�
 **Bài học**: khi tính năng nằm giữa hai máy và dữ liệu của người dùng, **ý nghĩa** của một phép đo đổi theo thứ nằm ngoài mã — Trust Store thật, số thiết bị, cách iOS chạy tải về. Cả ba lần, câu hỏi cứu được là "phía bên kia ghi gì?": nhật ký thật của Snappy, dòng `Drop targets:` với toạ độ thật, dòng `interrupted` của server.
 
 **Hành động tiếp theo**: bài học 204–207 của `peekvn/docs/bai-hoc.md`; kịch bản đọc toạ độ đích từ nhật ký thay vì tự tính; red line RAM tổng (+0,9 MB của ticket, mốc nền trôi 2,5 MB trong mười phút) và bề rộng pill là hai câu hỏi cho chủ dự án; lỗi ghép đôi nửa vời tách thành việc riêng.
+
+---
+
+## [2026-10-03] Capsule media chạy trong tiến trình con — mà tiến trình nền vẫn trả 1,1 MB cho nó
+
+**Kế hoạch**: Ticket 15 đặt toàn bộ capsule (GSMTC, WIC, GATT) trong một tiến trình Snappy con, đúng như ADR-0017. Tiến trình nền không gọi một dòng WinRT nào, nên RAM của nó không được đổi. TFM đã có sẵn projection CsWinRT, nên viết `using Windows.Media.Control` là xong phần interop.
+
+**Kết quả thực tế**: Capsule chạy đúng, nhưng đối chứng xen kẽ với `main` cho tiến trình nền **+1,1 MB private, +2,6 MB tổng**, kèm một DLL mới là `oleaut32`. Một bản thăm dò không khởi động con cũng cho đúng con số ấy. Nguyên nhân là `WinRT.Runtime` và projection SDK mang `[ModuleInitializer]`, và Native AOT chạy mọi module initializer của ảnh exe lúc khởi động. Cùng bản ấy còn ném `InvalidCastException` khi truyền `List<string>` vào WinRT. Viết lại GSMTC/WIC bằng vtable tay và pin bằng Win32 thì tiến trình nền về sát `main` (không DLL mới), exe nhỏ lại 1,6 MB, và con cũng nhẹ hơn (34,9 → 27,8 MB tổng khi phát).
+
+**Bài học**: "Tách sang tiến trình khác" chỉ cô lập được thứ **chạy** ở tiến trình ấy. Nó không cô lập được thứ **có mặt** trong exe dùng chung. Với một exe AOT dùng cho cả cha lẫn con, cái giá của một thư viện tính theo sự có mặt, không theo lời gọi. Câu hỏi đúng không phải "ai gọi nó", mà là "nó có mang code chạy lúc nạp không".
+
+**Hành động tiếp theo**: [ADR-0018](adr/0018-capsule-media-tien-trinh-con-winrt-bang-vtable-tay.md) cấm projection CsWinRT trong mọi project sinh ra `Snappy.exe`. Mọi tính năng chạy trong tiến trình con từ nay đối chứng RAM **tiến trình nền** với `main`, kèm danh sách DLL, không chỉ đo tiến trình con. Ghi ở `peekvn/docs/bai-hoc.md` §209.

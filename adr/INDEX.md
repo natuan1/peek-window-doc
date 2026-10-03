@@ -31,6 +31,7 @@ Architecture Decision Records (ADRs) document significant decisions and their ra
 | [0015](0015-tempdrops-mot-thu-muc-moi-muc-khong-hoi-shell-luc-tha.md) | TempDrops **một thư mục `{Guid}` mỗi Mục**, ghi qua hàng rào S11/S16; trần 2 GiB + LRU; lúc thả **không** gọi `SHGetFileInfoW` (📐 2,3 MB RAM) | Accepted | 2026-10-01 |
 | [0016](0016-kpi-ram-nen-do-bang-private-working-set.md) | KPI RAM nền = **private working set < 25 MB** (red line 30 MB theo working set tổng); luồng UI tắt IME, hộp chọn tệp chạy luồng riêng (📐 menu khay 25,5 → 22,3 MB) | Accepted | 2026-10-01 |
 | [0017](0017-tinh-nang-nang-phan-shell-chay-trong-tien-trinh-con.md) | Tính năng nặng phần shell (**hộp chọn tệp**, **khay thẻ Shelf**) chạy trong **tiến trình Snappy con**; `ChildProcess` chung; icon thẻ là glyph (📐 hộp chọn tệp 63 → 23 MB) | Accepted | 2026-10-02 |
+| [0018](0018-capsule-media-tien-trinh-con-winrt-bang-vtable-tay.md) | **Capsule media** là tiến trình con thường trực; WinRT (GSMTC, WIC) bằng **vtable tay**, **không projection CsWinRT** trong exe; pin tai nghe qua Win32 GATT (📐 projection có mặt = +1,1 MB private ở nền) | Accepted | 2026-10-03 |
 
 ---
 
