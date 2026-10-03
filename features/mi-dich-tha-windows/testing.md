@@ -38,6 +38,7 @@ Máy nhận là **iOS Simulator** chạy app iOS của repo, ghép đôi SAS th�
 - **Lộ lỗi:** ngưỡng "Không thấy" 15 s báo nhầm offline 0,9 s trước lần hỏi đầu của iPhone. 76 lần hỏi đo được: 17% khe dài 15–21 s. Ngưỡng nay 45 s (bài học 208 của `peekvn`).
 - Lượt sau iPhone được cầm lên, app xuống nền, **0** lần hỏi: `Failed (NotSeen)` ở giây 45 — báo đúng.
 - ⚠️ Lời mời thư mục xếp hàng sau một hộp mời đang mở **không hiện** trên iPhone dù được kéo về hơn 20 lần — nghi ở hàng đợi lời mời phía iOS, chưa đo riêng, tách việc.
+- **Lượt đủ 17:24, ngưỡng 45 s:** B chờ 24 s rồi `Waiting -> Sending -> Done`; thư mục → "Đã nhận 2 tệp" (`hai.txt`, `mot.txt`) và pill `Done`; bấm pill ẩn, lượt gửi chạy tiếp; menu "Tất cả" gửi tới iPhone, Esc / "Chỉ giữ ở Shelf" không gửi. Lời mời thư mục lần này hiện ngay — hàng đợi ở dòng trên vẫn chưa giải thích.
 
 ## Số đo RAM
 
@@ -52,7 +53,6 @@ cả ticket. Câu hỏi về red line ghi ở `peekvn/apps/windows/README.md` §
 
 ## Treo
 
-- **Thư mục tới iPhone thật**: lượt đo duy nhất bị xếp hàng sau một hộp mời đang mở và không hiện
-  (xem mục iPhone thật ở trên). Đứt giữa chừng không đo được qua Mirroring.
+- **Đứt giữa chừng trên iPhone thật**: không đo được qua Mirroring (đã đo trên Simulator).
 - **Đa màn hình, DPI ≠ 100%**: máy dev một màn hình 100% (test thuần đã phủ DPI 96–288).
 - **Capsule M3**: chưa tồn tại, hợp đồng `FootprintChanged` chưa có người nghe.
