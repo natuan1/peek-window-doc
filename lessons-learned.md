@@ -332,4 +332,4 @@ Và một phát hiện ngoài phạm vi: bấm "Có" ở hộp thoại ghép đ�
 
 **Bài học**: Tên một API hay một định dạng ghi trong tài liệu kế hoạch là một dự định, chưa phải phép đo. Lần này nó sai ở hai chỗ, đều là chỗ mà test đơn vị không thể bắt: test dựng sẵn đúng cái tên sai mà mã đang kiểm, nên vẫn xanh. Và một bộ lọc dựa trên dấu chỉ giữ được lời hứa với những app **tự đánh dấu**. Không có cách trung thực nào nhận ra một mật khẩu chỉ từ nội dung của nó.
 
-**Hành động tiếp theo**: `ci/check-clipboard-keepassxc.ps1` đo với app thật và in ra bộ dấu nó đặt. Phạm vi của lời hứa được ghi ở ADR-0020 và trang tính năng. 1Password và Bitwarden vẫn treo vì cần tài khoản: đo chúng trước khi viết tài liệu marketing nói "chặn mật khẩu".
+**Hành động tiếp theo**: `ci/check-clipboard-keepassxc.ps1` đo với app thật và in ra bộ dấu nó đặt. Phạm vi của lời hứa được ghi ở ADR-0020 và trang tính năng. 1Password và Bitwarden ngoài phạm vi Ticket 16 (chủ dự án thu hẹp, cần tài khoản): đo chúng trước khi viết tài liệu marketing nói "chặn mật khẩu".

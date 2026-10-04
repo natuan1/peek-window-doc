@@ -19,6 +19,6 @@ Ticket: [natuan1/peekvn#147](https://github.com/natuan1/peekvn/issues/147) · Qu
 | "Mật khẩu KHÔNG BAO GIỜ vào lịch sử" | chỉ với app tự đánh dấu | 📐 `keepassxc-cli clip` không đặt dấu nào; như `Win+V` của Windows, Snappy giữ nó |
 | Phím tắt "hoặc tùy biến" | chưa tùy biến được | Onboarding (Ticket 17) là chỗ đặt phím tắt |
 
-## Treo
+## Ngoài phạm vi
 
-- **1Password, Bitwarden**: chưa thử — cả hai cần tài khoản. KeePassXC là trình quản lý mật khẩu thật duy nhất đã đo.
+- **1Password, Bitwarden**: chủ dự án thu hẹp tiêu chí ngày 2026-10-04 — cả hai cần tài khoản, chưa thử. KeePassXC là trình quản lý mật khẩu thật duy nhất đã đo.

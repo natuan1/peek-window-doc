@@ -28,7 +28,7 @@ ADR-0017 cô lập tính năng **nặng phần shell** trong tiến trình con. 
 - Lời hứa "mật khẩu không bao giờ vào lịch sử" chỉ giữ với app **tự đánh dấu**. `keepassxc-cli` và mọi app không đánh dấu thì bị giữ, như `Win+V` của Windows. Không có cách trung thực nào nhận ra mật khẩu từ nội dung.
 - Bảng ở tiến trình nền nạp `MSCTF`, `TextShaping`, `wtdccm`, `OLEAUT32` sau lần dùng đầu tiên (+0,3 MB private, +1,8 MB tổng), cùng họ với menu khay. Nếu biên red line tổng hẹp lại, đây là ứng viên chuyển sang tiến trình con.
 - Phím tắt chưa tùy biến được. Onboarding (Ticket 17) có bước "thiết lập phím tắt".
-- 1Password và Bitwarden chưa được đo (cần tài khoản).
+- 1Password và Bitwarden chưa được đo (cần tài khoản); chủ dự án đưa ra ngoài phạm vi Ticket 16 ngày 2026-10-04.
 
 ## Related
 

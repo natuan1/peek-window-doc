@@ -14,6 +14,6 @@
 
 RAM tiến trình nền: nghỉ 5,12 / 21,62 MB → sau bảng 5,44 / 23,39 MB (private / tổng), dưới KPI 25 MB private và red line 30 MB tổng.
 
-## Treo
+## Ngoài phạm vi
 
-1Password, Bitwarden — cần tài khoản.
+1Password, Bitwarden — cần tài khoản; chủ dự án thu hẹp tiêu chí ngày 2026-10-04.
