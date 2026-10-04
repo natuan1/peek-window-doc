@@ -64,9 +64,9 @@ Toàn bộ lý do ở [ADR-0019](../../adr/0019-ban-quyen-verify-tai-may-mang-tr
 
 ## Các bẫy đã gặp
 
-`OLEAUT32` hiện ra "sau kích hoạt" là do **dụng cụ đo**, không do bản quyền:
+`OLEAUT32` hiện ra "sau kích hoạt" là do **cú bấm chuột vào mục menu khay**, không do bản quyền:
 
-- UIA đọc tên mục menu khay rồi bấm chuột vào một mục bất kỳ thì chính Snappy nạp nó.
+- Bấm chuột vào mục nào của menu khay (cả "Mở bảng trạng thái") cũng làm tiến trình nền nạp nó, kể cả khi toạ độ lấy thuần Win32, không UIA. Nên người dùng thật cũng trả giá ấy. Đó là chuyện của menu khay, chưa rõ đường nạp.
 - Chọn mục bằng bàn phím thì không nạp.
 
-Kịch bản giờ kích hoạt bằng `↑↑↑ Enter`. Xem bài học 213 của `peekvn`.
+Kịch bản kích hoạt bằng `↑↑↑ Enter` để số đo so được giữa hai bản build. Xem bài học 213 của `peekvn` (cả phần đính chính).
