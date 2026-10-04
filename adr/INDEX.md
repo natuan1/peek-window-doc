@@ -33,6 +33,7 @@ Architecture Decision Records (ADRs) document significant decisions and their ra
 | [0017](0017-tinh-nang-nang-phan-shell-chay-trong-tien-trinh-con.md) | Tính năng nặng phần shell (**hộp chọn tệp**, **khay thẻ Shelf**) chạy trong **tiến trình Snappy con**; `ChildProcess` chung; icon thẻ là glyph (📐 hộp chọn tệp 63 → 23 MB) | Accepted | 2026-10-02 |
 | [0018](0018-capsule-media-tien-trinh-con-winrt-bang-vtable-tay.md) | **Capsule media** là tiến trình con thường trực; WinRT (GSMTC, WIC) bằng **vtable tay**, **không projection CsWinRT** trong exe; pin tai nghe qua Win32 GATT (📐 projection có mặt = +1,1 MB private ở nền) | Accepted | 2026-10-03 |
 | [0019](0019-ban-quyen-verify-tai-may-mang-trong-tien-trinh-con.md) | **Bản quyền**: Pro verify tại máy (Ed25519 tự viết, khoá **biên dịch sẵn**), hộp thoại Key + mạng trong **tiến trình con**, chỉ `410 slot-released`/`key-revoked` lấy lại Pro; khoá DEV chặn phát hành | Accepted | 2026-10-04 |
+| [0020](0020-lich-su-clipboard-loc-theo-dau-o-tien-trinh-nen.md) | **Lịch sử clipboard** lọc theo dấu (kể cả `…FromMonitorProcessing`), hỏi dấu trước khi đọc chữ, chỉ RAM; phím `Win+Alt+V`; bảng dán nhanh ở tiến trình nền | Accepted | 2026-10-04 |
 
 ---
 

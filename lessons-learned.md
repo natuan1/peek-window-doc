@@ -321,3 +321,15 @@ Và một phát hiện ngoài phạm vi: bấm "Có" ở hộp thoại ghép đ�
 - `peekvn/docs/bai-hoc.md` §212–214.
 - Các `check-*.ps1` cũ đo RAM sau khi bấm menu bằng UIA + chuột cần soát lại theo §213.
 - Các kịch bản cũ bấm khay cần phép kiểm "dưới điểm bấm là khay" của §214.
+
+---
+
+## [2026-10-04] Lịch sử clipboard: cơ chế trong kế hoạch sai hai chỗ, và lời hứa "không bao giờ" chỉ đúng một nửa
+
+**Kế hoạch**: Ticket 16 (M4) chép sẵn cơ chế từ kế hoạch: phím `Win+Shift+V`, và ba dấu `Clipboard Viewer Ignore` / `ExcludeClipboardContentFromMonitor` / `CanIncludeInClipboardHistory` là đủ để mật khẩu từ KeePass/Bitwarden/1Password "không bao giờ" vào lịch sử.
+
+**Kết quả thực tế**: Tính năng chạy đúng, nhưng ba phép đo làm lệch kế hoạch. (1) `RegisterHotKey` trả 1409 cho `Win+Shift+V`, vì Windows giữ phím ấy, nên phải đổi sang `Win+Alt+V`. (2) Nút "Copy Password" của KeePassXC thật đặt `ExcludeClipboardContentFromMonitorProcessing`, không phải tên trong ticket. Bản viết đúng theo ticket vẫn chặn được KeePassXC, nhưng chỉ nhờ dấu thứ hai. (3) `keepassxc-cli clip` không đặt dấu nào cả, nên Snappy giữ lại mật khẩu ấy, y như `Win+V` của Windows cũng giữ.
+
+**Bài học**: Tên một API hay một định dạng ghi trong tài liệu kế hoạch là một dự định, chưa phải phép đo. Lần này nó sai ở hai chỗ, đều là chỗ mà test đơn vị không thể bắt: test dựng sẵn đúng cái tên sai mà mã đang kiểm, nên vẫn xanh. Và một bộ lọc dựa trên dấu chỉ giữ được lời hứa với những app **tự đánh dấu**. Không có cách trung thực nào nhận ra một mật khẩu chỉ từ nội dung của nó.
+
+**Hành động tiếp theo**: `ci/check-clipboard-keepassxc.ps1` đo với app thật và in ra bộ dấu nó đặt. Phạm vi của lời hứa được ghi ở ADR-0020 và trang tính năng. 1Password và Bitwarden vẫn treo vì cần tài khoản: đo chúng trước khi viết tài liệu marketing nói "chặn mật khẩu".
