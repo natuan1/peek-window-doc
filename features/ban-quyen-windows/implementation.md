@@ -60,6 +60,7 @@ Toàn bộ lý do ở [ADR-0019](../../adr/0019-ban-quyen-verify-tai-may-mang-tr
 | Tiến trình nền lúc nghỉ, Free | private 5,09 MB, tổng 21,5 MB |
 | Sau một lần mở menu khay | 5,28 / 23,16 MB |
 | Sau kích hoạt trọn (con chạy, token lưu, bong bóng) | **6,69 / 24,77 MB**, không DLL mới |
+| Lúc nghỉ, **bản Pro** (verify token lúc khởi động) | **6,48 / 23,07 MB** — +1,33 MB private so với Free, trả ở **mỗi** lần mở: heap managed của verify `BigInteger`, không DLL. Chỗ đầu tiên để cắt nếu biên RAM hẹp lại |
 
 ## Các bẫy đã gặp
 
