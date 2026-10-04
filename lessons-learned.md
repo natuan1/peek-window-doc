@@ -333,3 +333,18 @@ Và một phát hiện ngoài phạm vi: bấm "Có" ở hộp thoại ghép đ�
 **Bài học**: Tên một API hay một định dạng ghi trong tài liệu kế hoạch là một dự định, chưa phải phép đo. Lần này nó sai ở hai chỗ, đều là chỗ mà test đơn vị không thể bắt: test dựng sẵn đúng cái tên sai mà mã đang kiểm, nên vẫn xanh. Và một bộ lọc dựa trên dấu chỉ giữ được lời hứa với những app **tự đánh dấu**. Không có cách trung thực nào nhận ra một mật khẩu chỉ từ nội dung của nó.
 
 **Hành động tiếp theo**: `ci/check-clipboard-keepassxc.ps1` đo với app thật và in ra bộ dấu nó đặt. Phạm vi của lời hứa được ghi ở ADR-0020 và trang tính năng. 1Password và Bitwarden ngoài phạm vi Ticket 16 (chủ dự án thu hẹp, cần tài khoản): đo chúng trước khi viết tài liệu marketing nói "chặn mật khẩu".
+
+---
+
+## [2026-10-04] Onboarding đạt ngay lượt đo đầu tiên tới được nó — và hai lượt trước đó không tới được vì "lần đầu cài đặt" không có sẵn trên máy dev
+
+**Kế hoạch**: Ticket 17 ([natuan1/peekvn#148](https://github.com/natuan1/peekvn/issues/148)) nghiệm thu bằng đúng đường người dùng: chạy `Snappy-win-Setup.exe`, onboarding tự hiện, đi hết ba bước. Phần dự kiến khó là mã QR tự viết và cú kéo tệp mẫu từ một tiến trình con lên Mí của tiến trình nền.
+
+**Kết quả thực tế**: cả hai phần "khó" chạy ngay lần đầu — ZXing đọc ra đúng URL từ cả ma trận lẫn ảnh chụp màn hình, cú kéo vào ô Shelf. Hai lượt nghiệm thu đầu đỏ ở **bước A**, không phải vì app:
+
+1. Máy dev đã có Snappy cài thật. Setup bật hộp thoại ghi đè và chờ người bấm, năm phút sau tự huỷ — không app nào được mở. Nhật ký của Setup nằm trong thư mục cài, và bước "trả lại y nguyên" của kịch bản xoá mất nó.
+2. Tiến trình `Snappy.exe` sớm nhất sau Setup là hook `--veloapp-install`, không phải app.
+
+**Bài học**: "lần đầu cài đặt" là một **trạng thái của máy**, không phải một hành động. Trên máy dev nó không bao giờ có sẵn, và kịch bản phải dựng nó (sao lưu, xoá, cài, trả lại) — kèm nguyên tắc chép bằng chứng ra ngoài **trước** khi trả lại. Cùng họ với Ticket 13: khi tính năng chạm dữ liệu thật của người dùng (bản cài, Trust Store), ý nghĩa của phép đo đổi theo thứ nằm ngoài mã.
+
+**Hành động tiếp theo**: `ci/check-onboarding.ps1` dựng máy mới và trả lại bằng `robocopy /MIR`; bài học 219–221 ở `peekvn/docs/bai-hoc.md`; [ADR-0021](adr/0021-onboarding-tien-trinh-con-hen-bang-co-lan-chay-dau.md). Mốc "60 giây" của story 37 vẫn chưa đo với người dùng thật.

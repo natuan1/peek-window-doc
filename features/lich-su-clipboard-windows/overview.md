@@ -17,7 +17,7 @@ Ticket: [natuan1/peekvn#147](https://github.com/natuan1/peekvn/issues/147) · Qu
 | Phím `Win+Shift+V` | `Win+Alt+V` | 📐 `RegisterHotKey` trả 1409 — Windows giữ `Win+Shift+V` và `Win+V` |
 | Dấu `ExcludeClipboardContentFromMonitor` | kiểm thêm `ExcludeClipboardContentFromMonitorProcessing` | 📐 tên có tài liệu, và là tên KeePassXC 2.7.12 đặt thật |
 | "Mật khẩu KHÔNG BAO GIỜ vào lịch sử" | chỉ với app tự đánh dấu | 📐 `keepassxc-cli clip` không đặt dấu nào; như `Win+V` của Windows, Snappy giữ nó |
-| Phím tắt "hoặc tùy biến" | chưa tùy biến được | Onboarding (Ticket 17) là chỗ đặt phím tắt |
+| Phím tắt "hoặc tùy biến" | chưa tùy biến được | Onboarding (Ticket 17) đặt phím mở **Shelf**, không đặt phím này — [ADR-0021](../../adr/0021-onboarding-tien-trinh-con-hen-bang-co-lan-chay-dau.md) |
 
 ## Ngoài phạm vi
 
