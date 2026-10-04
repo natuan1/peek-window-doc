@@ -298,3 +298,26 @@ Và một phát hiện ngoài phạm vi: bấm "Có" ở hộp thoại ghép đ�
 **Bài học**: "Tách sang tiến trình khác" chỉ cô lập được thứ **chạy** ở tiến trình ấy. Nó không cô lập được thứ **có mặt** trong exe dùng chung. Với một exe AOT dùng cho cả cha lẫn con, cái giá của một thư viện tính theo sự có mặt, không theo lời gọi. Câu hỏi đúng không phải "ai gọi nó", mà là "nó có mang code chạy lúc nạp không".
 
 **Hành động tiếp theo**: [ADR-0018](adr/0018-capsule-media-tien-trinh-con-winrt-bang-vtable-tay.md) cấm projection CsWinRT trong mọi project sinh ra `Snappy.exe`. Mọi tính năng chạy trong tiến trình con từ nay đối chứng RAM **tiến trình nền** với `main`, kèm danh sách DLL, không chỉ đo tiến trình con. Ghi ở `peekvn/docs/bai-hoc.md` §209.
+
+---
+
+## [2026-10-04] Bản quyền chạy đúng ngay lượt nghiệm thu đầu — và ba "lỗi" đầu tiên kịch bản báo đều là lỗi của kịch bản
+
+**Kế hoạch**: Ticket 14 ([natuan1/peekvn#145](https://github.com/natuan1/peekvn/issues/145)) có ba phần dự kiến khó: Ed25519 không có trong .NET, Credential Manager, và giữ tiến trình nền không có `HttpClient`.
+
+**Kết quả thực tế**:
+
+- Cả ba xong trong buổi đầu. Verify tự viết khớp vector RFC 8032 và BouncyCastle ngay lần chạy đầu. Kích hoạt, khởi động lại có/không mạng, gỡ Slot đều đúng.
+- Thời gian lại đi vào bốn báo động của `ci/check-license.ps1`, không cái nào là lỗi sản phẩm:
+  1. Key thử `SNPY-DEV0-FULL-…` có chữ `U` nằm ngoài bảng Crockford, nên app (đúng) chặn ở "sai dạng".
+  2. `cmdkey /list` in tên đích cả khi không có mục, nên phép kiểm token xanh ở cả hai chiều.
+  3. Bong bóng của chính Snappy nằm lại khi người dùng vắng máy và đè lên vùng tràn khay.
+  4. `OLEAUT32` "sau kích hoạt" thật ra do UIA của kịch bản nạp vào Snappy.
+
+**Bài học**: báo động đầu tiên của một kịch bản nghiệm thu mới nên được nghi là của kịch bản trước, nhưng phải **đo** để bác, không được gạt đi. Bốn lần ở đây đều bác được trong vài phút bằng một phép đối chứng: chạy tay ở trạng thái "không có", ảnh chụp màn hình, exe thử, cử chỉ bàn phím thay UIA. Và một lần (cmdkey) chính kịch bản đã xanh giả ở bước trước mà không ai thấy.
+
+**Hành động tiếp theo**:
+
+- `peekvn/docs/bai-hoc.md` §212–214.
+- Các `check-*.ps1` cũ đo RAM sau khi bấm menu bằng UIA + chuột cần soát lại theo §213.
+- Các kịch bản cũ bấm khay cần phép kiểm "dưới điểm bấm là khay" của §214.
