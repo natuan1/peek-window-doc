@@ -7,7 +7,7 @@ Status: Accepted
 
 Ngày 2026-09-13 thương hiệu được chốt là **Snappy** (tái xác nhận cùng ngày sau khi phát hiện mobile đang chạy dưới tên cũ "Peek"); app mobile sẽ đổi label theo. Tuy nhiên, service mDNS mà toàn bộ hệ sinh thái đang phát sóng và khám phá là **`_peek._tcp`** (port 8443, TLS 1.3):
 
-- iOS ("Peek") và Android đang advertise `_peek._tcp` — đã phát hành tới người dùng. *(📐 sửa 06/10/2026: chỉ Android advertise; **iOS v1 không quảng bá gì cả** — client-only, `NWBrowser` không kèm `NWListener`, không mở server — xem `apps/ios/peek/Peek/DoLoiMoiDen.swift` và ADR-0027 của monorepo `peekvn` §5. Đo được hai lượt `mdns-browse -- _peek._tcp` 06/10/2026: Peek mở trên iPhone thật mà dây chỉ có bản ghi của Snappy; đối chứng `_airplay._tcp` thấy thiết bị Apple khác trên cùng mạng.)*
+- iOS ("Peek") và Android đang advertise `_peek._tcp` — đã phát hành tới người dùng. *(📐 sửa 06/10/2026: chỉ Android advertise; **iOS v1 không quảng bá gì cả** — client-only, `NWBrowser` không kèm `NWListener`, không mở server — xem `apps/ios/peek/Peek/DoLoiMoiDen.swift` và ADR-0027 của monorepo `peekvn`, mục Quyết định điểm 5. Đo được hai lượt `mdns-browse -- _peek._tcp` 06/10/2026: Peek mở trên iPhone thật mà dây chỉ có bản ghi của Snappy; đối chứng `_airplay._tcp` thấy thiết bị Apple khác trên cùng mạng.)*
 - `protocol/SPEC.md` (nguồn chuẩn hiện hành của ULTP) và interop suite/fixtures của monorepo `peekvn` đều neo vào tên service này.
 - Tên service là **định danh kỹ thuật ẩn với người dùng cuối**: người dùng không bao giờ thấy `_peek._tcp` trên màn hình — họ thấy thương hiệu Snappy.
 
