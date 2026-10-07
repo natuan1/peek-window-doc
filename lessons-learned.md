@@ -348,3 +348,15 @@ Và một phát hiện ngoài phạm vi: bấm "Có" ở hộp thoại ghép đ�
 **Bài học**: "lần đầu cài đặt" là một **trạng thái của máy**, không phải một hành động. Trên máy dev nó không bao giờ có sẵn, và kịch bản phải dựng nó (sao lưu, xoá, cài, trả lại) — kèm nguyên tắc chép bằng chứng ra ngoài **trước** khi trả lại. Cùng họ với Ticket 13: khi tính năng chạm dữ liệu thật của người dùng (bản cài, Trust Store), ý nghĩa của phép đo đổi theo thứ nằm ngoài mã.
 
 **Hành động tiếp theo**: `ci/check-onboarding.ps1` dựng máy mới và trả lại bằng `robocopy /MIR`; bài học 219–221 ở `peekvn/docs/bai-hoc.md`; [ADR-0021](adr/0021-onboarding-tien-trinh-con-hen-bang-co-lan-chay-dau.md). Mốc "60 giây" của story 37 vẫn chưa đo với người dùng thật.
+
+---
+
+## [2026-10-07] Phép thử "bật máy bay, cắt 10 giây" không gây ra đứt — resume được chứng minh nhờ đổi phép thử, không nhờ mã sửa
+
+**Kế hoạch**: Ticket 08 (peekvn#139) nghiệm thu tiêu chí cuối bằng đúng quy trình đã viết sẵn trong `interoperability/manual-ios.md`: đẩy tệp lớn từ iPhone, "bật Chế độ máy bay giữa chừng, đợi 10 giây, tắt" ba lần, đọc dòng `Upload dropped at byte N` làm bằng chứng đứt.
+
+**Kết quả thực tế**: hai tầng giả định của quy trình vỡ trước khi sản phẩm phải làm gì. (1) Bật máy bay từ Control Center không tắt Wi-Fi — iOS nhớ lựa chọn "giữ Wi-Fi trong máy bay", người cầm máy phải nói ra thì mới nhìn ra. (2) Tắt thẳng Wi-Fi 10 giây với IP không đổi thì TCP ride-through: một lượt 740 MB đi qua 3 lần cắt như thế với một connection duy nhất, không một dòng `HEAD` — phép đo resume thành phép chờ Wi-Fi vào lại mạng. Và dòng `Upload dropped at byte N` dùng làm bằng chứng không bao giờ bắn: nó thuộc lớp hỏng có FIN/RST (server chủ động bỏ), còn radio biến mất không sinh FIN/RST. Chuyển sang tắt Wi-Fi ≥ 30 giây thì đứt thật xuất hiện — resume `HEAD`→`PATCH` đúng offset ở 740 MB lẫn 2,4 GB, tỉ số lưu lượng ≈ 1,05, hash khớp lượt liền mạch. Mã không phải sửa gì; cái sửa là phép thử.
+
+**Bài học**: tên một cử chỉ không phải cơ chế của nó, và một phép thử không gây ra thứ nó đo thì phép đo sau nó nói về thứ khác. Cùng cử chỉ 10 giây cho hai kết quả khác nhau trong cùng một phiên (một lượt ride-through, một lượt resume 3 lần) — biến số thật là trạng thái in-flight của socket, thứ chỉ log phía nhận nhìn thấy. Bằng chứng "đã đứt" phải là dấu hiệu của tầng cần đo (IP/port mới, `TLS handshake … failed`), không phải cảm giác của tay bấm.
+
+**Hành động tiếp theo**: `peekvn/docs/bai-hoc.md` §224; `manual-ios.md` § Ticket 08 viết lại theo chữ ký log thật; hồ sơ đo `peekvn/docs/spikes/ticket-08-resumable-tren-iphone-that.md`; ADR-0003 đóng negative consequence đầu.

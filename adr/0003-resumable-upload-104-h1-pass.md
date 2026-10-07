@@ -38,6 +38,11 @@ không một lần văng kết nối, tốc độ A≈B trong biên độ nhiễ
 ### Negative Consequences (Trade-offs)
 - **URLSession background (qua `nsurlsessiond`) chưa đo trực tiếp** — spike dùng Safari (CFNetwork
   in-process, cùng lõi parse). Kiểm chứng khi implement thật với app Peek.
+  ✅ **Đã kiểm chứng 07/10/2026** (peekvn issue #139, hồ sơ
+  `peekvn/docs/spikes/ticket-08-resumable-tren-iphone-that.md`): background
+  `URLSession` thật trên iOS 26.6 tôn trọng `104` trên h1 — resume `HEAD`→`PATCH`
+  đúng offset ở 740 MB và 2,4 GB tệp thật, tỉ số lưu lượng ≈ 1,05, hash khớp lượt
+  liền mạch. Rủi ro này đóng.
 - **Phát hiện phụ khi đo:** trên plain HTTP, client XHR không tự phát header `Upload-*` — CFNetwork
   có vẻ gate hành vi draft theo secure context (khác §17.5 đo trên host TLS). Production là TLS
   nên chuỗi khép (TLS → header tự phát → h1+104 xử lý đúng), nhưng server **chỉ nên gửi `104`
@@ -58,3 +63,8 @@ không một lần văng kết nối, tốc độ A≈B trong biên độ nhiễ
 
 ## Decision Log
 - 2026-09-15: Accepted — spike PASS trên iPhone thật cùng ngày.
+- 2026-10-07: Negative consequence đầu đóng — background `URLSession` (iOS 26.6,
+  `nsurlsessiond`) resume đúng offset trên h1 với tệp thật 740 MB và 2,4 GB;
+  `104` + `Upload-Draft-Interop-Version: 6` được client Apple tôn trọng mà không
+  cần ALPN `h2`. Bằng chứng: peekvn issue #139, spike
+  `peekvn/docs/spikes/ticket-08-resumable-tren-iphone-that.md`.
