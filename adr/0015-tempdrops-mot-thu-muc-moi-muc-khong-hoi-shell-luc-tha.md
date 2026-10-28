@@ -51,8 +51,10 @@ working set lên **26,5 MB**. Đối chứng chỉ thay lời gọi ấy bằng 
 - Giữa Ticket 11 và Ticket 12, người dùng thả được tệp nhưng chỉ thấy nó qua con số
   trong mục khay "Xoá sạch Shelf (n mục)".
 - LRU hôm nay trùng thứ tự thả: chưa có ai gọi `Touch` (kéo ra, gửi đi là của 12/13).
-- Kéo cả một thư Outlook (`IStorage`) bị từ chối có log; tệp đính kèm Outlook **chưa
-  đo** (máy dev không cài Outlook).
+- Kéo cả một thư Outlook (`IStorage`) bị từ chối có log. Tệp đính kèm Outlook: 📐
+  28/10/2026 — Outlook mới (olk) trao kéo chỉ định dạng web Chromium, không có
+  `FileGroupDescriptorW` để đọc; Outlook Desktop không có trên máy dev (đường
+  `IStream` của nó được chứng minh qua tệp trong zip).
 - Chép tệp ảo là đồng bộ trong `Drop` — OLE không hứa đối tượng dữ liệu sống lâu hơn.
   Một tệp lớn giữ Mí đứng yên trong lúc chép; nhật ký ghi thời gian.
 

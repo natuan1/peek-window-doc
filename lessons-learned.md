@@ -360,3 +360,15 @@ Và một phát hiện ngoài phạm vi: bấm "Có" ở hộp thoại ghép đ�
 **Bài học**: tên một cử chỉ không phải cơ chế của nó, và một phép thử không gây ra thứ nó đo thì phép đo sau nó nói về thứ khác. Cùng cử chỉ 10 giây cho hai kết quả khác nhau trong cùng một phiên (một lượt ride-through, một lượt resume 3 lần) — biến số thật là trạng thái in-flight của socket, thứ chỉ log phía nhận nhìn thấy. Bằng chứng "đã đứt" phải là dấu hiệu của tầng cần đo (IP/port mới, `TLS handshake … failed`), không phải cảm giác của tay bấm.
 
 **Hành động tiếp theo**: `peekvn/docs/bai-hoc.md` §224; `manual-ios.md` § Ticket 08 viết lại theo chữ ký log thật; hồ sơ đo `peekvn/docs/spikes/ticket-08-resumable-tren-iphone-that.md`; ADR-0003 đóng negative consequence đầu.
+
+---
+
+## [2026-10-28] Tiêu chí "demo Outlook" treo bốn tuần không phải vì mã — và khi đo được thì nguyên nhân chuyển tầng
+
+**Kế hoạch**: Ticket 11 ([natuan1/peekvn#142](https://github.com/natuan1/peekvn/issues/142)) hứa kéo tệp đính kèm từ Outlook ra Mí vào đúng tên, đúng byte. Máy dev không cài Outlook Desktop nên tiêu chí treo từ 01/10 với ghi chú "máy không cài".
+
+**Kết quả thực tế**: 28/10 phép đo thành hiện thực: Outlook mới (olk) được đăng nhập, mở một `.eml` tự tạo chứa tệp đính kèm 200 000 byte, kéo thật bằng `SendInput` cả chip đính kèm có tên lẫn ảnh nội dòng, thả đúng ô Shelf trên Mí. Cả hai lượt, Mí thấy cú kéo nhưng nguồn chỉ trao `DragContext`, `DragImageBits`, `chromium/x-renderer-taint`, `chromium/x-drag-id`, `Chromium Web Custom MIME Data Format` — không `CF_HDROP`, không `FileGroupDescriptorW`/`FileContents`. Không có gì để trích xuất, `TempDrops` 0.
+
+**Bài học**: Ghi chú "treo vì thiếu phần mềm" đúng nhưng dừng ở tầng môi trường; khi môi trường hoá ra đo được (olk đăng nhập xong), nguyên nhân chuyển sang tầng căn bản: giao diện thư của Outlook mới là web renderer, cú kéo của nó không bao giờ mang định dạng tệp OLE. Không receiver nào nhận kéo từ olk được — hành vi của nguồn, không phải lỗ hổng của Snappy. Một tiêu chí treo nên ghi rõ *cái gì sẽ đổi nếu môi trường đổi*; ở đây: không gì đổi được kết cục từ phía nhận.
+
+**Hành động tiếp theo**: Đóng #142 với bốn tiêu chí còn lại đạt 28/10 trên `main`. Nếu một ngày cần nhận tệp từ Outlook mới thì đường duy nhất là "Copy to"/clipboard, không phải kéo-thả — việc của một ticket khác nếu có người dùng thật cần.

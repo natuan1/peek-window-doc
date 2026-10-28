@@ -36,10 +36,30 @@ tên, dung lượng, SHA-256 — với nguồn. 📐 01/10/2026, bản AOT:
 `check-mi-drag.ps1` của Ticket 10 vẫn đạt cả năm kịch bản. Bộ cài 10,88 MB (KPI 15 MB).
 Khởi động sau khi cấy một thư mục rác: `Purged 1 leftover entries from a previous run`.
 
-## Treo
+📐 **28/10/2026 chạy lại trên `main`** (publish của HEAD, 972 test xanh): `KẾT QUẢ`
+xanh cả bốn nguồn đúng tên, đúng byte; F xoá sạch TempDrops 3 → 0; G
+`Wiped TempDrops on exit (1 drops)`. RAM theo thước
+[ADR-0016](../../adr/0016-kpi-ram-nen-do-bang-private-working-set.md): sau bốn cú thả
+private **6,33 MB** / tổng 26,53 MB; sau menu khay + thả lại private **6,50 MB** /
+tổng 27,18 MB (KPI private < 25, red line tổng 30).
 
-- **Outlook Desktop** — máy không cài. Không chặn Ticket 12/13; chặn việc đóng tiêu
-  chí "attachment Outlook" của #142.
+## Outlook — đã đo 2026-10-28, kết cục không nằm ở phía nhận
+
+- **Outlook Desktop** — máy không cài; đường `IStream` của nó được chứng minh bằng
+  tệp trong zip. Không chặn ticket nào.
+- **Outlook mới (olk)** — đã đăng nhập, mở `.eml` tự tạo (tệp đính kèm 200 000 byte),
+  kéo thật bằng `SendInput` qua màn che, thả đúng ô Shelf trên Mí. Cả hai dạng nguồn
+  (chip `tep-dinh-kem-olk.bin` lẫn ảnh nội dòng) Mí ghi nhận cùng một bộ định dạng:
+
+  ```
+  Drag offers: DragContext[4], DragImageBits[1], chromium/x-renderer-taint[1],
+               chromium/x-drag-id[1], Chromium Web Custom MIME Data Format[1]
+  ```
+
+  Không `CF_HDROP`, không `FileGroupDescriptorW`/`FileContents` → `TempDrops` 0.
+  Giao diện thư của Outlook mới là web renderer: cú kéo của nó không mang định dạng
+  tệp OLE, nên **không receiver nào** trích xuất được — hành vi của nguồn, không phải
+  lỗ hổng của Snappy.
 - ~~RAM sau khi mở menu khay 25,5 MB~~ — đã sửa 2026-10-01 ([ADR-0016](../../adr/0016-kpi-ram-nen-do-bang-private-working-set.md)).
   Mốc "sau menu + thả lại" của `check-drop-extract.ps1` giờ là hàng rào: 📐 private
   6,0 MB, tổng 25,9 MB (KPI private < 25, red line tổng 30).

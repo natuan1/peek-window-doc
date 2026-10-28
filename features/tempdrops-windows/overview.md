@@ -1,11 +1,15 @@
 # Trích xuất tệp thật/ảo → TempDrops — Ticket 11
 
 **Trạng thái:** implement xong 2026-10-01 trên nhánh `feat/142-tempdrops`
-([#142](https://github.com/natuan1/peekvn/issues/142)).
+([#142](https://github.com/natuan1/peekvn/issues/142)), nghiệm thu lại và đóng
+2026-10-28 trên `main`: bốn nguồn kéo đúng tên, đúng byte, 972 test xanh.
 
-**Treo:** demo tệp đính kèm **Outlook Desktop** — máy dev không cài Outlook. Đường
-`FileGroupDescriptorW` + `IStream` đã đo bằng tệp kéo từ trong một thư mục zip của
-Explorer, cùng định dạng, nhưng không thay được nguồn thật.
+**Outlook:** Outlook Desktop không có trên máy dev — đường `FileGroupDescriptorW` +
+`IStream` của nó được chứng minh bằng tệp kéo từ trong một thư mục zip của Explorer
+(cùng định dạng). **Outlook mới (olk), đã đăng nhập, đo thật 28/10/2026: kéo tệp
+đính kèm — cả chip có tên lẫn ảnh nội dòng — chỉ trao định dạng web của Chromium**,
+không `CF_HDROP`, không `FileGroupDescriptorW`/`FileContents`, nên không có gì để
+trích xuất. Hành vi của nguồn kéo, không phải của Snappy.
 
 ## Làm được gì
 
@@ -20,7 +24,8 @@ kéo tệp  →  Mí nở ra  →  thả  →  Mục vào Ngăn
 | Explorer, tệp hay thư mục thường | đường dẫn gốc (`CF_HDROP`) | **không** — Mục trỏ thẳng tệp của người dùng |
 | Explorer, tệp **trong zip** | tệp ảo (`IStream`) | `TempDrops\{Guid}\<tên gốc>` |
 | Chrome, Edge — ảnh trên trang | tệp ảo (`HGLOBAL`) | như trên |
-| Outlook Desktop — tệp đính kèm | tệp ảo (`IStream`) | như trên — **chưa đo** |
+| Outlook Desktop — tệp đính kèm | tệp ảo (`IStream`) | như trên — máy dev không cài |
+| Outlook mới (olk) — tệp đính kèm | **không trao định dạng tệp nào** (kéo web Chromium) | không thể trích xuất — 📐 đo 28/10/2026 |
 
 Mỗi Mục mang: tên, dung lượng, MIME type (từ byte đầu tệp, không chỉ từ đuôi).
 
