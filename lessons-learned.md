@@ -372,3 +372,15 @@ Và một phát hiện ngoài phạm vi: bấm "Có" ở hộp thoại ghép đ�
 **Bài học**: Ghi chú "treo vì thiếu phần mềm" đúng nhưng dừng ở tầng môi trường; khi môi trường hoá ra đo được (olk đăng nhập xong), nguyên nhân chuyển sang tầng căn bản: giao diện thư của Outlook mới là web renderer, cú kéo của nó không bao giờ mang định dạng tệp OLE. Không receiver nào nhận kéo từ olk được — hành vi của nguồn, không phải lỗ hổng của Snappy. Một tiêu chí treo nên ghi rõ *cái gì sẽ đổi nếu môi trường đổi*; ở đây: không gì đổi được kết cục từ phía nhận.
 
 **Hành động tiếp theo**: Đóng #142 với bốn tiêu chí còn lại đạt 28/10 trên `main`. Nếu một ngày cần nhận tệp từ Outlook mới thì đường duy nhất là "Copy to"/clipboard, không phải kéo-thả — việc của một ticket khác nếu có người dùng thật cần.
+
+---
+
+## [2026-10-28] Tiêu chí "bộ nhớ phẳng" viết lúc spec phải đọc lại qua retention của sản phẩm — tăng đều có khi là hành vi đúng
+
+**Kế hoạch**: Ticket 18 ([natuan1/peekvn#149](https://github.com/natuan1/peekvn/issues/149)) đòi stress truyền thư mục ~5.000 tệp liên tục với "bộ nhớ phẳng trước/sau". Ý định ban đầu: đo RAM trước vòng 1 và sau vòng cuối, khẳng định bằng nhau.
+
+**Kết quả thực tế**: `TransferStore` giữ transfer đã kết thúc 30 phút (`KeepTerminalFor`) — mỗi vòng stress chừa lại trạng thái của một transfer 5.000 mục, nên tăng đều ~mấy MB/vòng là **hành vi đúng của retention**, không phải rò rỉ. Đo "phẳng tuyệt đối" thì một implementation tuân thủ spec sản phẩm cũng đỏ. Phép đo đổi thành **hình dạng**: bước tăng giữa các vòng không được LỚN DẦN (rò rỉ giữ thêm một lượng tăng dần — thân tệp, token; retention tăng đều rồi GC dọn). Lượt đo thật 28/10: +19,9 · +15,2 · +7,6 · −1,9 · +5,1 MB/vòng — giảm dần, đạt. Phát hiện kèm theo: offer một thư mục giữ nguyên tên thư mục gốc trên dây (`relativePath = corpus/…`) — đúng hành vi kéo-thả cả thư mục trong UI, bài đo phải khớp hình dạng ấy chứ không phải "sửa" nó.
+
+**Bài học**: tiêu chí đo viết lúc spec thường giả định hệ thống không giữ trạng thái nào; nhưng giữ trạng thái là quyết định sản phẩm có chủ ý. Phép đo độ bền phải đọc mã giữ trạng thái **trước khi** định nghĩa "phẳng" — ngược lại thì hàng rào đỏ với mã đúng và xanh với mã lệch. Cùng họ với "CPU ~0 %": phải vận hành hoá thành ngưỡng ghi được (< 1 % tổng số lõi) thì mới kiểm được.
+
+**Hành động tiếp theo**: #149 để OPEN tới khi đủ: lượt soak 72 giờ thật (chạy detached sau CI — build Jenkins `taskkill` Snappy trên máy dev), checklist màn hình/DPI/10 game cần người, bộ cài signed (treo tới có Azure Trusted Signing). Tiêu chí "cài sạch Win10 21H2/22H2 + LTSC 2019" **mâu thuẫn** với [ADR-0009](adr/0009-tls-1-3-ghim-cung-thu-hep-san-he-dieu-hanh-thuc-te.md) đã nâng sàn lên Windows 11 22000 từ 19/09/2026 — cần chủ dự án chốt: bỏ tiêu chí hay hạ sàn; không âm thầm bỏ.
