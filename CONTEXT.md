@@ -40,6 +40,7 @@ _Avoid_: thiết bị tin cậy, đã ghép đôi (trên giao diện)
 
 **Máy xung quanh**:
 Máy có peek của người khác trong cùng mạng, chỉ thấy khi máy đó đang **Hiện với máy xung quanh**. Mỗi lượt gửi tới đều phải bấm Nhận; không bấm gì trong 1 phút là tự từ chối.
+Trên giao thức, đây là lớp **máy lạ đã xác thực** ([ADR-0029 của `peekvn`](https://github.com/natuan1/peekvn/blob/main/docs/adr/0029-may-la-da-xac-thuc.md), #261): ký bằng khoá thiết bị của chính nó, máy nhận không lưu niềm tin. Người gửi phân biệt được **Đã từ chối** (`REJECTED`), **Không phản hồi** (`EXPIRED`, hết 60 giây) và lời mời mình tự rút (`CANCELLED`).
 _Avoid_: thiết bị lân cận, máy lạ (trên giao diện)
 
 **Hiện với máy xung quanh**:
@@ -102,7 +103,7 @@ _Avoid_: OTP, mã kích hoạt
 Thiết bị đã hoàn thành Ghép đôi và được pin định danh (khóa công khai + SPKI).
 
 **Tự nhận**:
-Nhận file ngay từ Thiết bị tin cậy mà không hiện hộp xác nhận. (chốt 2026-09-13)
+Nhận file ngay từ Máy của tôi mà không hỏi. Từ [#261](https://github.com/natuan1/peekvn/issues/261) (14/11/2026) **mọi** Máy của tôi tự nhận — không còn công tắc theo từng máy; máy xung quanh không bao giờ tự nhận. (chốt 2026-09-13, sửa 2026-11-13)
 _Avoid_: auto-download
 
 **Phiên truyền**:
@@ -187,7 +188,9 @@ Nền móng ([Ticket 01](https://github.com/natuan1/peekvn/issues/132)) đã **m
 
   📐 **SChannel *có* verify chữ ký handshake**, đo bằng nhánh `windows` mới của cặp `tls-handshake`. ADR-0014 của `peekvn` kết luận điều tương tự cho `URLSession` và nói thẳng rằng kết luận ấy MUST NOT mang sang nền tảng khác mà không đo lại — xem [ADR-0012](adr/0012-cap-harness-do-hanh-vi-nen-tang-phai-chay-cho-tung-tls-stack.md).
 
-  📐 **Hộp so SAS và hộp "Nhận không?" từng không hiện** từ `168fc4b` (08/11/2026) tới [#259](https://github.com/natuan1/peekvn/issues/259) (13/11/2026): TaskDialog chỉ có ở Common Controls v6 mà `Snappy.exe` không khai v6, nên lời gọi ném `EntryPointNotFoundException` và ghép đôi treo lặng lẽ. Giờ `ConfirmationDialog` tự bật context v6; bốn **hộp hỏi an toàn** (nhận tệp, so SAS, bật tự nhận, quên thiết bị) nổi trên mọi cửa sổ, nút mặc định là nút an toàn, và **không cướp bàn phím** — người đang gõ dở vẫn gõ tiếp, Enter không nhận tệp. Không hộp nào in deviceId.
+  📐 **Hộp so SAS và hộp "Nhận không?" từng không hiện** từ `168fc4b` (08/11/2026) tới [#259](https://github.com/natuan1/peekvn/issues/259) (13/11/2026): TaskDialog chỉ có ở Common Controls v6 mà `Snappy.exe` không khai v6, nên lời gọi ném `EntryPointNotFoundException` và ghép đôi treo lặng lẽ. Giờ `ConfirmationDialog` tự bật context v6; bốn **hộp hỏi an toàn** (nhận tệp, so SAS, bật tự nhận — không còn đường tới từ #261 —, quên thiết bị) nổi trên mọi cửa sổ, nút mặc định là nút an toàn, và **không cướp bàn phím** — người đang gõ dở vẫn gõ tiếp, Enter không nhận tệp. Không hộp nào in deviceId.
+
+- **Nhận được từ máy xung quanh** ([#261](https://github.com/natuan1/peekvn/issues/261), 2026-11-14, PR [#285](https://github.com/natuan1/peekvn/pull/285)): máy chưa ghép gửi tới thì hỏi, hiện tên nó tự khai kèm "(máy xung quanh, chưa ghép)"; 60 giây không ai bấm thì tự từ chối đúng lúc và hộp tự đóng. Máy đã ghép luôn tự nhận, công tắc Tự nhận gỡ khỏi Cài đặt. Hộp thoại là chỗ tạm cho tới Mí Hỏi (#270); máy đang ẩn từ chối máy lạ là việc của #263. Chi tiết: [Nhận từ máy xung quanh](features/nhan-tu-may-xung-quanh-windows/overview.md).
 
   ⚠️ **Người dùng Windows chưa có chỗ bấm để quên một thiết bị.** `DELETE /v1/pairings/{deviceId}` đòi session token và một peer chỉ gỡ được chính nó, nên với một chiếc điện thoại đã mất thì chưa có đường gỡ. Việc của ticket sau.
 - **Có Mí** ([Ticket 10](https://github.com/natuan1/peekvn/issues/141), 2026-09-30, nhánh `feat/141-mi-magnet-strip`): dải 30% bề rộng neo cạnh trên, năm trạng thái trong một máy trạng thái thuần, phát hiện kéo qua `SysDragImage` + polling dự phòng, nở 160 ms cubic ease-out, ẩn khi fullscreen. Vẽ bằng layered window: trắng đục 0,75 (gần điểm sáng của Task View), không viền, bo cong nhẹ hai góc dưới. Vạch Gợi ý dày 10 DIP. Chủ dự án chốt 2026-09-30, sau hai lần thử bản thật. Từ Ticket 11 Mí **nhận** cú thả tệp (cả dải là một đích); Đích thả riêng là Ticket 13. Chi tiết: [Mí magnet strip trên Windows](features/mi-magnet-strip-windows/overview.md).

@@ -98,6 +98,8 @@ junction, và kiểm một lần ở cuối thì thư mục trung gian đã kị
 
 ## Tự nhận — SECURITY.md §4.2
 
+> ⚠️ Từ [#261](https://github.com/natuan1/peekvn/issues/261) (14/11/2026) **mọi máy đã ghép tự nhận** và công tắc theo từng thiết bị đã bỏ; các quyết định giao diện bên dưới là lịch sử. Phần §4.2 về "chỉ bỏ qua bước hỏi" vẫn đúng. Xem [Nhận từ máy xung quanh](../nhan-tu-may-xung-quanh-windows/workflow.md).
+
 *"`autoAccept` bỏ qua bước hỏi người dùng, và **chỉ** bước đó."*
 
 Mọi thứ khác chạy y nguyên, và chúng chạy **trước** chỗ rẽ nhánh: kiểm dung lượng,

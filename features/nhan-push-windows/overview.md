@@ -40,7 +40,7 @@ traversal là *"regression test bắt buộc"* vì LocalSend từng có lỗ h�
 | Có lời mời | Hộp thoại: ai gửi, bao nhiêu mục, tổng dung lượng, **lưu vào đâu** — hai nút, mặc định *Không* |
 | Đang nhận | Nhật ký ghi từng tệp; tiến độ đọc được qua `GET /v1/transfers/{id}` |
 | Nhận xong | Tệp nằm trong `Downloads\Snappy`; menu khay có mục **Mở thư mục nhận** |
-| Không muốn bị hỏi nữa | Menu khay → **Tự nhận từ &lt;thiết bị&gt;**, có dấu tích, hỏi lại một lần khi bật |
+| Không muốn bị hỏi nữa | ~~Menu khay → **Tự nhận từ &lt;thiết bị&gt;**~~ — bỏ từ [#261](https://github.com/natuan1/peekvn/issues/261): máy đã ghép luôn tự nhận, hộp hỏi chỉ còn cho máy xung quanh ([Nhận từ máy xung quanh](../nhan-tu-may-xung-quanh-windows/overview.md)) |
 
 `Downloads\Snappy` chứ không phải thẳng `Downloads`, và hỏi hệ điều hành đường
 dẫn thật thay vì nối `%UserProfile%\Downloads` — Downloads là thư mục người dùng

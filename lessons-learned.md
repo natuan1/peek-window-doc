@@ -396,3 +396,15 @@ Và một phát hiện ngoài phạm vi: bấm "Có" ở hộp thoại ghép đ�
 **Bài học**: một ticket viết từ diff kế thừa giả định của diff. Chạy đối chứng *trước khi sửa* là chỗ lộ ra hồi quy nặng hơn chính ticket. Chi tiết: `peekvn/docs/bai-hoc.md` §244.
 
 **Hành động tiếp theo**: các hộp chuyển lên Mí Hỏi trong vài tuần; tới lúc đó `PromptStyle.For` là nơi duy nhất quyết định cờ và nút mặc định.
+
+---
+
+## [2026-11-14] Đồng hồ giả xanh, hai tiến trình thật đỏ: "Không phản hồi" tới ở giây 110
+
+**Kế hoạch**: [#261](https://github.com/natuan1/peekvn/issues/261) — lời hỏi từ máy xung quanh có bộ hẹn giờ 60 giây; hết giờ thì người gửi đang chờ phải thấy "Không phản hồi" ngay. Test với đồng hồ giả chứng minh điều đó.
+
+**Kết quả thực tế**: cặp harness hai tiến trình cho `afterSeconds=110`. Trạng thái `EXPIRED` có hai đường tới — bộ hẹn giờ và phép phát hiện lười trong mọi phép đọc — mà chỉ đường đầu đánh thức người chờ; một phép đọc khác tới trước vài mili-giây là đủ. Lượt sửa đầu lộ thêm: bộ hẹn giờ hệ thống nổ sớm vài mili-giây so với hạn.
+
+**Bài học**: tác dụng phụ (đánh thức, ghi nhật ký) đặt ở phép chuyển trạng thái, không ở một trong các đường tới nó. Đồng hồ giả loại bỏ đúng hai thứ gây lỗi — chen ngang và sai số. Chi tiết: `peekvn/docs/bai-hoc.md` §245.
+
+**Hành động tiếp theo**: khi Mí Hỏi (#270) thay hộp thoại, đếm ngược trên Mí phải lấy `expiresAt` của Offer, không tự đếm riêng.
