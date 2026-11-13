@@ -400,3 +400,39 @@ Các câu anh quyết đã chốt hết. Còn lại là việc báo và hỏi de
 * ☐ (Hỏi dev) Khi iPhone chưa mở peek, máy gửi chờ bao lâu thì báo "Mở peek trên \[tên iPhone\]"? Từ bao nhiêu MB thì tính là file lớn trên iPhone?  
 * ☐ (Hỏi dev) Đánh dấu "đến từ mạng" cho file nhận trên Windows và macOS, và nhãn "File chạy được" đã có chưa?  
 * ☐ (Hỏi dev) Mục "Gửi bằng peek" trong menu chuột phải Windows, peek trong menu Chia sẻ của Android, iPhone và Finder đã có chưa?
+## **Bổ sung sau buổi chốt Windows (13/11/2026)**
+
+Các quyết định dưới đây đè lên phần trên khi lệch nhau. Quy tắc chung: mockup quyết hình ảnh (bố cục, kích thước, màu, chuyển động, chữ trên nút), spec quyết hành vi.
+
+**Màu bổ sung**
+
+| Màu | Mã | Dùng cho |
+| :---- | :---- | :---- |
+| Nền cửa sổ tối | \#17171C | Nền dự phòng khi không có Mica |
+| Nền ô máy tối | \#1C1C23 | Ô máy trong Máy của tôi |
+| Chữ nhấn sáng | \#5F6B00 | Chữ nhấn trên nền sáng (viền chọn vẫn \#8A9A00) |
+| Cam cảnh báo | \#FFC46B trên rgba(255,184,77,.16) | Nhãn "File chạy được" |
+
+* Cửa sổ peek và Cài đặt: Mica khi Windows 11 hỗ trợ và người dùng không tắt hiệu ứng trong suốt, nếu không thì nền đặc \#17171C (tối) / \#F3F3EE (sáng). Theo sáng tối của hệ điều hành.
+* Mí và Khay: luôn acrylic tối như mockup, không đổi theo sáng tối.
+
+**Chi tiết mockup được nhận vào spec**
+
+* W2: đã chọn file thì vùng thả thay bằng thẻ file ("3 file · 120 MB", tên file, nút X Bỏ chọn file). Nút Hủy hiện rõ dưới ô máy đang gửi. Cửa sổ không có nút Phóng to. Chưa có máy xung quanh: "Chưa có máy nào đang hiện. Máy kia bấm Hiện với máy xung quanh để xuất hiện ở đây."
+* Ô máy hình tròn trong cửa sổ peek, hình chữ nhật 120×92 trên Mí. Cùng icon loại máy và tên máy.
+* Lời hỏi trên Mí: dung lượng từng file, vạch đếm ngược 1 phút ở đáy.
+* Khay: thả vào ô Khay ở cuối bảng Mí để giữ tạm; bảng "Khay · N file" có nút Xóa hết. Chỉ vào Khay qua Mí, không có phím tắt riêng.
+* Cài đặt là một trang trong cửa sổ peek, có nút Quay lại; trang con Máy của tôi và Máy đã chặn cũng vậy.
+* Cài lần đầu: chỉ báo bước 2 chấm, "Đang tìm thêm", "Chưa có app? Quét để tải". QR trỏ https://peek.vn/tai.
+* Menu icon ở khay hệ thống: đúng ba dòng. Đang hiện với máy xung quanh thì dòng đầu đổi thành "Đang hiện · 9:58", bấm để tắt sớm.
+
+**Hành vi chốt thêm**
+
+* Ghép máy không có bước so số. Rủi ro đã chấp nhận: kẻ đứng giữa trong mạng ngay lúc ghép có thể thành Máy của tôi. Giảm bằng cách chỉ nhận lời xin ghép khi máy kia đang Hiện với máy xung quanh và lời xin xuất phát từ một cú bấm thật. Ghi trong ADR của repo mã nguồn.
+* "Ẩn" là ẩn ở mức hiển thị: máy vẫn quảng bá trong mạng, kèm cờ ẩn; máy xung quanh không hiện nó và nó từ chối lượt gửi từ máy lạ khi đang ẩn.
+* Máy của tôi luôn tự nhận, không có công tắc Tự nhận theo từng máy.
+* Phím tắt Ctrl + Alt + P bị app khác dùng: dòng phím tắt trong Cài đặt hiện "Đang bị app khác dùng · Đổi".
+* Mí không còn tuỳ chọn trái/phải, luôn ở giữa. Capsule nhạc (ngoài spec) chuyển sang góc trên phải.
+* Lịch sử clipboard và capsule nhạc (ngoài spec) giữ tính năng, không có trong menu khay; bật tắt ở nhóm "Thêm" cuối trang Cài đặt, ngay trên Về peek.
+* Hộp đánh giá sau lần gửi thứ năm chỉ áp dụng cho bản phát hành qua store. Windows (cài từ peek.vn) không có.
+* Windows: "Gửi bằng peek" lên menu chuột phải đầu tiên của Windows 11 cần chứng chỉ ký số. Trước khi có, mục này nằm ở menu "Hiện thêm tùy chọn".

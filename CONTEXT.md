@@ -1,14 +1,14 @@
-# Snappy — Ngữ cảnh miền (Domain Context)
+# peek — Ngữ cảnh miền (Domain Context)
 
-Snappy là bộ tiện ích desktop Windows kèm app mobile (iOS/Android đã phát hành), lõi là truyền file local đa nền tảng qua giao thức ULTP. Tài liệu này là bảng thuật ngữ chuẩn của miền nghiệp vụ — mọi tài liệu và mã nguồn phải dùng đúng các từ ở đây.
+peek (trước 13/11/2026 gọi là Snappy) là bộ tiện ích desktop Windows kèm app mobile (iOS/Android đã phát hành), lõi là truyền file local đa nền tảng qua giao thức ULTP. Nguồn sự thật của đợt peek 1.0 nằm ở [`source-of-truth/`](source-of-truth/README.md). Các mục "Thực trạng" bên dưới còn gọi Snappy vì ghi lại lịch sử. Tài liệu này là bảng thuật ngữ chuẩn của miền nghiệp vụ — mọi tài liệu và mã nguồn phải dùng đúng các từ ở đây.
 
 ## Language
 
 ### Sản phẩm & bản phát hành
 
-**Snappy**:
-Tên sản phẩm (chốt 2026-09-13, tái xác nhận 2026-09-13 sau khi phát hiện mobile chạy dưới tên cũ). Bộ tiện ích Windows + app mobile; mobile sẽ đổi label theo.
-_Avoid_: peek-window (chỉ là tên repo), Peek (tên cũ trên mobile — sẽ thay; riêng service mDNS `_peek._tcp` giữ nguyên vĩnh viễn vì là định danh kỹ thuật ẩn với người dùng)
+**peek**:
+Tên sản phẩm trên mọi nền tảng, **luôn viết thường** kể cả đầu câu (chốt 2026-11-13, thay "Snappy"). Tagline: "Xong trong một cái liếc". Định danh kỹ thuật người dùng không thấy được phép PascalCase (`Peek`); tên khoá CNG `Snappy.DeviceIdentity`/`Snappy.TlsIdentity` giữ nguyên vĩnh viễn — đổi là mất danh tính máy.
+_Avoid_: Snappy (tên cũ 2026-09-13 → 2026-11-13), Peek viết hoa trên giao diện, peek-window (chỉ là tên repo). Service mDNS `_peek._tcp` giữ nguyên.
 
 **Free**:
 Bản miễn phí; truyền file không giới hạn vĩnh viễn là ràng buộc cứng.
@@ -24,11 +24,26 @@ Bản build cùng một mã nguồn nhưng có ít Module đăng ký hơn.
 ### Bề mặt giao diện
 
 **Mí**:
-Dải giao diện mảnh neo ở cạnh trên màn hình, phía trái (5–35%) hoặc phải (65–95%) tuỳ người dùng chọn (Ticket 17); nơi kéo-thả để giữ tạm hoặc gửi đi.
+Thanh mảnh ở **giữa** cạnh trên màn hình (Windows, học Snap Layouts) hoặc quanh notch (Mac), ló ra khi cần. Là nơi **duy nhất** peek nói chuyện với người dùng máy tính khi không mở cửa sổ: hỏi, báo tiến độ, báo kết quả, báo lỗi — peek không dùng thông báo của hệ điều hành. Không tắt được. (chốt 2026-11-13; trước đó neo trái/phải theo Ticket 17)
 _Avoid_: notch, panel, toolbar
 
 **Trạng thái Mí**:
-Một trong năm tình trạng: Nghỉ (0), Gợi ý (1), Sẵn sàng nhận (2), Nhắm đích (3), Đang chạy (4).
+Một trong sáu tình trạng của spec peek 1.0: Nghỉ, Gợi ý, Mở, Hỏi, Đang chạy, Xong. Mã hiện tại có Sẵn sàng nhận + Nhắm đích, cùng là "Mở".
+
+**Khay**:
+Tên hiển thị của **Shelf** trên giao diện (Windows). Vào Khay bằng ô Khay trên Mí. Trong mã vẫn gọi `Shelf`.
+_Avoid_: "khay" một mình khi nói về khay hệ thống — luôn viết đủ **khay hệ thống** hoặc "icon peek"
+
+**Máy của tôi**:
+Các máy của chính người dùng, đã thêm bằng một lần "Đồng ý" ở máy kia (không QR, không so số). Gửi qua lại **luôn tự nhận, không hỏi**; nhớ nhau bằng khoá, không bằng tên. Xoá ở một máy là cả hai thôi tự nhận.
+_Avoid_: thiết bị tin cậy, đã ghép đôi (trên giao diện)
+
+**Máy xung quanh**:
+Máy có peek của người khác trong cùng mạng, chỉ thấy khi máy đó đang **Hiện với máy xung quanh**. Mỗi lượt gửi tới đều phải bấm Nhận; không bấm gì trong 1 phút là tự từ chối.
+_Avoid_: thiết bị lân cận, máy lạ (trên giao diện)
+
+**Hiện với máy xung quanh**:
+Nút cho máy xung quanh thấy máy mình trong 10 phút rồi tự ẩn. Mặc định máy chỉ hiện với Máy của tôi (ẩn ở mức hiển thị: vẫn quảng bá, có cờ ẩn).
 
 **Đích thả**:
 Đích hiện trên Mí ở trạng thái Sẵn sàng nhận: ô Shelf, một thiết bị, hoặc nút mở danh sách thiết bị đầy đủ. Thả lên thiết bị thì Mục vào Ngăn **trước**, rồi mới mời thiết bị nhận; thả vào khoảng trống giữa các đích là thả vào Shelf. (Ticket 13, 2026-10-03)
