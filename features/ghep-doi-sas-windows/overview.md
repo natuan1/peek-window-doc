@@ -44,15 +44,17 @@ iPhone của Tuấn muốn ghép đôi với máy này.
 
 Mã xác thực:  034212
 
-So mã này với mã đang hiện trên thiết bị kia. Chỉ bấm Có khi hai mã
+So mã này với mã đang hiện trên thiết bị kia. Chỉ bấm Đúng khi hai mã
 GIỐNG HỆT nhau.
 
 Hai mã khác nhau nghĩa là có thiết bị lạ đứng giữa — hãy bấm Không.
 
-Thiết bị: dev_wukFlCjjSradc2mo2SW4MfHveyrkPSxAEvQSwvWyFW4
-
-                                          [ Có ]   [ Không ]
+                                          [ Đúng ]   [ Không ]
 ```
+
+Từ [#259](https://github.com/natuan1/peekvn/issues/259) (13/11/2026) hộp **không
+còn dòng `Thiết bị: dev_…`** — §7.2 cấm deviceId ra màn hình — và chữ trong hộp
+gọi đúng tên nút đang có ("Đúng", không phải "Có").
 
 Ba chi tiết là quyết định, không phải thẩm mỹ:
 
@@ -61,6 +63,16 @@ Ba chi tiết là quyết định, không phải thẩm mỹ:
    — nút đó tồn tại vì nó tiện rồi thành thứ người dùng bấm theo phản xạ.
 3. **Hộp thoại chặn.** Nó phải ở trước mặt cho tới lúc có quyết định, không nằm
    trong một khung có thể bị che rồi quên.
+   Hộp nổi trên mọi cửa sổ (topmost) nhưng **không cướp bàn phím**: người đang gõ
+   dở ở cửa sổ khác vẫn gõ tiếp, Enter đi vào cửa sổ của họ. Esc hoặc nút X là
+   từ chối.
+
+⚠️ Hộp là TaskDialog, thứ chỉ có trong Common Controls v6 — manifest của
+`Snappy.exe` cố ý không khai v6, nên `ConfirmationDialog` tự bật một activation
+context v6 quanh lời gọi. 📐 13/11/2026: bản `168fc4b` gọi TaskDialog mà không có
+context ấy, hộp **không bao giờ hiện** (`EntryPointNotFoundException`) và ghép đôi
+treo lặng lẽ. Cờ và nút mặc định của từng loại hộp nằm ở `PromptStyle.For`, có
+test ghim. Chi tiết: `peekvn/docs/bai-hoc.md` §244.
 
 📐 Con số `034212` ở trên là số đo thật, 19/09/2026, trên bản AOT đã publish. Nó
 có **số 0 đứng đầu** — đúng trường hợp SECURITY.md §3.4 nói sẽ dạy hư người dùng

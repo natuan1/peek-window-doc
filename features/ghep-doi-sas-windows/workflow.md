@@ -48,7 +48,7 @@ cái quan trọng nhất:
    trên chỉ là hai cú bấm.
 
 Giao diện phải làm bước 3 thành thứ khó bỏ qua. Đó là lý do hộp thoại mang cả
-sáu chữ số lẫn câu *"Chỉ bấm Có khi hai mã GIỐNG HỆT nhau"*, và lý do nút mặc
+sáu chữ số lẫn câu *"Chỉ bấm Đúng khi hai mã GIỐNG HỆT nhau"*, và lý do nút mặc
 định là "Không".
 
 ## Sau ghép đôi: mọi kết nối đi qua ba cửa

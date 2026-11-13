@@ -384,3 +384,15 @@ Và một phát hiện ngoài phạm vi: bấm "Có" ở hộp thoại ghép đ�
 **Bài học**: tiêu chí đo viết lúc spec thường giả định hệ thống không giữ trạng thái nào; nhưng giữ trạng thái là quyết định sản phẩm có chủ ý. Phép đo độ bền phải đọc mã giữ trạng thái **trước khi** định nghĩa "phẳng" — ngược lại thì hàng rào đỏ với mã đúng và xanh với mã lệch. Cùng họ với "CPU ~0 %": phải vận hành hoá thành ngưỡng ghi được (< 1 % tổng số lõi) thì mới kiểm được.
 
 **Hành động tiếp theo**: #149 để OPEN tới khi đủ: lượt soak 72 giờ thật (chạy detached sau CI — build Jenkins `taskkill` Snappy trên máy dev), checklist màn hình/DPI/10 game cần người, bộ cài signed (treo tới có Azure Trusted Signing). Tiêu chí "cài sạch Win10 21H2/22H2 + LTSC 2019" **mâu thuẫn** với [ADR-0009](adr/0009-tls-1-3-ghim-cung-thu-hep-san-he-dieu-hanh-thuc-te.md) đã nâng sàn lên Windows 11 22000 từ 19/09/2026 — cần chủ dự án chốt: bỏ tiêu chí hay hạ sàn; không âm thầm bỏ.
+
+---
+
+## [2026-11-13] Ticket hồi quy viết từ việc đọc diff vẫn tin hộp có hiện — đối chứng chạy thật cho thấy nó chưa từng hiện
+
+**Kế hoạch**: [#259](https://github.com/natuan1/peekvn/issues/259) trả lại ba điều an toàn mà `168fc4b` làm rơi khi thay MessageBox bằng TaskDialog: SystemModal, nút mặc định an toàn, deviceId trong hộp SAS.
+
+**Kết quả thực tế**: bản AOT đối chứng của `main` không hiện hộp nào — `EntryPointNotFoundException: TaskDialogIndirect`, vì `Snappy.exe` không khai Common Controls v6. Ghép đôi treo lặng lẽ suốt năm ngày, dưới một commit báo "1064 tests PASS". Sửa bằng activation context v6 quanh lời gọi; nghiệm thu bằng Notepad đang gõ + đầu dò gửi tệp: hộp nổi trên, Enter vào Notepad, tệp không nhận.
+
+**Bài học**: một ticket viết từ diff kế thừa giả định của diff. Chạy đối chứng *trước khi sửa* là chỗ lộ ra hồi quy nặng hơn chính ticket. Chi tiết: `peekvn/docs/bai-hoc.md` §244.
+
+**Hành động tiếp theo**: các hộp chuyển lên Mí Hỏi trong vài tuần; tới lúc đó `PromptStyle.For` là nơi duy nhất quyết định cờ và nút mặc định.
