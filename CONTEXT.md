@@ -11,11 +11,11 @@ Tên sản phẩm trên mọi nền tảng, **luôn viết thường** kể cả
 _Avoid_: Snappy (tên cũ 2026-09-13 → 2026-11-13), Peek viết hoa trên giao diện, peek-window (chỉ là tên repo). Service mDNS `_peek._tcp` giữ nguyên.
 
 **Free**:
-Bản miễn phí; truyền file không giới hạn vĩnh viễn là ràng buộc cứng.
+Bản miễn phí; truyền file không giới hạn vĩnh viễn là ràng buộc cứng. Từ peek 1.0 (gỡ Pro khỏi giao diện, #273) đây là gói của mọi người dùng; lịch sử clipboard của Free **không giới hạn số mục** (#281, 15/11/2026), Khay vẫn 1 ngăn.
 _Avoid_: bản thường, basic
 
 **Pro**:
-Bản mua một lần trọn đời, mở đa ngăn Shelf, ghim, clipboard không giới hạn và các Module nâng cao.
+Bản mua một lần trọn đời, mở đa ngăn Shelf, ghim và các Module nâng cao (clipboard không giới hạn trước đây là của Pro; từ #281 Free cũng có). peek 1.0 không hiện Pro trên giao diện, nhưng mã `Licensing/` vẫn giữ.
 _Avoid_: premium, VIP, subscription
 
 **Bản lẻ**:
@@ -78,7 +78,7 @@ Bộ đệm tạm nơi File ảo được trích xuất. Quy tắc dọn: xóa k
 Một tiện ích độc lập trong Snappy: M1 Shelf, M2 Truyền file, M3 Media & pin Bluetooth, M4 Clipboard history, M5 Độ sáng, M6 Nén, M7 Đổi định dạng. Mọi Module dùng được không qua Mí (phím tắt, khay hệ thống).
 
 **Lịch sử clipboard**:
-Module M4 — những đoạn chữ người dùng copy trong phiên, giữ trong RAM (Free 5 mục, Pro không giới hạn), dán lại qua **bảng dán nhanh** (`Win+Alt+V` hoặc menu khay). Lượt copy mang dấu "đừng ghi lại" của Windows bị bỏ mà không đọc chữ. (Ticket 16, 2026-10-04)
+Module M4 — những đoạn chữ người dùng copy trong phiên, giữ trong RAM, **không giới hạn số mục** cho mọi người dùng từ peek 1.0 (#281; trước đó Free 5 mục) — chỉ chặn bởi trần dung lượng kỹ thuật 4 000 000 ký tự (~8 MB, vượt thì bỏ mục cũ nhất, không hiện như một gói), dán lại qua **bảng dán nhanh** (`Win+Alt+V` hoặc menu khay). Lượt copy mang dấu "đừng ghi lại" của Windows bị bỏ mà không đọc chữ. (Ticket 16, 2026-10-04)
 _Avoid_: clipboard manager, Shelf (Shelf giữ tệp, lịch sử clipboard giữ chữ)
 
 **Cầu text/link**:
@@ -222,6 +222,7 @@ Nền móng ([Ticket 01](https://github.com/natuan1/peekvn/issues/132)) đã **m
 - **Có lịch sử clipboard** ([Ticket 16](https://github.com/natuan1/peekvn/issues/147), 2026-10-04, nhánh `feat/147-clipboard-history`): copy chữ → lịch sử trong RAM của phiên, Free 5 mục / Pro không giới hạn qua `Entitlements` (đổi gói giữa phiên thì cắt ngay); **`Win+Alt+V`** hoặc menu khay mở bảng dán nhanh, ↑↓ Enter dán vào cửa sổ vừa dùng; Tạm dừng / Xoá sạch; thoát là quên hết, nhật ký chỉ ghi độ dài. Bộ lọc hỏi dấu **trước** khi đọc chữ: `ExcludeClipboardContentFromMonitorProcessing`, `ExcludeClipboardContentFromMonitor`, `Clipboard Viewer Ignore`, `CanIncludeInClipboardHistory`=0. 📐 KeePassXC 2.7.12 thật bị bỏ qua; Ctrl+C vào lịch sử sau 17–25 ms; RAM nền 5,12 → 5,44 MB private sau khi dùng bảng. Chi tiết: [Lịch sử clipboard trên Windows](features/lich-su-clipboard-windows/overview.md), [ADR-0020](adr/0020-lich-su-clipboard-loc-theo-dau-o-tien-trinh-nen.md).
 
   ⚠️ **Ba chỗ lệch kế hoạch, đều đo được:** `Win+Shift+V` bị Windows giữ (`RegisterHotKey` → 1409); tên dấu của kế hoạch thiếu đuôi `Processing` (KeePassXC đặt tên có tài liệu); `keepassxc-cli clip` không đặt dấu nào nên bị giữ — "mật khẩu không bao giờ vào lịch sử" chỉ đúng với app tự đánh dấu. **Ngoài phạm vi** (chủ dự án thu hẹp 2026-10-04): 1Password, Bitwarden — cần tài khoản.
+- **Lịch sử clipboard không giới hạn số mục** ([#281](https://github.com/natuan1/peekvn/issues/281), 2026-11-15, nhánh `claude/281-clipboard-khong-gioi-han`): `Entitlements.Free.ClipboardHistoryLimit` = `null` như Pro — sửa ở một chỗ, mã bản quyền giữ nguyên, Khay vẫn 1 ngăn. Thay trần số mục bằng trần **dung lượng** `ClipboardHistory.MaxTotalChars` = 4 000 000 ký tự, mục mới nhất luôn được giữ; chân bảng dán nhanh thôi nhắc Pro. 📐 bản AOT, `check-clipboard.ps1` PASS: 20 lượt Ctrl+C → bảng đủ; RAM nền private nghỉ 5,30 → sau 200 mục 5,80 → ở trần 17,59 MB (tổng 36,28 MB, không DLL mới) — dưới KPI private 25 MB, còn tổng vượt red line 30 MB vì phần tăng là chính chữ đã copy.
 - **Có onboarding 3 bước** ([Ticket 17](https://github.com/natuan1/peekvn/issues/148), 2026-10-04, nhánh `feat/148-onboarding`): cài xong lần đầu (cờ lần-chạy-đầu của Velopack → `settings.ini` `onboarding=pending`) cửa sổ "Snappy — Bắt đầu" tự hiện trong **tiến trình con**: kéo thẻ tệp mẫu lên Mí → ô Shelf; chọn **Mí bên trái/phải** (phải = gương 65–95%; capsule và khay Shelf theo) và **phím tắt mở Shelf** khi Mí ẩn (`Win+Alt+S` mặc định / `Ctrl+Alt+S` / tắt — story 38); QR tới `https://peek.vn/tai` (trước #260 là `snappy.vn/tai`) + ghim icon ra khay. Bỏ qua được ở mọi bước; menu khay "Hướng dẫn bắt đầu" mở lại. Lựa chọn bền ở `%LocalAppData%\peek\settings.ini`. 📐 Nghiệm thu từ bộ cài thật PASS A→G; tiến trình nền +0,08 MB private, 0 DLL. Chi tiết: [Onboarding 3 bước trên Windows](features/onboarding-windows/overview.md), [ADR-0021](adr/0021-onboarding-tien-trinh-con-hen-bang-co-lan-chay-dau.md).
 - **Chưa có**: cặp `transfer` của interop suite vẫn chưa có phía Windows; cặp `tls-handshake` thì **đã có** từ Ticket 06.
 - **Chưa nghiệm thu được, treo vì thiếu thiết bị**: demo discovery với **iPhone thật** — quy trình sáu bước đã viết ở `peekvn/interoperability/manual-ios.md`. Bằng chứng hiện có nói Snappy đúng với một stack độc lập (Rust), không nói nó đúng với Bonjour của Apple.

@@ -4,7 +4,7 @@ Ticket: [natuan1/peekvn#147](https://github.com/natuan1/peekvn/issues/147) · Qu
 
 ## Người dùng được gì
 
-- Copy chữ ở bất kỳ app nào → Snappy giữ nó trong **RAM của phiên**. Bản Free giữ **5 mục gần nhất**, Pro không giới hạn (cổng gate `Entitlements.ClipboardHistoryLimit`, Ticket 14). Đổi gói giữa phiên thì cắt ngay, giữ mục mới nhất.
+- Copy chữ ở bất kỳ app nào → Snappy giữ nó trong **RAM của phiên**. **Không giới hạn số mục** cho mọi người dùng từ peek 1.0 ([#281](https://github.com/natuan1/peekvn/issues/281); trước đó Free 5 mục, Pro không giới hạn, qua cổng gate `Entitlements.ClipboardHistoryLimit`). Trần duy nhất là dung lượng: tổng quá 4 000 000 ký tự (~8 MB) thì bỏ mục cũ nhất — không hiện như một gói.
 - **`Win+Alt+V`** (hoặc menu khay "Lịch sử clipboard") mở **bảng dán nhanh**: mục mới nhất ở trên, mỗi dòng một dòng xem trước + "N ký tự · 3 phút trước". ↑↓ Enter hay bấm chuột là dán mục ấy vào cửa sổ vừa dùng; mục được dán lên đầu lịch sử.
 - Hai nút trên bảng: **Tạm dừng / Tiếp tục** theo dõi (tạm dừng là không đọc clipboard), **Xoá sạch**.
 - Mật khẩu từ trình quản lý mật khẩu **có tự đánh dấu** không bao giờ vào lịch sử — chữ của nó không được đọc ra.
