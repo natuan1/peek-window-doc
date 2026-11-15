@@ -408,3 +408,17 @@ Và một phát hiện ngoài phạm vi: bấm "Có" ở hộp thoại ghép đ�
 **Bài học**: tác dụng phụ (đánh thức, ghi nhật ký) đặt ở phép chuyển trạng thái, không ở một trong các đường tới nó. Đồng hồ giả loại bỏ đúng hai thứ gây lỗi — chen ngang và sai số. Chi tiết: `peekvn/docs/bai-hoc.md` §245.
 
 **Hành động tiếp theo**: khi Mí Hỏi (#270) thay hộp thoại, đếm ngược trên Mí phải lấy `expiresAt` của Offer, không tự đếm riêng.
+
+---
+
+## [2026-11-15] "Hai bản Windows gửi qua lại không hỏi" — không đo được, vì Windows chưa biết gửi
+
+**Kế hoạch**: #262 nghiệm thu bằng hai bản Windows: A bấm Thêm, B Đồng ý, rồi gửi qua lại không hỏi.
+
+**Kết quả thực tế**: phần ghép chạy đúng giữa hai bản Windows ở mức giao thức, nhưng "gửi qua lại" thì không: app Windows chỉ gửi bằng cách **mời kéo** (pull) — bên kia phải tự hỏi lời mời — và chưa có vai đẩy (push-sender, #252). Hai bản Windows mời nhau mãi mà không ai kéo. Nghiệm thu "gửi qua lại" vì thế đi Windows ↔ rust-host — đúng nhánh "(hoặc Windows ↔ rust-host)" mà issue đã chừa.
+
+Lộ thêm một chỗ thiết kế cũ: máy **được hỏi** chỉ ghim SPKI của chính nó (ADR-0027 của `peekvn`), nên nó không mở được kênh ghim tới máy đã xin. Bỏ so số là lúc phải nói rõ máy ấy nhận ra máy kia bằng gì — câu trả lời là khoá thiết bị đã ghim, xác thực ngay trên kênh như lúc ghép.
+
+**Bài học**: một tiêu chí nghiệm thu nói về **hai chiều** phải đối chiếu với vai mà mỗi nền tảng *hôm nay* đóng được, không với vai giao thức cho phép.
+
+**Hành động tiếp theo**: khi #252 (Windows push-sender) xong, thêm một lượt Windows ↔ Windows vào `check-them-may.ps1`.

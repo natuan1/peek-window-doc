@@ -52,6 +52,7 @@ Feature-by-feature breakdown.
   - [Discovery LAN trên Windows](features/discovery-lan-windows/overview.md) — quảng bá và duyệt `_peek._tcp` qua responder in-box của Windows, bảng thiết bị lân cận (✅ 2026-09-18, chờ demo iPhone thật)
   - [Server ULTP trên Windows](features/server-ultp-windows/overview.md) — TLS 1.3 trên 8443, router HTTP/1.1 tự viết, `GET /v1/info`, cột nền tảng (✅ 2026-09-19, chờ demo iPhone thật)
   - [Ghép đôi SAS trên Windows](features/ghep-doi-sas-windows/overview.md) — sáu chữ số trên hai màn hình, Trust Store bền, xác thực hai chiều (✅ 2026-09-19, chờ demo iPhone thật)
+  - [Thêm vào Máy của tôi](features/them-vao-may-cua-toi-windows/overview.md) — một lần Đồng ý, không so số, Windows cả hai vai (🚧 #262, 2026-11-15)
   - [Nhận từ máy xung quanh](features/nhan-tu-may-xung-quanh-windows/overview.md) — máy chưa ghép gửi tới kèm lời hỏi Nhận 60 giây; Máy của tôi luôn tự nhận (✅ PR #285, 2026-11-14)
   - [Mí magnet strip trên Windows](features/mi-magnet-strip-windows/overview.md) — dải cạnh trên, năm trạng thái, phát hiện kéo qua `SysDragImage`, ẩn khi fullscreen (✅ 2026-09-30, chưa nghiệm thu đa màn hình/DPI; vẽ bằng layered window — ADR-0014; nhận cú thả tệp từ Ticket 11)
   - [Trích xuất tệp thật/ảo → TempDrops](features/tempdrops-windows/overview.md) — thả tệp Explorer/zip/Chrome/Edge lên Mí vào Shelf một Ngăn, tệp ảo ra `TempDrops\{Guid}\`, bộ dọn đủ năm quy tắc (✅ 2026-10-01, đóng 2026-10-28 — bốn nguồn đúng byte trên `main`; Outlook mới trao kéo chỉ định dạng web, đã đo)

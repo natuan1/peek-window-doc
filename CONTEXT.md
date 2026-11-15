@@ -40,7 +40,7 @@ _Avoid_: thiết bị tin cậy, đã ghép đôi (trên giao diện)
 
 **Máy xung quanh**:
 Máy có peek của người khác trong cùng mạng, chỉ thấy khi máy đó đang **Hiện với máy xung quanh**. Mỗi lượt gửi tới đều phải bấm Nhận; không bấm gì trong 1 phút là tự từ chối.
-Trên giao thức, đây là lớp **máy lạ đã xác thực** ([ADR-0029 của `peekvn`](https://github.com/natuan1/peekvn/blob/main/docs/adr/0029-may-la-da-xac-thuc.md), #261): ký bằng khoá thiết bị của chính nó, máy nhận không lưu niềm tin. Người gửi phân biệt được **Đã từ chối** (`REJECTED`), **Không phản hồi** (`EXPIRED`, hết 60 giây) và lời mời mình tự rút (`CANCELLED`).
+Trên giao thức, đây là lớp **máy lạ đã xác thực** ([ADR-0032 của `peekvn`](https://github.com/natuan1/peekvn/blob/main/docs/adr/0032-may-la-da-xac-thuc.md), #261): ký bằng khoá thiết bị của chính nó, máy nhận không lưu niềm tin. Người gửi phân biệt được **Đã từ chối** (`REJECTED`), **Không phản hồi** (`EXPIRED`, hết 60 giây) và lời mời mình tự rút (`CANCELLED`).
 _Avoid_: thiết bị lân cận, máy lạ (trên giao diện)
 
 **Hiện với máy xung quanh**:
@@ -91,16 +91,20 @@ _Avoid_: cầu nối text và link (cũ), text bridge
 Universal Local Transfer Protocol — giao thức truyền file local đa nền tảng (mDNS + HTTPS/TLS + REST, tín hiệu sự kiện bằng long-poll `?wait=`). Mọi nền tảng cùng nói một giao thức; TRS v1 đã đóng băng, nguồn chuẩn hiện hành là `protocol/SPEC.md`.
 _Avoid_: "iOS protocol", "Windows protocol", WebSocket (đã loại bằng quyết định 2026-09-13 — xem mục quyết định kỹ thuật bên dưới)
 
+**Thêm vào Máy của tôi**:
+Cử chỉ ghép hai máy của peek 1.0: máy A bấm "Thêm vào máy của tôi" ở một máy xung quanh; máy B hỏi **"[A] muốn thêm vào Máy của tôi"** — Từ chối · Đồng ý. Đồng ý thì cả hai lên Máy của tôi của nhau và **B tự tắt chế độ hiện**; Từ chối thì A thấy **"Chưa được đồng ý"**, không gì thay đổi; B đang ẩn thì không lời hỏi nào hiện. Không QR, không so số ([ADR-0034 của `peekvn`](https://github.com/natuan1/peekvn/blob/main/docs/adr/0034-ghep-mot-lan-dong-y.md), #262, 15/11/2026).
+_Avoid_: ghép đôi, kết nối (trên giao diện)
+
 **Ghép đôi**:
-Quy trình thiết lập quan hệ tin cậy giữa hai thiết bị, xác minh bằng mã SAS.
+Tên trong mã và giao thức của "Thêm vào Máy của tôi" (`POST /v1/pairings`). Từ #262 không còn bước so mã: responder ghim sau một cú Đồng ý của người ngồi trước nó.
 _Avoid_: connect, login
 
 **SAS**:
-Mã 6 chữ số mà hai thiết bị cùng hiển thị để người dùng xác nhận Ghép đôi.
+Mã 6 chữ số dẫn xuất từ phiên ghép. Vẫn tính trên dây ULTP v1 (thiết bị đời trước còn so nó), nhưng **peek 1.0 không hiển thị** (ADR-0034 của `peekvn`). Rủi ro đã chấp nhận: kẻ đứng giữa ngay lúc ghép có thể thành Máy của tôi.
 _Avoid_: OTP, mã kích hoạt
 
 **Thiết bị tin cậy**:
-Thiết bị đã hoàn thành Ghép đôi và được pin định danh (khóa công khai + SPKI).
+Thiết bị đã hoàn thành Ghép đôi và được ghim **khoá thiết bị** (cùng SPKI TLS ở phía khởi xướng). Nhận ra nhau bằng khoá: đổi tên, đổi mạng vẫn là cùng một Máy của tôi.
 
 **Tự nhận**:
 Nhận file ngay từ Máy của tôi mà không hỏi. Từ [#261](https://github.com/natuan1/peekvn/issues/261) (14/11/2026) **mọi** Máy của tôi tự nhận — không còn công tắc theo từng máy; máy xung quanh không bao giờ tự nhận. (chốt 2026-09-13, sửa 2026-11-13)
@@ -178,7 +182,9 @@ Nền móng ([Ticket 01](https://github.com/natuan1/peekvn/issues/132)) đã **m
   ⚠️ **Bảng năng lực hôm nay khai gần như toàn `false`** — cố ý, xem [ADR-0010](adr/0010-bang-nang-luc-khai-theo-hanh-vi-khong-theo-lo-trinh.md). Router chưa có `/v1/transfers` nên khai `pushReceiver: true` là mời iPhone gửi file tới một địa chỉ trả `404`. Ticket 07/08/09 lật từng cờ cùng lúc với route của nó, và `CapabilityTruthTests` đỏ nếu quên.
 
   ⚠️ **TLS 1.3 ghim cứng thu hẹp sàn HĐH *thực tế* của vai server xuống Windows 11** — SChannel của Windows 10 không có TLS 1.3. Sàn *sản phẩm* không đổi; xem [ADR-0009](adr/0009-tls-1-3-ghim-cung-thu-hep-san-he-dieu-hanh-thuc-te.md).
-- **Ghép đôi được**: từ [Ticket 06](https://github.com/natuan1/peekvn/issues/137) (2026-09-19) Snappy nhớ được một thiết bị. Hai màn hình hiện **cùng sáu chữ số**, người thật so rồi bấm ở cả hai máy; sau đó SPKI được ghim vào Trust Store bền qua khởi động lại, và mọi kết nối sau **xác thực hai chiều**. Chi tiết: [Ghép đôi SAS trên Windows](features/ghep-doi-sas-windows/overview.md).
+- **Thêm vào Máy của tôi bằng một lần Đồng ý** ([#262](https://github.com/natuan1/peekvn/issues/262), 2026-11-15): Windows làm được cả hai vai — menu khay "Thêm … vào Máy của tôi" (chỗ tạm tới #267) và hộp hỏi "[A] muốn thêm vào Máy của tôi" (chỗ tạm tới #270). Không còn so số; B tự ẩn sau Đồng ý; Từ chối → "Chưa được đồng ý". Máy được hỏi gửi ngược lại được bằng khoá thiết bị đã ghim. Chi tiết: [Thêm vào Máy của tôi](features/them-vao-may-cua-toi-windows/overview.md).
+
+- **Ghép đôi được**: từ [Ticket 06](https://github.com/natuan1/peekvn/issues/137) (2026-09-19) Snappy nhớ được một thiết bị. ~~Hai màn hình hiện **cùng sáu chữ số**, người thật so rồi bấm ở cả hai máy;~~ (bỏ so số từ #262) sau đó SPKI được ghim vào Trust Store bền qua khởi động lại, và mọi kết nối sau **xác thực hai chiều**. Chi tiết: [Ghép đôi SAS trên Windows](features/ghep-doi-sas-windows/overview.md).
 
   Phần mật mã đối chiếu với **vector do bản Rust sinh ra**, không với chính nó: một transcript sai *nhất quán* vẫn cho ra sáu chữ số trông hoàn hảo, và nó chỉ hỏng ở chỗ iPhone hiện một con số khác.
 
