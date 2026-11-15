@@ -1,6 +1,6 @@
 # Thêm vào Máy của tôi bằng một lần Đồng ý — #262
 
-**Trạng thái:** đang làm trên nhánh `claude/262-ghep-mot-lan-dong-y` của `peekvn`
+**Trạng thái:** đã merge vào `main` của `peekvn` qua PR [natuan1/peekvn#311](https://github.com/natuan1/peekvn/pull/311) ngày 2026-11-15, CI Jenkins #211 đạt
 ([#262](https://github.com/natuan1/peekvn/issues/262), epic [#258](https://github.com/natuan1/peekvn/issues/258)).
 Quyết định: [ADR-0034 của `peekvn`](https://github.com/natuan1/peekvn/blob/main/docs/adr/0034-ghep-mot-lan-dong-y.md).
 
