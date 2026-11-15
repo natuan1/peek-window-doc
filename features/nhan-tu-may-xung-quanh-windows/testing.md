@@ -25,6 +25,16 @@ Rust đóng vai "Lan's Mac" gửi tới Snappy đang chạy ở cổng 8443:
 
 Nút được bấm bằng `BM_CLICK` vào HWND của nút, không phải chuột thật.
 
+## Dấu "tải từ mạng" (#277, 15/11/2026)
+
+- C# `MarkOfTheWebTests` (5 test): một tệp, cả thư mục, đường resumable mang
+  `ZoneId=3` kèm đúng một dòng `Marked`; Máy của tôi không luồng và có dòng Trace
+  riêng. Đột biến: tắt gắn dấu → 3 đỏ; gắn cho mọi máy → 1 đỏ.
+- `ci/check-zone-mark.ps1` trên bản AOT, ngoài gói MSIX: bấm Nhận thật → luồng
+  `[ZoneTransfer] | ZoneId=3`; mở qua Explorer → SmartScreen *"Windows protected
+  your PC"*; Máy của tôi không luồng; không DLL nặng mới; private 8,6 MB. Trên bản
+  `main` kịch bản đỏ đúng ở bước có dấu.
+
 ## Chưa đo
 
 - Máy đã ghép gửi tới **trên app thật** (cần ghép qua hộp SAS) — đã đo qua harness.

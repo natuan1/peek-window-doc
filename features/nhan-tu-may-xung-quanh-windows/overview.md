@@ -33,7 +33,7 @@ ghép vẫn bị hỏi từng lượt trừ khi bật công tắc Tự nhận ch
 - Lời hỏi trên Mí (đếm ngược, Chặn máy này) — #270. Hiện dùng hộp thoại tạm.
 - Windows **gửi** tới máy xung quanh — #266/#267.
 - iOS/Android gửi như máy lạ — chưa có ticket.
-- Đánh dấu "tải từ mạng" cho tệp nhận từ máy xung quanh.
+- ~~Đánh dấu "tải từ mạng" cho tệp nhận từ máy xung quanh.~~ Làm ở [#277](https://github.com/natuan1/peekvn/issues/277) — xem [workflow](workflow.md#dấu-tải-từ-mạng) và [ADR-0035 của `peekvn`](https://github.com/natuan1/peekvn/blob/main/docs/adr/0035-tep-tu-may-xung-quanh-mang-dau-tai-tu-mang.md).
 
 ## Quyết định
 

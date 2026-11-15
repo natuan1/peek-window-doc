@@ -23,6 +23,8 @@ Tất cả trong repo `peekvn`, nhánh của PR [#285](https://github.com/natuan
 | `RouteAsync` | máy lạ không được tính "đang ở gần" ở tab Thiết bị |
 | `ConfirmationDialog.ShowUntil` | TaskDialog có hạn (`TDF_CALLBACK_TIMER`), trả `null` khi hết giờ |
 | `AppHost.AskUserToAcceptTransfer` | hiện tên + "(máy xung quanh, chưa ghép)", hết giờ không gọi `RejectLocally` |
+| `UltpRouter.FinishItem` | (#277) hỏi Trust Store lúc tệp đóng lại; máy lạ → `ItemSink.TryFinish(markFromInternet: true)` + dòng `Marked …` |
+| `Files.ZoneMark` | (#277) ghi `[ZoneTransfer]`/`ZoneId=3` vào luồng `Zone.Identifier`; hỏng thì trả lý do, không ném |
 | `SettingsLayout` | trang Thiết bị chỉ còn nút Quên |
 
 Đường `auto-accept` trong `SettingsWindow.Input.cs`/`SettingsProtocol.cs` còn đó
