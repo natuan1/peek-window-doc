@@ -13,7 +13,7 @@
 
 📐 Review spec độc lập tìm ra lỗ: phép chứng minh `403` đọc SPKI từ một kênh **mới**, nên kẻ
 đứng giữa trả `403` của một máy khác rồi nhường đường cho máy thật là cắt được cặp máy. Harness
-15/15 vẫn xanh vì không có kẻ đứng giữa. Test proxy đỏ trước khi sửa, xanh sau (bài học 250 của
+15/15 vẫn xanh vì không có kẻ đứng giữa. Test proxy đỏ trước khi sửa, xanh sau (bài học 251 của
 `peekvn`).
 
 ## Nghiệm thu bằng cử chỉ thật
