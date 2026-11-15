@@ -21,3 +21,20 @@
 `apps/windows/ci/check-xoa-may.ps1` trên bản publish AOT: menu khay thật, cửa sổ Cài đặt thật
 (nút Xoá / Hoàn tác), máy B là rust-host quảng bá mDNS thật — nên "thấy lại B" là discovery thật.
 Trust Store thật của máy dev được sao lưu và trả lại. Chạy ngoài gói MSIX, khi máy rảnh ≥ 60 giây.
+
+📐 **15/11/2026, bản AOT của `66e19e9`, ĐẠT 5/5:**
+
+- A. Menu khay "Thêm Mac của Hưng vào Máy của tôi" → B Đồng ý → `Added Mac của Hưng (dev_Y7cE…) to my devices`.
+- B. Cài đặt → Thiết bị → Xoá: không hộp hỏi lại; dòng thành "Đã xoá · Hoàn tác trong vài giây"
+  (ảnh chụp); bấm Hoàn tác sau 0,6 s → `User undid removing … - nothing changed on either machine`;
+  quá 7 s không gỡ gì, B gửi 256 KB vẫn `state=ACCEPTED` ngay trong `201`.
+- C. Xoá lần nữa → 5 s sau `Removed … - owe it an unpair notice`, **8 ms** sau `Unpair notice delivered`;
+  B in `UNTRUSTED`; dòng biến mất khỏi trang Thiết bị; B gửi tới → hộp hỏi Nhận thật,
+  `authenticated as a nearby device (not paired) - its offers will ask the user`.
+- D. B2 (`--ben`) ghép rồi tắt → Xoá → `not delivered (Unreachable) - will retry next time it is seen`,
+  `unpair-notices.json` còn nợ B2; bật B2 lên → mDNS thật nghe lại sau ~1 s →
+  `is on the network again - sending the unpair notice it is owed` → `delivered` → B2 `UNTRUSTED`.
+- E. Thoát sạch (`Clean shutdown complete`). Trust Store thật của máy dev trả lại nguyên vẹn.
+
+Lượt đầu đỏ ở D vì **dụng cụ**: kịch bản mở menu trước khi discovery kịp nghe B2, rồi toast che icon
+khay làm `Open-Menu` ném lỗi thay vì thử lại — sửa ở `f120e6a`.
