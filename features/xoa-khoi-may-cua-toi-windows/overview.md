@@ -1,6 +1,6 @@
 # Xoá khỏi Máy của tôi ở một máy là đủ — #264
 
-**Trạng thái:** PR vào `main` của `peekvn` ([#264](https://github.com/natuan1/peekvn/issues/264), epic
+**Trạng thái:** đã merge vào `main` của `peekvn` qua PR [natuan1/peekvn#314](https://github.com/natuan1/peekvn/pull/314) ngày 2026-11-16, CI Jenkins #217 đạt ([#264](https://github.com/natuan1/peekvn/issues/264), epic
 [#258](https://github.com/natuan1/peekvn/issues/258)).
 Quyết định: [ADR-0035 của `peekvn`](https://github.com/natuan1/peekvn/blob/main/docs/adr/0035-huy-ghep-o-mot-may-la-du.md).
 Giao thức: `protocol/SPEC.md` §10.3, `protocol/SECURITY.md` §4.7.
