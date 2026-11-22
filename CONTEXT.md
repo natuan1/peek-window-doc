@@ -7,7 +7,7 @@ peek (trước 13/11/2026 gọi là Snappy) là bộ tiện ích desktop Windows
 ### Sản phẩm & bản phát hành
 
 **peek**:
-Tên sản phẩm trên mọi nền tảng, **luôn viết thường** kể cả đầu câu (chốt 2026-11-13, thay "Snappy"). Tagline: "Xong trong một cái liếc". Định danh kỹ thuật người dùng không thấy được phép PascalCase (`Peek`); tên khoá CNG `Snappy.DeviceIdentity`/`Snappy.TlsIdentity` giữ nguyên vĩnh viễn — đổi là mất danh tính máy. Hợp đồng với máy chủ bản quyền (`license.snappy.vn`, `app=snappy-windows`, miền machine-id `snappy/machine-id/v1/*`, tiền tố Key `SNPY-`) cũng giữ tên cũ — đổi một phía là Key đã bán không khớp máy; đổi chúng cần một ticket có phía máy chủ.
+Tên sản phẩm trên mọi nền tảng, **luôn viết thường** kể cả đầu câu (chốt 2026-11-13, thay "Snappy"). Tagline: "Xong trong một cái liếc". Định danh kỹ thuật người dùng không thấy được phép PascalCase (`Peek`); tên khoá CNG `Snappy.DeviceIdentity`/`Snappy.TlsIdentity` giữ nguyên vĩnh viễn — đổi là mất danh tính máy. Hợp đồng với máy chủ license đã mang tên peek từ [#381](https://github.com/natuan1/peekvn/issues/381) (2026-11-22): `license.peek.vn`, `app=peek-windows`/`peek-macos`, mã `PEEK-`. Riêng miền machine-id `snappy/machine-id/v1/*` giữ tên cũ vĩnh viễn — đổi là mọi máy đổi ID, tốn thêm Slot và được thử lại.
 _Avoid_: Snappy (tên cũ 2026-09-13 → 2026-11-13), Peek viết hoa trên giao diện, peek-window (chỉ là tên repo). Service mDNS `_peek._tcp` giữ nguyên.
 
 **Free**:
@@ -121,11 +121,11 @@ _Avoid_: session (mơ hồ), job
 ### Bản quyền
 
 **Key**:
-Mã bản quyền trọn đời của Pro, định dạng `SNPY-XXXX-XXXX-XXXX-XXXX`; một Key sở hữu tối đa 5 Slot. (chốt 2026-09-13)
+Mã peek Pro trọn đời, định dạng `PEEK-XXXX-XXXX`; một mã dùng cho tối đa 2 máy, Windows hay Mac (chốt Q10, 2026-11-17; máy chủ ở [#381](https://github.com/natuan1/peekvn/issues/381)). Hợp đồng: `peekvn/services/license/README.md`. Người dùng đọc là "mã" (spec Display); "Key" là tên trong mã nguồn.
 _Avoid_: serial, license code
 
 **Slot**:
-Một chỗ dành cho một máy trong Key. Chủ Key tự gỡ Slot qua portal bằng cặp (Key + email mua), không cần ai duyệt. (chốt 2026-09-13)
+Một chỗ dành cho một máy trong Key (Slot 1 hoặc 2). Gỡ trong Cài đặt của app (`/v1/license/deactivate`) hoặc trên peek.vn/pro bằng cặp (mã + email mua), không cần ai duyệt. Gỡ không dồn số Slot còn lại. (chốt 2026-09-13, cập nhật #381)
 
 **Kích hoạt**:
 Gán máy hiện tại vào một Slot trống của Key; xong thì máy dùng Pro offline vĩnh viễn, chỉ re-validate thầm lặng khi có mạng. (chốt 2026-09-13)
